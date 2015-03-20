@@ -8,7 +8,7 @@
 
 Add in the nginx config file: `/usr/local/etc/nginx/nginx.conf`
 
-* the following: `include /opt/soajs/node_modules/soajs.nginx/conf/*.conf;`
+* the following: `include /opt/soajs/soajs.utilities/nginx/conf/*.conf;`
 
 ### Hosts configuration
 
