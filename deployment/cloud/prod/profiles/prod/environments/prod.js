@@ -102,7 +102,7 @@ var registry = {
 		},
 		"your_service": {
 			"extKeyRequired": true,
-			"port": 4003,
+			"port": 4004,
 			"host": "127.0.0.1",
 			"url": "http://127.0.0.1:4000/your_service"
 		}
