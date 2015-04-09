@@ -1,11 +1,11 @@
 nginx:
-    build: ./nginx
+    image: soajs_aio_nginx
     links:
         - node:service_proxy
     ports:
         - "80:80"
 node:
-    build: ./service
+    image: soajs_aio_service
     links:
         - mongo:data_proxy
     ports:
