@@ -1,17 +1,19 @@
 nginx:
     build: ./nginx
     links:
-        - node_controller:service_proxy01
-        - node_controller:service_proxy02
-        - node_controller:service_proxy03
+        - node_controller01:service_proxy01
+        - node_controller02:service_proxy02
+        - node_controller03:service_proxy03
     ports:
         - "80:80"
+
 node_controller01:
     build: ./service/Dockerfile-controller
     links:
         - node_urac_oauth01:urac_oauth_proxy01
         - node_urac_oauth02:urac_oauth_proxy02
         - node_urac_oauth03:urac_oauth_proxy03
+        - node_examples01:examples_proxy01
     ports:
         - "4000:4000"
         - "5000:5000"
@@ -22,6 +24,7 @@ node_controller02:
         - node_urac_oauth01:urac_oauth_proxy01
         - node_urac_oauth02:urac_oauth_proxy02
         - node_urac_oauth03:urac_oauth_proxy03
+        - node_examples01:examples_proxy01
     ports:
         - "4000:4000"
         - "5000:5000"
@@ -32,6 +35,7 @@ node_controller03:
         - node_urac_oauth01:urac_oauth_proxy01
         - node_urac_oauth02:urac_oauth_proxy02
         - node_urac_oauth03:urac_oauth_proxy03
+        - node_examples01:examples_proxy01
     ports:
         - "4000:4000"
         - "5000:5000"
