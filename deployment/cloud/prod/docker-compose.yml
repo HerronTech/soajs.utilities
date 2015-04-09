@@ -1,0 +1,86 @@
+nginx:
+    build: ./nginx
+    links:
+        - node_controller01:service_proxy01
+        - node_controller02:service_proxy02
+        - node_controller03:service_proxy03
+    ports:
+        - "80:80"
+
+node_controller01:
+    build: ./controller
+    links:
+        - node_urac_oauth01:urac_oauth_proxy01
+        - node_urac_oauth02:urac_oauth_proxy02
+        - node_urac_oauth03:urac_oauth_proxy03
+        - node_examples01:examples_proxy01
+    ports:
+        - "4000:4000"
+        - "5000:5000"
+
+node_controller02:
+    build: ./controller
+    links:
+        - node_urac_oauth01:urac_oauth_proxy01
+        - node_urac_oauth02:urac_oauth_proxy02
+        - node_urac_oauth03:urac_oauth_proxy03
+        - node_examples01:examples_proxy01
+    ports:
+        - "4000:4000"
+        - "5000:5000"
+
+node_controller03:
+    build: ./controller
+    links:
+        - node_urac_oauth01:urac_oauth_proxy01
+        - node_urac_oauth02:urac_oauth_proxy02
+        - node_urac_oauth03:urac_oauth_proxy03
+        - node_examples01:examples_proxy01
+    ports:
+        - "4000:4000"
+        - "5000:5000"
+
+node_urac_oauth01:
+    build: ./urac_oauth
+    links:
+        - mongo:data_proxy
+    ports:
+        - "4001:4001"
+        - "4003:4003"
+        - "5001:5001"
+        - "5003:5003"
+
+node_urac_oauth02:
+    build: ./urac_oauth
+    links:
+        - mongo:data_proxy
+    ports:
+        - "4001:4001"
+        - "4003:4003"
+        - "5001:5001"
+        - "5003:5003"
+
+node_urac_oauth03:
+    build: ./urac_oauth
+    links:
+        - mongo:data_proxy
+    ports:
+        - "4001:4001"
+        - "4003:4003"
+        - "5001:5001"
+        - "5003:5003"
+
+node_examples01:
+    build: ./examples
+    links:
+        - mongo:data_proxy
+    ports:
+        - "4010:4010"
+        - "4011:4011"
+        - "4012:4012"
+        - "4013:4013"
+
+mongo:
+    image: mongo
+    ports:
+        - "27017:27017"

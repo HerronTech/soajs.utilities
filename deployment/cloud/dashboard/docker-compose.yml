@@ -8,40 +8,37 @@ nginx:
         - "80:80"
 
 node_controller01:
-    build: ./service/Dockerfile-controller
+    build: ./controller
     links:
-        - node_urac_oauth01:urac_oauth_proxy01
-        - node_urac_oauth02:urac_oauth_proxy02
-        - node_urac_oauth03:urac_oauth_proxy03
-        - node_examples01:examples_proxy01
+        - node_urac_dashboard01:urac_dashboard_proxy01
+        - node_urac_dashboard02:urac_dashboard_proxy02
+        - node_urac_dashboard03:urac_dashboard_proxy03
     ports:
         - "4000:4000"
         - "5000:5000"
 
 node_controller02:
-    build: ./service/Dockerfile-controller
+    build: ./controller
     links:
-        - node_urac_oauth01:urac_oauth_proxy01
-        - node_urac_oauth02:urac_oauth_proxy02
-        - node_urac_oauth03:urac_oauth_proxy03
-        - node_examples01:examples_proxy01
+        - node_urac_dashboard01:urac_dashboard_proxy01
+        - node_urac_dashboard02:urac_dashboard_proxy02
+        - node_urac_dashboard03:urac_dashboard_proxy03
     ports:
         - "4000:4000"
         - "5000:5000"
 
 node_controller03:
-    build: ./service/Dockerfile-controller
+    build: ./controller
     links:
-        - node_urac_oauth01:urac_oauth_proxy01
-        - node_urac_oauth02:urac_oauth_proxy02
-        - node_urac_oauth03:urac_oauth_proxy03
-        - node_examples01:examples_proxy01
+        - node_urac_dashboard01:urac_dashboard_proxy01
+        - node_urac_dashboard02:urac_dashboard_proxy02
+        - node_urac_dashboard03:urac_dashboard_proxy03
     ports:
         - "4000:4000"
         - "5000:5000"
 
-node_urac_oauth01:
-    build: ./service/Dockerfile-urac-oauth
+node_urac_dashboard01:
+    build: ./urac_dashboard
     links:
         - mongo:data_proxy
     ports:
@@ -50,8 +47,8 @@ node_urac_oauth01:
         - "5001:5001"
         - "5003:5003"
 
-node_urac_oauth02:
-    build: ./service/Dockerfile-urac-oauth
+node_urac_dashboard02:
+    build: ./urac_dashboard
     links:
         - mongo:data_proxy
     ports:
@@ -60,8 +57,8 @@ node_urac_oauth02:
         - "5001:5001"
         - "5003:5003"
 
-node_urac_oauth03:
-    build: ./service/Dockerfile-urac-oauth
+node_urac_dashboard03:
+    build: ./urac_dashboard
     links:
         - mongo:data_proxy
     ports:
@@ -71,7 +68,7 @@ node_urac_oauth03:
         - "5003:5003"
 
 node_examples01:
-    build: ./service/Dockerfile-examples
+    build: ./examples
     links:
         - mongo:data_proxy
     ports:
