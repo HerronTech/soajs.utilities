@@ -1,0 +1,17 @@
+nginx:
+    build: ./nginx
+    links:
+        - node:service_proxy
+    ports:
+        - "80:80"
+node:
+    build: ./service
+    links:
+        - mongo:data_proxy
+    ports:
+        - "4000:4000"
+        - "5000:5000"
+mongo:
+    image: mongo
+    ports:
+        - "27017:27017"
