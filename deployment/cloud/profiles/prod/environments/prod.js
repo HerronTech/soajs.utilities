@@ -100,12 +100,38 @@ var registry = {
 			"host": "127.0.0.1",
 			"url": "http://127.0.0.1:4000/oauth"
 		},
-		"dashboard": {
-			"extKeyRequired": true,
-			"port": 4003,
+		"example01": {
+			"extKeyRequired": false,
+			"port": 4010,
 			"host": "127.0.0.1",
-			"url": "http://127.0.0.1:4000/dashboard"
-		}
+			"url": "http://127.0.0.1:4000/example01"
+		},
+		"example02": {
+			"extKeyRequired": true,
+			"port": 4011,
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/example02"
+		},
+		"example03": {
+			"extKeyRequired": true,
+			"port": 4012,
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/example03",
+			"requestTimeoutRenewal": 2,
+			"requestTimeout": 5
+		},
+		"example04": {
+			"extKeyRequired": true,
+			"port": 4013,
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/example04"
+		},
+		"your_service": {
+			"extKeyRequired": true,
+			"port": 4014,
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/your_service"
+		},
 	}
 };
 
