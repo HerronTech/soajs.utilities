@@ -106,6 +106,7 @@ var registry = {
 			"host": "127.0.0.1",
 			"url": "http://127.0.0.1:4000/dashboard"
 		},
+<<<<<<< HEAD
 		"agent": {
 			"extKeyRequired": false,
 			"port": 4004,
@@ -115,6 +116,8 @@ var registry = {
 			"requestTimeout": 30,
 			"topologyDir": "/opt/soajs/"
 		},
+=======
+>>>>>>> origin/develop
 
 		"example01": {
 			"extKeyRequired": false,
@@ -141,6 +144,7 @@ var registry = {
 			"port": 4013,
 			"host": "127.0.0.1",
 			"url": "http://127.0.0.1:4000/example04"
+<<<<<<< HEAD
 		},
 		"contactUs": {
 			"extKeyRequired": false,
@@ -150,6 +154,8 @@ var registry = {
 			"mail": {
 				"sendMessage": "mail/contactUs/sendMessage.tmpl"
 			}
+=======
+>>>>>>> origin/develop
 		}
 	}
 };

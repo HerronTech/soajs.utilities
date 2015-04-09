@@ -94,17 +94,11 @@ var registry = {
 				"changeEmail": "mail/urac/changeEmail.tmpl"
 			}
 		},
-		"oauth": {
+		"dashboard": {
 			"extKeyRequired": true,
-			"port": 4002,
+			"port": 4003,
 			"host": "127.0.0.1",
-			"url": "http://127.0.0.1:4000/oauth"
-		},
-		"your_service": {
-			"extKeyRequired": true,
-			"port": 4004,
-			"host": "127.0.0.1",
-			"url": "http://127.0.0.1:4000/your_service"
+			"url": "http://127.0.0.1:4000/dashboard"
 		}
 	}
 };
