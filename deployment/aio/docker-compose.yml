@@ -1,16 +1,32 @@
 nginx:
     image: soajs_aio_nginx
     links:
-        - node:service_proxy
+        - service:service_proxy
     ports:
         - "80:80"
-node:
+service:
     image: soajs_aio_service
     links:
         - mongo:data_proxy
     ports:
         - "4000:4000"
+        - "4001:4001"
+        - "4002:4002"
+        - "4003:4003"
+        - "4010:4010"
+        - "4011:4011"
+        - "4012:4012"
+        - "4013:4013"
         - "5000:5000"
+        - "5001:5001"
+        - "5002:5002"
+        - "5003:5003"
+        - "5010:5010"
+        - "5011:5011"
+        - "5012:5012"
+        - "5013:5013"
+    volumes:
+        - $HOME/soajs/log:/opt/soajs/log
 mongo:
     image: mongo
     ports:
