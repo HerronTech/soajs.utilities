@@ -1,46 +1,46 @@
 nginx:
     build: ./nginx
     links:
-        - node_controller01:service_proxy01
-        - node_controller02:service_proxy02
-        - node_controller03:service_proxy03
+        - controller01:service_proxy01
+        - controller02:service_proxy02
+        - controller03:service_proxy03
     ports:
         - "80:80"
 
-node_controller01:
+controller01:
     build: ./controller
     links:
-        - node_urac_oauth01:urac_oauth_proxy01
-        - node_urac_oauth02:urac_oauth_proxy02
-        - node_urac_oauth03:urac_oauth_proxy03
-        - node_examples01:examples_proxy01
+        - uracoauth01:urac_oauth_proxy01
+        - uracoauth02:urac_oauth_proxy02
+        - nodeurac_oauth03:urac_oauth_proxy03
+        - examples01:examples_proxy01
     ports:
         - "4000:4000"
         - "5000:5000"
 
-node_controller02:
+controller02:
     build: ./controller
     links:
-        - node_urac_oauth01:urac_oauth_proxy01
-        - node_urac_oauth02:urac_oauth_proxy02
-        - node_urac_oauth03:urac_oauth_proxy03
-        - node_examples01:examples_proxy01
+        - uracoauth01:urac_oauth_proxy01
+        - uracoauth02:urac_oauth_proxy02
+        - nodeurac_oauth03:urac_oauth_proxy03
+        - examples01:examples_proxy01
     ports:
         - "4000:4000"
         - "5000:5000"
 
-node_controller03:
+controller03:
     build: ./controller
     links:
-        - node_urac_oauth01:urac_oauth_proxy01
-        - node_urac_oauth02:urac_oauth_proxy02
-        - node_urac_oauth03:urac_oauth_proxy03
-        - node_examples01:examples_proxy01
+        - uracoauth01:urac_oauth_proxy01
+        - uracoauth02:urac_oauth_proxy02
+        - nodeurac_oauth03:urac_oauth_proxy03
+        - examples01:examples_proxy01
     ports:
         - "4000:4000"
         - "5000:5000"
 
-node_urac_oauth01:
+uracoauth01:
     build: ./urac_oauth
     links:
         - mongo:data_proxy
@@ -50,7 +50,7 @@ node_urac_oauth01:
         - "5001:5001"
         - "5003:5003"
 
-node_urac_oauth02:
+uracoauth02:
     build: ./urac_oauth
     links:
         - mongo:data_proxy
@@ -60,7 +60,7 @@ node_urac_oauth02:
         - "5001:5001"
         - "5003:5003"
 
-node_urac_oauth03:
+uracoauth03:
     build: ./urac_oauth
     links:
         - mongo:data_proxy
@@ -70,7 +70,7 @@ node_urac_oauth03:
         - "5001:5001"
         - "5003:5003"
 
-node_examples01:
+examples01:
     build: ./examples
     links:
         - mongo:data_proxy

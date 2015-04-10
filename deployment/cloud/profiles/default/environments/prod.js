@@ -84,7 +84,7 @@ var registry = {
 		"urac": {
 			"extKeyRequired": true,
 			"port": 4001,
-			"host": "api.soajs.org",
+			"host": "127.0.0.1",
 			"url": "http://127.0.0.1:4000/urac",
 			"mail": {
 				"join": "mail/urac/join.tmpl",

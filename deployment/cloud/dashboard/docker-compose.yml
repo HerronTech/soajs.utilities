@@ -1,81 +1,71 @@
 nginx:
-    build: ./nginx
+    image: soajs_cloud_dashboard_nginx
     links:
-        - node_controller01:service_proxy01
-        - node_controller02:service_proxy02
-        - node_controller03:service_proxy03
+        - controller01:service_proxy01
+        - controller02:service_proxy02
+        - controller03:service_proxy03
     ports:
         - "80:80"
 
-node_controller01:
-    build: ./controller
+controller01:
+    image: soajs_cloud_dashboard_controller
     links:
-        - node_urac_dashboard01:urac_dashboard_proxy01
-        - node_urac_dashboard02:urac_dashboard_proxy02
-        - node_urac_dashboard03:urac_dashboard_proxy03
+        - uracdashboard01:urac_dashboard_proxy01
+        - uracdashboard02:urac_dashboard_proxy02
+        - uracdashboard03:urac_dashboard_proxy03
     ports:
-        - "4000:4000"
-        - "5000:5000"
+        - "4000"
+        - "5000"
 
-node_controller02:
-    build: ./controller
+controller02:
+    image: soajs_cloud_dashboard_controller
     links:
-        - node_urac_dashboard01:urac_dashboard_proxy01
-        - node_urac_dashboard02:urac_dashboard_proxy02
-        - node_urac_dashboard03:urac_dashboard_proxy03
+        - uracdashboard01:urac_dashboard_proxy01
+        - uracdashboard02:urac_dashboard_proxy02
+        - uracdashboard03:urac_dashboard_proxy03
     ports:
-        - "4000:4000"
-        - "5000:5000"
+        - "4000"
+        - "5000"
 
-node_controller03:
-    build: ./controller
+controller03:
+    image: soajs_cloud_dashboard_controller
     links:
-        - node_urac_dashboard01:urac_dashboard_proxy01
-        - node_urac_dashboard02:urac_dashboard_proxy02
-        - node_urac_dashboard03:urac_dashboard_proxy03
+        - uracdashboard01:urac_dashboard_proxy01
+        - uracdashboard02:urac_dashboard_proxy02
+        - uracdashboard03:urac_dashboard_proxy03
     ports:
-        - "4000:4000"
-        - "5000:5000"
+        - "4000"
+        - "5000"
 
-node_urac_dashboard01:
-    build: ./urac_dashboard
+uracdashboard01:
+    image: soajs_cloud_dashboard_urac_dashboard
     links:
         - mongo:data_proxy
     ports:
-        - "4001:4001"
-        - "4003:4003"
-        - "5001:5001"
-        - "5003:5003"
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
 
-node_urac_dashboard02:
-    build: ./urac_dashboard
+uracdashboard02:
+    image: soajs_cloud_dashboard_urac_dashboard
     links:
         - mongo:data_proxy
     ports:
-        - "4001:4001"
-        - "4003:4003"
-        - "5001:5001"
-        - "5003:5003"
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
 
-node_urac_dashboard03:
-    build: ./urac_dashboard
+uracdashboard03:
+    image: soajs_cloud_dashboard_urac_dashboard
     links:
         - mongo:data_proxy
     ports:
-        - "4001:4001"
-        - "4003:4003"
-        - "5001:5001"
-        - "5003:5003"
-
-node_examples01:
-    build: ./examples
-    links:
-        - mongo:data_proxy
-    ports:
-        - "4010:4010"
-        - "4011:4011"
-        - "4012:4012"
-        - "4013:4013"
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
 
 mongo:
     image: mongo
