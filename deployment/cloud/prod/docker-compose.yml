@@ -15,8 +15,8 @@ controller01:
         - nodeurac_oauth03:urac_oauth_proxy03
         - examples01:examples_proxy01
     ports:
-        - "4000:4000"
-        - "5000:5000"
+        - "4000"
+        - "5000"
 
 controller02:
     build: ./controller
@@ -26,8 +26,8 @@ controller02:
         - nodeurac_oauth03:urac_oauth_proxy03
         - examples01:examples_proxy01
     ports:
-        - "4000:4000"
-        - "5000:5000"
+        - "4000"
+        - "5000"
 
 controller03:
     build: ./controller
@@ -37,50 +37,50 @@ controller03:
         - nodeurac_oauth03:urac_oauth_proxy03
         - examples01:examples_proxy01
     ports:
-        - "4000:4000"
-        - "5000:5000"
+        - "4000"
+        - "5000"
 
 uracoauth01:
     build: ./urac_oauth
     links:
         - mongo:data_proxy
     ports:
-        - "4001:4001"
-        - "4003:4003"
-        - "5001:5001"
-        - "5003:5003"
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
 
 uracoauth02:
     build: ./urac_oauth
     links:
         - mongo:data_proxy
     ports:
-        - "4001:4001"
-        - "4003:4003"
-        - "5001:5001"
-        - "5003:5003"
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
 
 uracoauth03:
     build: ./urac_oauth
     links:
         - mongo:data_proxy
     ports:
-        - "4001:4001"
-        - "4003:4003"
-        - "5001:5001"
-        - "5003:5003"
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
 
 examples01:
     build: ./examples
     links:
         - mongo:data_proxy
     ports:
-        - "4010:4010"
-        - "4011:4011"
-        - "4012:4012"
-        - "4013:4013"
+        - "4010"
+        - "4011"
+        - "4012"
+        - "4013"
 
 mongo:
     image: mongo
     ports:
-        - "27017:27017"
+        - "27017"

@@ -5,7 +5,7 @@ nginx:
         - controller02:service_proxy02
         - controller03:service_proxy03
     ports:
-        - "80:80"
+        - "80"
 
 controller01:
     image: soajs_cloud_dashboard_controller
@@ -70,4 +70,4 @@ uracdashboard03:
 mongo:
     image: mongo
     ports:
-        - "27017:27017"
+        - "27017"
