@@ -75,7 +75,7 @@ var registry = {
 	"services": {
 		"controller": {
 			"port": 4000,
-			"host": "api.soajs.org",
+			"host": "127.0.0.1",
 			"maxPoolSize": 100,
 			"requestTimeout": 30,
 			"requestTimeoutRenewal": 0,
@@ -85,7 +85,7 @@ var registry = {
 			"extKeyRequired": true,
 			"port": 4001,
 			"host": "api.soajs.org",
-			"url": "http://api.soajs.org:4000/urac",
+			"url": "http://127.0.0.1:4000/urac",
 			"mail": {
 				"join": "mail/urac/join.tmpl",
 				"forgotPassword": "mail/urac/forgotPassword.tmpl",
@@ -97,20 +97,20 @@ var registry = {
 		"oauth": {
 			"extKeyRequired": true,
 			"port": 4002,
-			"host": "api.soajs.org",
-			"url": "http://api.soajs.org:4000/oauth"
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/oauth"
 		},
 		"dashboard": {
 			"extKeyRequired": true,
 			"port": 4003,
-			"host": "dashboard-api.soajs.org",
-			"url": "http://dashboard-api.soajs.org:4000/dashboard"
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/dashboard"
 		},
 		"agent": {
 			"extKeyRequired": false,
 			"port": 4004,
-			"host": "api.soajs.org",
-			"url": "http://api.soajs.org:4000/agent",
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/agent",
 			"requestTimeoutRenewal": 10,
 			"requestTimeout": 30,
 			"topologyDir": "/opt/soajs/"
@@ -119,28 +119,28 @@ var registry = {
 		"example01": {
 			"extKeyRequired": false,
 			"port": 4010,
-			"host": "api.soajs.org",
-			"url": "http://api.soajs.org:4000/example01"
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/example01"
 		},
 		"example02": {
 			"extKeyRequired": true,
 			"port": 4011,
-			"host": "api.soajs.org",
-			"url": "http://api.soajs.org:4000/example02"
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/example02"
 		},
 		"example03": {
 			"extKeyRequired": true,
 			"port": 4012,
-			"host": "api.soajs.org",
-			"url": "http://api.soajs.org:4000/example03",
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/example03",
 			"requestTimeoutRenewal": 2,
 			"requestTimeout": 5
 		},
 		"example04": {
 			"extKeyRequired": true,
 			"port": 4013,
-			"host": "api.soajs.org",
-			"url": "http://api.soajs.org:4000/example04"
+			"host": "127.0.0.1",
+			"url": "http://127.0.0.1:4000/example04"
 		}
 	}
 };
