@@ -73,6 +73,5 @@ uracdashboard03:
 
 mongo:
     image: mongo
-    command: mongod --smallfiles
     ports:
         - "27017:27017"
