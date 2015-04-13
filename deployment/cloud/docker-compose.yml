@@ -69,7 +69,6 @@ uracdashboard03:
 
 mongoDASH:
     image: mongo
-    command: mongod --smallfiles
     ports:
         - "27017:27017"
 
@@ -162,6 +161,5 @@ examples01:
 
 mongoPROD:
     image: mongo
-    command: mongod --smallfiles
     ports:
         - "27017"

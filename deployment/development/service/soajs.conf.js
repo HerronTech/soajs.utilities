@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-    "profiles": "/aio/profiles/"
+    "profiles": "/development/profiles/"
 };

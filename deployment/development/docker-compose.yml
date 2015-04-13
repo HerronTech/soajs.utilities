@@ -29,6 +29,6 @@ service:
         - $HOME/soajs/log:/opt/soajs/log
 mongo:
     image: mongo
-    command: mongod --smallfiles
+    command: mongod --noprealloc --smallfiles
     ports:
         - "27017:27017"
