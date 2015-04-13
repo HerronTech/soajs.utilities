@@ -1,8 +1,6 @@
 'use strict';
 var dServers = require("../configurations/servers");
 var dOptions = require("../configurations/options");
-var dServers_provision = require("../configurations/provision/servers");
-var dOptions_provision = require("../configurations/provision/options");
 
 
 var registry = {
@@ -23,11 +21,11 @@ var registry = {
 	"coreDB": {
 		"provision": {
 			"name": "core_provision",
-			"prefix": dServers_provision.prefix,
-			"servers": dServers_provision.servers,
-			"credentials": dServers_provision.credentials,
-			"URLParam": dOptions_provision.URLParam,
-			"extraParam": dOptions_provision.extraParam
+			"prefix": dServers.prefix,
+			"servers": dServers.servers,
+			"credentials": dServers.credentials,
+			"URLParam": dOptions.URLParam,
+			"extraParam": dOptions.extraParam
 		},
 		"session": {
 			"name": "core_session",

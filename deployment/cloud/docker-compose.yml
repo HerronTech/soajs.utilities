@@ -1,0 +1,167 @@
+nginxDASH:
+    image: soajs_cloud_dashboard_nginx
+    links:
+        - controller01DASH:service_proxy01
+        - controller02DASH:service_proxy02
+        - controller03DASH:service_proxy03
+    ports:
+        - "80"
+
+controller01DASH:
+    image: soajs_cloud_dashboard_controller
+    links:
+        - uracdashboard01:urac_dashboard_proxy01
+        - uracdashboard02:urac_dashboard_proxy02
+        - uracdashboard03:urac_dashboard_proxy03
+    ports:
+        - "4000"
+        - "5000"
+
+controller02DASH:
+    image: soajs_cloud_dashboard_controller
+    links:
+        - uracdashboard01:urac_dashboard_proxy01
+        - uracdashboard02:urac_dashboard_proxy02
+        - uracdashboard03:urac_dashboard_proxy03
+    ports:
+        - "4000"
+        - "5000"
+
+controller03DASH:
+    image: soajs_cloud_dashboard_controller
+    links:
+        - uracdashboard01:urac_dashboard_proxy01
+        - uracdashboard02:urac_dashboard_proxy02
+        - uracdashboard03:urac_dashboard_proxy03
+    ports:
+        - "4000"
+        - "5000"
+
+uracdashboard01:
+    image: soajs_cloud_dashboard_urac_dashboard
+    links:
+        - mongoDASH:data_proxy
+    ports:
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
+
+uracdashboard02:
+    image: soajs_cloud_dashboard_urac_dashboard
+    links:
+        - mongoDASH:data_proxy
+    ports:
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
+
+uracdashboard03:
+    image: soajs_cloud_dashboard_urac_dashboard
+    links:
+        - mongoDASH:data_proxy
+    ports:
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
+
+mongoDASH:
+    image: mongo
+    command: mongod --smallfiles
+    ports:
+        - "27017:27017"
+
+
+nginxPROD:
+    image: soajs_cloud_prod_nginx
+    links:
+        - controller01PROD:service_proxy01
+        - controller02PROD:service_proxy02
+        - controller03PROD:service_proxy03
+    ports:
+        - "80:80"
+
+controller01PROD:
+    image: soajs_cloud_prod_controller
+    links:
+        - uracoauth01:urac_oauth_proxy01
+        - uracoauth02:urac_oauth_proxy02
+        - uracoauth03:urac_oauth_proxy03
+        - examples01:examples_proxy01
+    ports:
+        - "4000"
+        - "5000"
+
+controller02PROD:
+    image: soajs_cloud_prod_controller
+    links:
+        - uracoauth01:urac_oauth_proxy01
+        - uracoauth02:urac_oauth_proxy02
+        - uracoauth03:urac_oauth_proxy03
+        - examples01:examples_proxy01
+    ports:
+        - "4000"
+        - "5000"
+
+controller03PROD:
+    image: soajs_cloud_prod_controller
+    links:
+        - uracoauth01:urac_oauth_proxy01
+        - uracoauth02:urac_oauth_proxy02
+        - uracoauth03:urac_oauth_proxy03
+        - examples01:examples_proxy01
+    ports:
+        - "4000"
+        - "5000"
+
+uracoauth01:
+    image: soajs_cloud_prod_urac_oauth
+    links:
+        - mongoPROD:data_proxy
+        - mongoDASH:dataProvision_proxy
+    ports:
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
+
+uracoauth02:
+    image: soajs_cloud_prod_urac_oauth
+    links:
+        - mongoPROD:data_proxy
+        - mongoDASH:dataProvision_proxy
+    ports:
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
+
+uracoauth03:
+    image: soajs_cloud_prod_urac_oauth
+    links:
+        - mongoPROD:data_proxy
+        - mongoDASH:dataProvision_proxy
+    ports:
+        - "4001"
+        - "4003"
+        - "5001"
+        - "5003"
+
+examples01:
+    image: soajs_cloud_prod_examples
+    links:
+        - mongoPROD:data_proxy
+        - mongoDASH:dataProvision_proxy
+    ports:
+        - "4010"
+        - "4011"
+        - "4012"
+        - "4013"
+
+mongoPROD:
+    image: mongo
+    command: mongod --smallfiles
+    ports:
+        - "27017"

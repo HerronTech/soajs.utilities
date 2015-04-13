@@ -1,11 +1,11 @@
 nginx:
-    image: soajs_aio_nginx
+    image: soajs_development_nginx
     links:
         - service:service_proxy
     ports:
         - "80:80"
 service:
-    image: soajs_aio_service
+    image: soajs_development_service
     links:
         - mongo:data_proxy
     ports:
@@ -29,5 +29,6 @@ service:
         - $HOME/soajs/log:/opt/soajs/log
 mongo:
     image: mongo
+    command: mongod --smallfiles
     ports:
         - "27017:27017"

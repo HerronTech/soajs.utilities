@@ -5,7 +5,7 @@ nginx:
         - controller02:service_proxy02
         - controller03:service_proxy03
     ports:
-        - "80"
+        - "80:80"
 
 controller01:
     image: soajs_cloud_dashboard_controller
@@ -16,6 +16,8 @@ controller01:
     ports:
         - "4000"
         - "5000"
+    volumes:
+        - $HOME/soajs/log/controller01/:/opt/soajs/log/
 
 controller02:
     image: soajs_cloud_dashboard_controller
@@ -46,6 +48,8 @@ uracdashboard01:
         - "4003"
         - "5001"
         - "5003"
+    volumes:
+        - $HOME/soajs/log/uracdashboard01/:/opt/soajs/log/
 
 uracdashboard02:
     image: soajs_cloud_dashboard_urac_dashboard
@@ -69,5 +73,6 @@ uracdashboard03:
 
 mongo:
     image: mongo
+    command: mongod --smallfiles
     ports:
-        - "27017"
+        - "27017:27017"
