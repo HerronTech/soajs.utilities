@@ -32,3 +32,6 @@ mongo:
     command: mongod --noprealloc --smallfiles
     ports:
         - "27017:27017"
+    volumes:
+        - /data:/data
+        - /data/db:/data/db

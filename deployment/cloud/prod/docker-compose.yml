@@ -92,5 +92,9 @@ examples01:
 
 mongo:
     image: mongo
+    command: mongod --noprealloc --smallfiles
     ports:
         - "27017:27017"
+    volumes:
+        - /prod/data:/data
+        - /prod/data/db:/data/db

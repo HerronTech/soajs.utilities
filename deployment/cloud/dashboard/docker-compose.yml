@@ -73,5 +73,9 @@ uracdashboard03:
 
 mongo:
     image: mongo
+    command: mongod --noprealloc --smallfiles
     ports:
         - "27017:27017"
+    volumes:
+        - /dashboard/data:/data
+        - /dashboard/data/db:/data/db

@@ -69,8 +69,12 @@ uracdashboard03:
 
 mongoDASH:
     image: mongo
+    command: mongod --noprealloc --smallfiles
     ports:
         - "27017:27017"
+    volumes:
+        - /dashboard/data:/data
+        - /dashboard/data/db:/data/db
 
 
 nginxPROD:
@@ -161,5 +165,9 @@ examples01:
 
 mongoPROD:
     image: mongo
+    command: mongod --noprealloc --smallfiles
     ports:
         - "27017"
+    volumes:
+        - /prod/data:/data
+        - /prod/data/db:/data/db
