@@ -4,9 +4,9 @@ var dOptions = require("../configurations/options");
 
 
 var registry = {
-	"name": "prod",
+	"name": "dashboard",
 	"version": "0.0",
-	"environment": "production", // develop || production
+	"environment": "dashboard", // develop || production
 	"tenantMetaDB": {
 		"urac": {
 			"name": "#TENANT_NAME#_urac",
