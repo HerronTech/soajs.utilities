@@ -1,5 +1,5 @@
 nginx:
-    image: soajs_cloud_prod_nginx
+    image: soajsorg/cloud_prod_nginx
     links:
         - controller01:service_proxy01
         - controller02:service_proxy02
@@ -8,7 +8,7 @@ nginx:
         - "80:80"
 
 controller01:
-    image: soajs_cloud_prod_controller
+    image: soajsorg/cloud_prod_controller
     links:
         - uracoauth01:urac_oauth_proxy01
         - uracoauth02:urac_oauth_proxy02
@@ -21,7 +21,7 @@ controller01:
         - $HOME/soajs/log/controller01/:/opt/soajs/log/
 
 controller02:
-    image: soajs_cloud_prod_controller
+    image: soajsorg/cloud_prod_controller
     links:
         - uracoauth01:urac_oauth_proxy01
         - uracoauth02:urac_oauth_proxy02
@@ -32,7 +32,7 @@ controller02:
         - "5000"
 
 controller03:
-    image: soajs_cloud_prod_controller
+    image: soajsorg/cloud_prod_controller
     links:
         - uracoauth01:urac_oauth_proxy01
         - uracoauth02:urac_oauth_proxy02
@@ -43,7 +43,7 @@ controller03:
         - "5000"
 
 uracoauth01:
-    image: soajs_cloud_prod_urac_oauth
+    image: soajsorg/cloud_prod_urac_oauth
     links:
         - mongo:data_proxy
         - mongo:dataProvision_proxy
@@ -56,7 +56,7 @@ uracoauth01:
         - $HOME/soajs/log/uracoauth01/:/opt/soajs/log/
 
 uracoauth02:
-    image: soajs_cloud_prod_urac_oauth
+    image: soajsorg/cloud_prod_urac_oauth
     links:
         - mongo:data_proxy
         - mongo:dataProvision_proxy
@@ -67,7 +67,7 @@ uracoauth02:
         - "5003"
 
 uracoauth03:
-    image: soajs_cloud_prod_urac_oauth
+    image: soajsorg/cloud_prod_urac_oauth
     links:
         - mongo:data_proxy
         - mongo:dataProvision_proxy
@@ -78,7 +78,7 @@ uracoauth03:
         - "5003"
 
 examples01:
-    image: soajs_cloud_prod_examples
+    image: soajsorg/cloud_prod_examples
     links:
         - mongo:data_proxy
         - mongo:dataProvision_proxy

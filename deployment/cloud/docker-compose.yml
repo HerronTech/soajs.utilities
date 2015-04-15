@@ -1,5 +1,5 @@
 nginxDASH:
-    image: soajs_cloud_dashboard_nginx
+    image: soajsorg/cloud_dashboard_nginx
     links:
         - controller01DASH:service_proxy01
         - controller02DASH:service_proxy02
@@ -8,7 +8,7 @@ nginxDASH:
         - "80"
 
 controller01DASH:
-    image: soajs_cloud_dashboard_controller
+    image: soajsorg/cloud_dashboard_controller
     links:
         - uracdashboard01:urac_dashboard_proxy01
         - uracdashboard02:urac_dashboard_proxy02
@@ -18,7 +18,7 @@ controller01DASH:
         - "5000"
 
 controller02DASH:
-    image: soajs_cloud_dashboard_controller
+    image: soajsorg/cloud_dashboard_controller
     links:
         - uracdashboard01:urac_dashboard_proxy01
         - uracdashboard02:urac_dashboard_proxy02
@@ -28,7 +28,7 @@ controller02DASH:
         - "5000"
 
 controller03DASH:
-    image: soajs_cloud_dashboard_controller
+    image: soajsorg/cloud_dashboard_controller
     links:
         - uracdashboard01:urac_dashboard_proxy01
         - uracdashboard02:urac_dashboard_proxy02
@@ -38,7 +38,7 @@ controller03DASH:
         - "5000"
 
 uracdashboard01:
-    image: soajs_cloud_dashboard_urac_dashboard
+    image: soajsorg/cloud_dashboard_urac_dashboard
     links:
         - mongoDASH:data_proxy
     ports:
@@ -48,7 +48,7 @@ uracdashboard01:
         - "5003"
 
 uracdashboard02:
-    image: soajs_cloud_dashboard_urac_dashboard
+    image: soajsorg/cloud_dashboard_urac_dashboard
     links:
         - mongoDASH:data_proxy
     ports:
@@ -58,7 +58,7 @@ uracdashboard02:
         - "5003"
 
 uracdashboard03:
-    image: soajs_cloud_dashboard_urac_dashboard
+    image: soajsorg/cloud_dashboard_urac_dashboard
     links:
         - mongoDASH:data_proxy
     ports:
@@ -78,7 +78,7 @@ mongoDASH:
 
 
 nginxPROD:
-    image: soajs_cloud_prod_nginx
+    image: soajsorg/cloud_prod_nginx
     links:
         - controller01PROD:service_proxy01
         - controller02PROD:service_proxy02
@@ -87,7 +87,7 @@ nginxPROD:
         - "80:80"
 
 controller01PROD:
-    image: soajs_cloud_prod_controller
+    image: soajsorg/cloud_prod_controller
     links:
         - uracoauth01:urac_oauth_proxy01
         - uracoauth02:urac_oauth_proxy02
@@ -98,7 +98,7 @@ controller01PROD:
         - "5000"
 
 controller02PROD:
-    image: soajs_cloud_prod_controller
+    image: soajsorg/cloud_prod_controller
     links:
         - uracoauth01:urac_oauth_proxy01
         - uracoauth02:urac_oauth_proxy02
@@ -109,7 +109,7 @@ controller02PROD:
         - "5000"
 
 controller03PROD:
-    image: soajs_cloud_prod_controller
+    image: soajsorg/cloud_prod_controller
     links:
         - uracoauth01:urac_oauth_proxy01
         - uracoauth02:urac_oauth_proxy02
@@ -120,7 +120,7 @@ controller03PROD:
         - "5000"
 
 uracoauth01:
-    image: soajs_cloud_prod_urac_oauth
+    image: soajsorg/cloud_prod_urac_oauth
     links:
         - mongoPROD:data_proxy
         - mongoDASH:dataProvision_proxy
@@ -131,7 +131,7 @@ uracoauth01:
         - "5003"
 
 uracoauth02:
-    image: soajs_cloud_prod_urac_oauth
+    image: soajsorg/cloud_prod_urac_oauth
     links:
         - mongoPROD:data_proxy
         - mongoDASH:dataProvision_proxy
@@ -142,7 +142,7 @@ uracoauth02:
         - "5003"
 
 uracoauth03:
-    image: soajs_cloud_prod_urac_oauth
+    image: soajsorg/cloud_prod_urac_oauth
     links:
         - mongoPROD:data_proxy
         - mongoDASH:dataProvision_proxy
@@ -153,7 +153,7 @@ uracoauth03:
         - "5003"
 
 examples01:
-    image: soajs_cloud_prod_examples
+    image: soajsorg/cloud_prod_examples
     links:
         - mongoPROD:data_proxy
         - mongoDASH:dataProvision_proxy

@@ -1,5 +1,5 @@
 nginx:
-    image: soajs_cloud_dashboard_nginx
+    image: soajsorg/cloud_dashboard_nginx
     links:
         - controller01:service_proxy01
         - controller02:service_proxy02
@@ -8,7 +8,7 @@ nginx:
         - "80:80"
 
 controller01:
-    image: soajs_cloud_dashboard_controller
+    image: soajsorg/cloud_dashboard_controller
     links:
         - uracdashboard01:urac_dashboard_proxy01
         - uracdashboard02:urac_dashboard_proxy02
@@ -20,7 +20,7 @@ controller01:
         - $HOME/soajs/log/controller01/:/opt/soajs/log/
 
 controller02:
-    image: soajs_cloud_dashboard_controller
+    image: soajsorg/cloud_dashboard_controller
     links:
         - uracdashboard01:urac_dashboard_proxy01
         - uracdashboard02:urac_dashboard_proxy02
@@ -30,7 +30,7 @@ controller02:
         - "5000"
 
 controller03:
-    image: soajs_cloud_dashboard_controller
+    image: soajsorg/cloud_dashboard_controller
     links:
         - uracdashboard01:urac_dashboard_proxy01
         - uracdashboard02:urac_dashboard_proxy02
@@ -40,7 +40,7 @@ controller03:
         - "5000"
 
 uracdashboard01:
-    image: soajs_cloud_dashboard_urac_dashboard
+    image: soajsorg/cloud_dashboard_urac_dashboard
     links:
         - mongo:data_proxy
     ports:
@@ -52,7 +52,7 @@ uracdashboard01:
         - $HOME/soajs/log/uracdashboard01/:/opt/soajs/log/
 
 uracdashboard02:
-    image: soajs_cloud_dashboard_urac_dashboard
+    image: soajsorg/cloud_dashboard_urac_dashboard
     links:
         - mongo:data_proxy
     ports:
@@ -62,7 +62,7 @@ uracdashboard02:
         - "5003"
 
 uracdashboard03:
-    image: soajs_cloud_dashboard_urac_dashboard
+    image: soajsorg/cloud_dashboard_urac_dashboard
     links:
         - mongo:data_proxy
     ports:

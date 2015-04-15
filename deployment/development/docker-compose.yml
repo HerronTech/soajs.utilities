@@ -1,11 +1,11 @@
 nginx:
-    image: soajs_development_nginx
+    image: soajsorg/development_nginx
     links:
         - service:service_proxy
     ports:
         - "80:80"
 service:
-    image: soajs_development_service
+    image: soajsorg/development_service
     links:
         - mongo:data_proxy
     ports:
