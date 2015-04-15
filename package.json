@@ -11,6 +11,7 @@
     "type": "git",
     "url": "git@github.com:soajs/soajs.utilities.git"
   },
+  "license" : "Apache-2.0",
   "engines": {
     "node": "*"
   },
