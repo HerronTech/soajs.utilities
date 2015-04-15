@@ -1,7 +1,75 @@
 # soajs.utilities
+[![NPM version](https://badge.fury.io/js/soajs.utilities.svg)](http://badge.fury.io/js/soajs.utilities)
 
-syntax: node ./lib/index.js docker buildImage <PATH>
+SOAJS Utilities has 2 functions: 
+1. The ability to build docker images or run docker compose configuration files.
+2. The ability to import SOAJS data into a mongo docker containers.
 
-syntax: node ./lib/index.js data import <PATH> [IP]
+##Build SOAJS docker images
 
+Build SOAJS docker images for: development - dashboard and production environments by simply specifying the path of the image relatively to deployment folder using the following command(s): 
 
+**syntax**:
+```sh
+node ./lib/index.js docker buildImage <PATH_RELATIVE_TO_IMAGE_BUILD_FOLDER>
+```
+
+**Development Environment:**
+```sh
+# build image from folder /deployment/development/nginx
+$ node ./lib/index.js docker buildImage development/nginx
+
+# build image from folder /deployment/development/service
+$ node ./lib/index.js docker buildImage development/service
+```
+
+**Dashboard Environment:**
+```sh
+# build image from folder /deployment/cloud/dashboard/nginx
+$ node ./lib/index.js docker buildImage cloud/dashboard/nginx
+
+# build image from folder /deployment/cloud/dashboard/controller
+$ node ./lib/index.js docker buildImage cloud/dashboard/controller
+
+# build image from folder /deployment/cloud/dashboard/urac_dashboard
+$ node ./lib/index.js docker buildImage cloud/dashboard/urac_dashboard
+```
+
+**Production Environment:**
+```sh
+# build image from folder /deployment/cloud/prod/nginx
+$ node ./lib/index.js docker buildImage cloud/prod/nginx
+
+# build image from folder /deployment/cloud/prod/controller
+$ node ./lib/index.js docker buildImage cloud/prod/controller
+
+# build image from folder /deployment/cloud/prod/urac_oauth
+$ node ./lib/index.js docker buildImage cloud/prod/urac_oauth
+
+# build image from folder /deployment/cloud/prod/examples
+$ node ./lib/index.js docker buildImage cloud/prod/examples
+```
+
+---
+
+##Import SOAJS environment data
+
+Import data to mongo docker containers for: development - dashboard and production environments using the following command(s):  
+
+**syntax**:
+```sh
+node ./lib/index.js data import <PATH> [CONTAINER_IP]
+```
+
+**Ex:**
+```sh
+# Development Data Layer container
+$ node ./lib/index.js data import provision 192.168.0.1
+$ node ./lib/index.js data import urac 192.168.0.1
+
+# Dashboard Data Layer container
+$ node ./lib/index.js data import provision 192.168.0.1
+
+# Production Data Layer container
+$ node ./lib/index.js data import urac 192.168.0.2
+```
