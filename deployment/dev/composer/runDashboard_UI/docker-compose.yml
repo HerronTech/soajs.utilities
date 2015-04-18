@@ -1,0 +1,28 @@
+nginx:
+    image: soajsorg/dev_nginx
+    links:
+        - service:controllerProxy
+    ports:
+        - "80:80"
+dashboard:
+    image: soajsorg/dev_dashboard
+    links:
+        - mongo:dataProxy
+    ports:
+        - "4003:4003"
+        - "5003:5003"
+urac:
+    image: soajsorg/dev_urac
+    links:
+        - mongo:dataProxy
+    ports:
+        - "4001:4001"
+        - "5001:5001"
+mongo:
+    image: mongo
+    command: mongod --noprealloc --smallfiles
+    ports:
+        - "27017:27017"
+    volumes:
+        - /data:/data
+        - /data/db:/data/db
