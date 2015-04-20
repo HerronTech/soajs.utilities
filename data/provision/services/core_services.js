@@ -11,6 +11,12 @@ var core_services = [
         "port": 4002,
         "apis": []
     },
+    {
+        "name": "dashboard",
+        "extKeyRequired": true,
+        "port": 4003,
+        "apis": []
+    },
 	{
 		"name": "example01",
 		"extKeyRequired": false,
