@@ -54,6 +54,26 @@ provDb.products.insert(records);
 provDb.products.ensureIndex({ code: 1 }, { unique: true });
 provDb.products.ensureIndex({ 'packages.code': 1 } );
 
+/* services */
+var provDb = db.getSiblingDB('core_provision');
+//provDb.dropDatabase();
+
+var files = listFiles('./services');
+for (var i = 0; i < files.length; i++) {
+    load(files[i].name);
+}
+
+provDb.services.drop();
+
+var records = core_services;
+provDb.services.insert(records);
+
+/* Indexes for services */
+provDb.services.ensureIndex({name: 1}, {unique: true});
+provDb.services.ensureIndex({'port': 1}, {unique: true});
+provDb.services.ensureIndex({'extKeyRequired': 1});
+
+
 /* Tenants */
 var files = listFiles('./tenants');
 for (var i = 0; i < files.length; i++) {
