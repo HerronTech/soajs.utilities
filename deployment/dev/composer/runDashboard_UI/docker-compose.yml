@@ -1,9 +1,16 @@
 nginx:
     image: soajsorg/dev_nginx
     links:
-        - service:controllerProxy
+        - contorller:controllerProxy
     ports:
         - "80:80"
+contorller:
+    image: soajsorg/dev_contorller
+    links:
+        - mongo:dataProxy
+    ports:
+        - "4000:4000"
+        - "5000:5000"
 dashboard:
     image: soajsorg/dev_dashboard
     links:
