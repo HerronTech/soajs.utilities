@@ -5,21 +5,21 @@ nginx:
     ports:
         - "80:80"
 contorller:
-    image: soajsorg/dev_contorller
+    image: soajsorg/contorller
     links:
         - mongo:dataProxy
     ports:
         - "4000:4000"
         - "5000:5000"
 dashboard:
-    image: soajsorg/dev_dashboard
+    image: soajsorg/dashboard
     links:
         - mongo:dataProxy
     ports:
         - "4003:4003"
         - "5003:5003"
 urac:
-    image: soajsorg/dev_urac
+    image: soajsorg/urac
     links:
         - mongo:dataProxy
     ports:

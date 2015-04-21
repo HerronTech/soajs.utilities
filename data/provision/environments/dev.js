@@ -12,7 +12,7 @@ var dev = {
             "cluster1": {
                 "servers": [
                     {
-                        "host": "127.0.0.1",
+                        "host": "dataProxy",
                         "port": 27017
                     }
                 ],
