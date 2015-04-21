@@ -42,3 +42,11 @@ var core_services = [
         "apis": []
     }
 ];
+
+var core_hosts = [
+    {
+        "env": "dev",
+        "name": "tony",
+        "ip": "127.0.0.1"
+    }
+];
