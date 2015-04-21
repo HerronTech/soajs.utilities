@@ -28,11 +28,12 @@ var DbTenant = {
 						"dev":{
 							"dashboardui":{
 								"permissions":[
-						   			"members",
+									"members",
 									"environments",
+									"services",
 									"productization",
-									"productization_packages",
-									"multi-tenancy",
+									"productization_packages", "product-acl",
+									"multi-tenancy", "tenant-app-acl",
 									"multi-tenancy_applications",
 									"multi-tenancy_keys"
 								]
