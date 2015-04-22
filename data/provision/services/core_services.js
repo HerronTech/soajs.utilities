@@ -360,25 +360,73 @@ var core_services = [
 		"name": "example01",
 		"extKeyRequired": false,
 		"port": 4010,
-		"apis": []
+		"apis": [
+			{
+				"l": "Test Get",
+				'v': "/testGet"
+			},
+			{
+				"l": "Test Delete",
+				'v': "/testDel"
+			},
+			{
+				'l': 'Build Name',
+				'v': '/buildName'
+			},
+			{
+				'l': 'Test Post',
+				'v': '/testPost'
+			},
+			{
+				'l': 'Test Put',
+				'v': '/testPut'
+			}
+		]
 	},
 	{
 		"name": "example02",
 		"extKeyRequired": true,
 		"port": 4011,
-		"apis": []
+		"apis": [
+			{
+				'l': 'Build Name',
+				'v': '/buildName'
+			}
+		]
 	},
 	{
 		"name": "example03",
 		"extKeyRequired": true,
 		"port": 4012,
-		"apis": []
+		"apis": [
+			{
+				"l": "Test Get",
+				'v': "/testGet"
+			},
+			{
+				'l': 'Build Name',
+				'v': '/buildName'
+			}
+		]
 	},
 	{
 		"name": "example04",
 		"extKeyRequired": true,
 		"port": 4013,
-		"apis": []
+		"apis": [
+			{
+				'l': 'Build Name',
+				'v': '/buildName'
+			},
+			{
+				"l": "Build Name Gold",
+				'v': "/buildNameGold"
+			},
+			{
+				"l": "Test Get",
+				'v': "/testGet"
+			}
+		]
 	}
 ];
 
