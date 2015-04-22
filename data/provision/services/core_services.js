@@ -190,6 +190,11 @@ var core_services = [
 				"group": "Product"
 			},
 			{
+				'l': "Get Product Package",
+				'v': "/product/packages/get",
+				"group": "Product"
+			},
+			{
 				"l": "Delete Product Package",
 				"group": "Product",
 				'v': "/product/packages/delete"
@@ -216,7 +221,6 @@ var core_services = [
 				"group": "Tenant",
 				'v': "/tenant/get"
 			},
-
 			{
 				"l": "Add Tenant",
 				"group": "Tenant",
@@ -403,13 +407,16 @@ var core_services = [
 		"port": 4012,
 		"apis": [
 			{
-				"l": "Test Get",
+				"l": "Test Get Api",
 				'v': "/testGet",
+				"group" :"Test Get",
 				"groupMain": true
 			},
 			{
-				'l': 'Build Name',
-				'v': '/buildName'
+				'l': 'Build Name Api',
+				'v': '/buildName',
+				"group" :"Build Name",
+				"groupMain": true
 			}
 		]
 	},
