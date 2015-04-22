@@ -121,7 +121,8 @@ var core_services = [
 		"apis": [
 			{
 				"l": "Create Token",
-				'v': "/token"
+				'v': "/token",
+				"groupMain": true
 			},
 			{
 				"l": "Kill Token",
@@ -363,7 +364,8 @@ var core_services = [
 		"apis": [
 			{
 				"l": "Test Get",
-				'v': "/testGet"
+				'v': "/testGet",
+				"groupMain": true
 			},
 			{
 				"l": "Test Delete",
@@ -390,7 +392,8 @@ var core_services = [
 		"apis": [
 			{
 				'l': 'Build Name',
-				'v': '/buildName'
+				'v': '/buildName',
+				"groupMain": true
 			}
 		]
 	},
@@ -401,7 +404,8 @@ var core_services = [
 		"apis": [
 			{
 				"l": "Test Get",
-				'v': "/testGet"
+				'v': "/testGet",
+				"groupMain": true
 			},
 			{
 				'l': 'Build Name',
@@ -416,7 +420,8 @@ var core_services = [
 		"apis": [
 			{
 				'l': 'Build Name',
-				'v': '/buildName'
+				'v': '/buildName',
+				"groupMain": true
 			},
 			{
 				"l": "Build Name Gold",
