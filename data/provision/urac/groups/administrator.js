@@ -5,15 +5,5 @@ var administrator = {
 	"locked": true,
 	"code": "administrator",
 	"name": "administrator",
-	"description": "this is the administrator group",
-	"permissions": [
-		"members",
-		"environments",
-		"services",
-		"productization",
-		"productization_packages", "product-acl",
-		"multi-tenancy", "tenant-app-acl",
-		"multi-tenancy_applications",
-		"multi-tenancy_keys"
-	] // to union with tenant permissions on login
+	"description": "this is the administrator group"
 };

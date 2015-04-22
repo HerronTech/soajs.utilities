@@ -26,18 +26,6 @@ var DbTenant = {
 					],
 					"config": {
 						"dev":{
-							"dashboardui":{
-								"permissions":[
-									"members",
-									"environments",
-									"services",
-									"productization",
-									"productization_packages", "product-acl",
-									"multi-tenancy", "tenant-app-acl",
-									"multi-tenancy_applications",
-									"multi-tenancy_keys"
-								]
-							},
 							"mail": {
 								"from": 'me@localhost.com',
 								"transport": {
