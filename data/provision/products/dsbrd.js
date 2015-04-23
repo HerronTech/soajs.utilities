@@ -28,10 +28,6 @@ var dsbrdProduct = {
                 	//"account.." :[access : true],
                 	//"admin..." : [ access: admin]
                 },
-                "agent" : {
-                	"access": ["administrator"]
-                },
-                "oauth" : {},
                 "dashboard" : {
                 	"access" : ["administrator"]
                 }
