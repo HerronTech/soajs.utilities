@@ -156,6 +156,53 @@ var core_services = [
 				'v': "/environment/update",
 				"group": "Environment"
 			},
+
+			{
+				'l': 'List Environment Databases',
+				'v': '/environment/dbs/list',
+				'group': 'Environment'
+			},
+			{
+				'l': 'Add Environment Database',
+				'v': '/environment/dbs/add',
+				'group': 'Environment'
+			},
+			{
+				'l': 'Update Environment Database',
+				'v': '/environment/dbs/update',
+				'group': 'Environment'
+			},
+			{
+				'l': 'Delete Environment Database',
+				'v': '/environment/dbs/delete',
+				'group': 'Environment'
+			},
+			{
+				'l': 'Update Environment Databases Prefix',
+				'v': '/environment/dbs/updatePrefix',
+				'group': 'Environment'
+			},
+			{
+				'l': 'List Environment Database Clusters',
+				'v': '/environment/clusters/list',
+				'group': 'Environment'
+			},
+			{
+				'l': 'Add Environment Database Cluster',
+				'v': '/environment/clusters/add',
+				'group': 'Environment'
+			},
+			{
+				'l': 'Update Environment Database Cluster',
+				'v': '/environment/clusters/update',
+				'group': 'Environment'
+			},
+			{
+				'l': 'Delete Environment Database Cluster',
+				'v': '/environment/clusters/delete',
+				'group': 'Environment'
+			},
+
 			{
 				'l': "Update Product",
 				'v': "/product/update",
