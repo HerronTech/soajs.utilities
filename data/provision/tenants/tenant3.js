@@ -56,7 +56,6 @@ var tenant3 = {
 							},
 							"example03": { "tenantName":"Client 3"}
 						}
-						
 					}
 				}
 			]

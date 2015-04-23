@@ -53,7 +53,7 @@ var tenant1 = {
 			"package": "PROD1_PCK1",
 			"appId": ObjectId('54ee376de950de122a6eb7b2'),
 			"description": "This application will override the default ACL of the package to get example03",
-			"_TTL": 172800,
+			"_TTL": 7 * 24 * 3600 * 1000,
 			"acl": {
 				"urac": {},
 				"example03": {},
@@ -94,7 +94,7 @@ var tenant1 = {
 			"package": "PROD1_PCK4",
 			"appId": ObjectId('54f97a043d52cde7117559aa'),
 			"description": "Tenant 1 takes package 4",
-			"_TTL": 172800,
+			"_TTL": 7 * 24 * 3600 * 1000,
 			"keys": [
 				{
 					"key": "50026064e77e9eabf9e1328c14b22d46",

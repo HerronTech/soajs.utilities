@@ -5,13 +5,13 @@ var dsbrdProduct = {
     "locked" : true,
     "code" : "DSBRD",
     "name" : "Main Product",
-    "description" : "this is the main dashboard product.",
+    "description" : "This is the main dashboard product.",
     "packages" : [
         {
             "code" : "DSBRD_DEFLT",
             "name" : "Main package",
             "locked" : true,
-            "description" : "this is the main dashboard product package.",
+            "description" : "This is the main dashboard product package.",
             "acl" : {
                 "urac" : {
                 	"access" : false,
@@ -28,10 +28,6 @@ var dsbrdProduct = {
                 	//"account.." :[access : true],
                 	//"admin..." : [ access: admin]
                 },
-                "agent" : {
-                	"access": ["administrator"]
-                },
-                "oauth" : {},
                 "dashboard" : {
                 	"access" : ["administrator"]
                 }
