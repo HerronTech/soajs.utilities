@@ -87,7 +87,7 @@ var test = {
 				"urac": {},
 				"example03": {}
 			},
-			"_TTL": 86400000, // 24 hours
+			"_TTL": 5 * 24 * 3600 * 1000,
 			"keys": [
 				{
 					"key": "695d3456de70fddc9e1e60a6d85b97d3",
@@ -114,10 +114,10 @@ var test = {
 		},
 		{
 			"product": "TPROD",
-			"package": "TPROD_EXAMPLE03",
+			"package": "TPROD_EX03",
 			"appId": ObjectId("30d2cb5fc04ce51e06000003"),
 			"description": "this is a description for app for test tenant for test product and example03 package",
-			"_TTL": 86400000, // 24 hours
+			"_TTL": 24 * 3600 * 1000, // 24 hours
 			"keys": [
 				{
 					"key": "ff7b65bb252201121f1be95adc08f44a",
