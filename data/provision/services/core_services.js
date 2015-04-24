@@ -485,9 +485,4 @@ var core_services = [
 ];
 
 var core_hosts = [
-	{
-		"env": "dev",
-		"name": "tony",
-		"ip": "127.0.0.1"
-	}
 ];
