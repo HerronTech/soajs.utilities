@@ -288,7 +288,6 @@ var core_services = [
 				"group": "Tenant Application",
 				'v': "/tenant/application/add"
 			},
-
 			{
 				"l": "Update Tenant Application",
 				"group": "Tenant Application",
@@ -304,7 +303,11 @@ var core_services = [
 				"group": "Tenant Application",
 				'v': "/tenant/application/delete"
 			},
-
+			{
+				"v": "/tenant/application/acl/get",
+				"l": "Get Tenant Application By External Key",
+				"group": "Tenant Application"
+			},
 			{
 				"l": "Add Tenant Application Key",
 				"group": "Tenant Application",
