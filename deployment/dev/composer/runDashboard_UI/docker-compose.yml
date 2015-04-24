@@ -1,5 +1,5 @@
 nginx:
-    image: soajsorg/dev_nginx
+    image: soajsorg/nginx
     links:
         - contorller:controllerProxy
     ports:
