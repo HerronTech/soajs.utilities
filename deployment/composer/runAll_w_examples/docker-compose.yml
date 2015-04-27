@@ -1,0 +1,55 @@
+nginx:
+    image: soajsorg/nginx
+    links:
+        - contorller:controllerProxy
+    ports:
+        - "80:80"
+contorller:
+    image: soajsorg/contorller
+    links:
+        - soajsData:dataProxy
+    ports:
+        - "4000:4000"
+        - "5000:5000"
+urac:
+    image: soajsorg/urac
+    links:
+        - soajsData:dataProxy
+    ports:
+        - "4001:4001"
+        - "5001:5001"
+oauth:
+    image: soajsorg/oauth
+    links:
+        - soajsData:dataProxy
+    ports:
+        - "4002:4002"
+        - "5002:5002"
+example01:
+    image: soajsorg/example01
+    links:
+        - soajsData:dataProxy
+    ports:
+        - "4010:4010"
+        - "5010:5010"
+example02:
+    image: soajsorg/example01
+    links:
+        - soajsData:dataProxy
+    ports:
+        - "4011:4011"
+        - "5011:5011"
+example03:
+    image: soajsorg/example01
+    links:
+        - soajsData:dataProxy
+    ports:
+        - "4012:4012"
+        - "5012:5012"
+example04:
+    image: soajsorg/example01
+    links:
+        - soajsData:dataProxy
+    ports:
+        - "4013:4013"
+        - "5013:5013"
