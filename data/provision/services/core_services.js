@@ -409,10 +409,9 @@ var core_services = [
 				"groupMain": true
 			},
 			{
-				"l": "Get Permissions",
-				"group": "Permissions",
-				'v': "/tenant/permissions/get",
-				"groupMain": true
+				"l": "Get Tenant Security Permissions",
+				"group": "Tenant",
+				'v': "/tenant/permissions/get"
 			}
 		]
 	},
