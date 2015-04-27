@@ -407,6 +407,11 @@ var core_services = [
 				"group": "Services",
 				'v': "/services/list",
 				"groupMain": true
+			},
+			{
+				"l": "Get Tenant Security Permissions",
+				"group": "Tenant",
+				'v': "/tenant/permissions/get"
 			}
 		]
 	},
