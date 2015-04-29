@@ -31,6 +31,11 @@ var core_services = [
 				'v': "/admin/addUser"
 			},
 			{
+				"l": "Get User Record",
+				"group": "Administration",
+				'v': "/admin/getUser"
+			},
+			{
 				"l": "Change User Status",
 				"group": "Administration",
 				'v': "/admin/changeUserStatus"
