@@ -25,6 +25,13 @@ oauth:
     ports:
         - "4002:4002"
         - "5002:5002"
+dashboard:
+    image: soajsorg/dashboard
+    links:
+        - soajsData:dataProxy
+    ports:
+        - "4003:4003"
+        - "5003:5003"
 example01:
     image: soajsorg/example01
     links:
