@@ -7,11 +7,14 @@ SOAJS Utilities has 2 functions:
 
 ##Build SOAJS docker images
 
-Build SOAJS docker images for: development - dashboard and production environments by simply specifying the path of the image relatively to deployment folder using the following command(s): 
+Build SOAJS docker images:
 
 **syntax**:
 ```sh
-node ./lib/index.js docker buildImage <PATH_RELATIVE_TO_IMAGE_BUILD_FOLDER>
+node ./lib/index.js docker serviceNPM <PROFILE_PATH> <NPM_PACKAGE> [version]
+node ./lib/index.js docker serviceLocal <PROFILE_PATH> <SERVICE_FOLDER>
+node ./lib/index.js docker soajsLocal <PROFILE_PATH> <SOAJS_FOLDER>
+node ./lib/index.js docker nginx <NGINX_PATH> [DASHBOARD_UI_FOLDER]
 ```
 
 **Development Environment:**
