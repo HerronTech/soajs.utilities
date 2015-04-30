@@ -1,6 +1,6 @@
 nginx:
     image: soajsorg/nginx
-    external_links:
+    links:
         - controller:controllerProxy
     ports:
         - "80:80"
