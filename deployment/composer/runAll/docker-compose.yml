@@ -5,7 +5,7 @@ nginx:
     ports:
         - "80:80"
 controller:
-    image: soajsorg/contorller
+    image: soajsorg/controller
     external_links:
         - soajsData:dataProxy
     ports:
