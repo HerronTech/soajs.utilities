@@ -40,21 +40,21 @@ example01:
         - "4010:4010"
         - "5010:5010"
 example02:
-    image: soajsorg/example01
+    image: soajsorg/example02
     external_links:
         - soajsData:dataProxy
     ports:
         - "4011:4011"
         - "5011:5011"
 example03:
-    image: soajsorg/example01
+    image: soajsorg/example03
     external_links:
         - soajsData:dataProxy
     ports:
         - "4012:4012"
         - "5012:5012"
 example04:
-    image: soajsorg/example01
+    image: soajsorg/example04
     external_links:
         - soajsData:dataProxy
     ports:
