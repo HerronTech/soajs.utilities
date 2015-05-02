@@ -492,6 +492,3 @@ var core_services = [
 		]
 	}
 ];
-
-var core_hosts = [
-];

@@ -74,8 +74,6 @@ provDb.services.ensureIndex({'port': 1}, {unique: true});
 provDb.services.ensureIndex({'extKeyRequired': 1});
 
 provDb.hosts.drop();
-records = core_hosts;
-provDb.hosts.insert(records);
 
 /* Indexes for hosts */
 provDb.hosts.ensureIndex({env: 1});
