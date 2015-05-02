@@ -60,3 +60,10 @@ example04:
     ports:
         - "4013:4013"
         - "5013:5013"
+helloworld:
+    image: soajsorg/helloworld
+    external_links:
+        - soajsData:dataProxy
+    ports:
+        - "4020:4020"
+        - "5020:5020"
