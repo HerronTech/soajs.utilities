@@ -3,6 +3,8 @@ var core_services = [
 		"name": "urac",
 		"extKeyRequired": true,
 		"port": 4001,
+		"requestTimeout": 30,
+		"requestTimeoutRenewal": 5,
 		"apis": [
 			{
 				"l": "Change Email",
@@ -123,6 +125,8 @@ var core_services = [
 		"name": "oauth",
 		"extKeyRequired": true,
 		"port": 4002,
+		"requestTimeout": 30,
+		"requestTimeoutRenewal": 5,
 		"apis": [
 			{
 				"l": "Create Token",
@@ -139,6 +143,8 @@ var core_services = [
 		"name": "dashboard",
 		"extKeyRequired": true,
 		"port": 4003,
+		"requestTimeout": 30,
+		"requestTimeoutRenewal": 5,
 		"apis": [
 			{
 				'l': "List Environments",
@@ -428,6 +434,8 @@ var core_services = [
 		"name": "example01",
 		"extKeyRequired": false,
 		"port": 4010,
+		"requestTimeout": 30,
+		"requestTimeoutRenewal": 5,
 		"apis": [
 			{
 				"l": "Test Get",
@@ -455,6 +463,8 @@ var core_services = [
 		"name": "example02",
 		"extKeyRequired": true,
 		"port": 4011,
+		"requestTimeout": 30,
+		"requestTimeoutRenewal": 5,
 		"apis": [
 			{
 				'l': 'Build Name',
@@ -466,6 +476,8 @@ var core_services = [
 		"name": "example03",
 		"extKeyRequired": true,
 		"port": 4012,
+		"requestTimeout": 30,
+		"requestTimeoutRenewal": 5,
 		"apis": [
 			{
 				"l": "Test Get Api",
@@ -481,6 +493,8 @@ var core_services = [
 		"name": "example04",
 		"extKeyRequired": true,
 		"port": 4013,
+		"requestTimeout": 30,
+		"requestTimeoutRenewal": 5,
 		"apis": [
 			{
 				'l': 'Build Name',
