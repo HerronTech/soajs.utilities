@@ -15,5 +15,9 @@ var admin = {
 	"config": {
 		"packages": {},
 		"keys": {}
+	},
+	"tenant":{
+		"id": '551286bce603d7e01ab1688e',
+		"code": 'DBTN'
 	}
 };
