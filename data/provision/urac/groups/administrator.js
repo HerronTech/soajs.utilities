@@ -5,5 +5,9 @@ var administrator = {
 	"locked": true,
 	"code": "administrator",
 	"name": "administrator",
-	"description": "this is the administrator group"
+	"description": "this is the administrator group",
+	"tenant":{
+		"id": '551286bce603d7e01ab1688e',
+		"code": 'DBTN'
+	}
 };
