@@ -33,6 +33,34 @@ var dsbrdProduct = {
                 }
             },
             "_TTL" : 86400000 // 24 hours
+        },
+        {
+            "code" : "DSBRD_CNSMR",
+            "name" : "Consumer package",
+            "locked" : true,
+            "description" : "This package is for the consumer.",
+            "acl" : {
+                "urac" : {
+                    "access" : false,
+                    "apisRegExp": [
+                        {
+                            "regExp": /^\/account\/.+$/ , //All APIs starting with /account/...
+                            "access": true
+                        },
+                        {
+                            "regExp": /^\/admin\/.+$/ , //All APIs starting with /admin/...
+                            "access": ["administrator"]
+                        }
+                    ]
+                },
+                "dashboard" : {
+                    "apisPermission": "restricted",
+                    "apis":{
+
+                    }
+                }
+            },
+            "_TTL" : 86400000 // 24 hours
         }
     ]
 };

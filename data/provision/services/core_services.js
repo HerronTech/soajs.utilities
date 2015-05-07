@@ -79,11 +79,6 @@ var core_services = [
 				'v': "/admin/listUsers"
 			},
 			{
-				"l": "Edit Multiple Groups",
-				"group": "Administration",
-				'v': "/admin/user/editGroups"
-			},
-			{
 				"l": "Validate Change Email",
 				"group": "Guest",
 				'v': "/changeEmail/validate"
