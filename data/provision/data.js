@@ -119,12 +119,6 @@ var records = [];
 records.push(admin);
 ddb.users.insert(records);
 
-
-/* Indexes for users */
-ddb.users.ensureIndex({username: 1}, {unique: true});
-ddb.users.ensureIndex({email: 1}, {unique: true});
-
-
 /* add grps */
 var gfiles = listFiles('./urac/groups');
 for(var i = 0; i < gfiles.length; i++) {
@@ -136,6 +130,3 @@ ddb.groups.drop();
 var records = [];
 records.push(administrator);
 ddb.groups.insert(records);
-
-/* Indexes for users */
-ddb.groups.ensureIndex({code: 1}, {unique: true});
