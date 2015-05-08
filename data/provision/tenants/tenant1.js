@@ -14,6 +14,71 @@ var tenant1 = {
 	},
 	"applications": [
 		{
+			"product": "DSBRD",
+			"package": "DSBRD_CNSMR",
+			"appId": ObjectId('554ce82a494d1deadc7c1655'),
+			"description": "Application for Consumer",
+			"_TTL": 7 * 24 * 3600 * 1000, // 7 days
+			"keys": [
+				{
+					"key": "56987cc68f7160952b1c2b711390e9dd",
+					"extKeys": [
+						{
+							"extKey": "4232477ed993d167ec13ccf8836c29c41e64958b82c553988dc203d1c6af8ec0f6f9a267ef3f182eee1e245fb456f10b1a9017d64074b6b9a88edd0f139024d7043d770ca6676f9dfa2032c2bc02429d4ecba32bc8b6497666408b02e5a3a27d",
+							"device": {},
+							"geo": {},
+							"expDate": new Date().getTime() + 14 * 24 * 3600 * 1000, // + 14 days
+						}
+					],
+					"config": {
+						"dev": {
+							"mail": {
+								"from": 'me@localhost.com',
+								"transport": {
+									"type": "sendmail",
+									"options": {
+									}
+								}
+							},
+
+							"urac": {
+								"hashIterations": 1024, //used by hasher
+								"seedLength": 32, //used by hasher
+								"link": {
+									"addUser": "http://dashboard.soajs.org/#/setNewPassword",
+									"changeEmail": "http://dashboard.soajs.org/#/changeEmail/validate",
+									"forgotPassword": "http://dashboard.soajs.org/#/resetPassword",
+									"join": "http://dashboard.soajs.org/#/join/validate"
+								},
+								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,// token expiry limit in seconds
+								"validateJoin": true, //true if registration needs validation
+								"mail": { //urac mail options
+									"join": {
+										"subject": 'Welcome to SOAJS'
+									},
+									"forgotPassword": {
+										"subject": 'Reset Your Password at SOAJS'
+									},
+									"addUser": {
+										"subject": 'Account Created at SOAJS'
+									},
+									"changeUserStatus": {
+										"subject": "Account Status changed at SOAJS",
+										//use custom HTML
+										"content": "<p>Dear <b>{{ username }}</b>, <br />The administrator update your account status to <b>{{ status }}</b> on {{ ts|date('F jS, Y') }}.<br /><br />Regards,<br/>SOAJS Team.</p>"
+									},
+									"changeEmail": {
+										"subject": "Change Account Email at SOAJS"
+									}
+								}
+							}
+
+						}
+					}
+				}
+			]
+		},
+		{
 			"product": "PROD1",
 			"package": "PROD1_PCK1",
 			"appId": ObjectId('54ee2cee203674ba271d57a6'),
