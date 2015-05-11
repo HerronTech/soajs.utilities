@@ -9,9 +9,40 @@ var dsbrdProduct = {
 	"packages": [
 		{
 			"code": "DSBRD_DEFLT",
-			"name": "Main package",
+			"name": "Default package",
 			"locked": true,
 			"description": "This is the main dashboard product package.",
+			"acl": {
+				"dashboard": {
+					"apisPermission": "restricted",
+					"apis": {
+						"/tenant/permissions/get": {}
+					}
+				},
+				"urac": {
+					"access": false,
+					"apis": {
+						"/login": {},
+						"/forgotPassword": {},
+						"/changeEmail/validate": {},
+						"/join": {},
+						"/logout": {},
+						"/join/validate": {},
+						"/resetPassword": {},
+						"/account/getUser": {"access": true},
+						"/account/changePassword": {"access": true},
+						"/account/editProfile": {"access": true},
+						"/account/changeEmail": {"access": true}
+					},
+					"apisPermission": "restricted"
+				}
+			},
+			"_TTL": 86400000 // 24 hours
+		},
+		{
+			"code": "DSBRD_OWNER",
+			"name": "Owner package",
+			"description": "This is the package used by the owner.",
 			"acl": {
 				"urac": {
 					"access": false,
@@ -27,12 +58,17 @@ var dsbrdProduct = {
 						},
 						{
 							"regExp": /^\/admin\/.+$/, //All APIs starting with /admin/...
-							"access": ["administrator"]
+							"access": ["root"]
 						}
 					]
 				},
 				"dashboard": {
-					"access": ["administrator"]
+					"access": ["root"],
+					"apis":{
+						"/tenant/permissions/get":{
+							"access": true
+						}
+					}
 				}
 			},
 			"_TTL": 86400000 // 24 hours
@@ -44,7 +80,7 @@ var dsbrdProduct = {
 			"acl": {
 				"urac": {
 					"access": false,
-					"apis": {
+					"apis":{
 						"/admin/all":{
 							"access": ['root']
 						}
@@ -64,9 +100,13 @@ var dsbrdProduct = {
 					"apisPermission": "restricted",
 					"access": ["administrator"],
 					"apis": {
-						"/tenant/permissions/get":{},
-						"tenant/application/acl/get":{},
-						"/product/list":{},
+						"/tenant/permissions/get":{
+							"access": true
+						},
+						"tenant/application/acl/get":{
+							"access": true
+						},
+						"/environment/list":{},
 
 						"/settings/tenant/get": {},
 						"/settings/tenant/update": {},
@@ -79,9 +119,7 @@ var dsbrdProduct = {
 						"/settings/tenant/oauth/users/delete": {},
 						"/settings/tenant/oauth/users/update": {},
 						"/settings/tenant/application/list": {},
-						"/settings/tenant/application/delete": {},
-						"/settings/tenant/application/add": {},
-						"/settings/tenant/application/update": {},
+
 						"/settings/tenant/application/key/add": {},
 						"/settings/tenant/application/key/delete": {},
 						"/settings/tenant/application/key/list": {},

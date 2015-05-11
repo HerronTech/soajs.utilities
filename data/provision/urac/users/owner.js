@@ -1,7 +1,7 @@
 'use strict';
 //password = password
 var owner = {
-	"locked" : true,
+	"locked" : false,
 	"username": "owner",
 	"password": '$2a$04$GfQ/6TJX82HcCoq8z8R44uN6x38hmJVIh7sKXIxknjt9UjN/f90sy',
 	"firstName": "owner",

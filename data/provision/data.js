@@ -90,10 +90,8 @@ provDb.tenants.drop();
 
 var records = [];
 records.push(DbTenant);
-records.push(test);
 records.push(tenant1);
 records.push(tenant2);
-records.push(tenant3);
 
 provDb.tenants.insert(records);
 
@@ -120,7 +118,6 @@ records.push(admin);
 records.push(owner);
 records.push(adminT1);
 records.push(adminT2);
-records.push(adminT3);
 
 ddb.users.insert(records);
 
@@ -137,6 +134,5 @@ records.push(root);
 records.push(administrator);
 records.push(administratorT1);
 records.push(administratorT2);
-records.push(administratorT3);
 
 ddb.groups.insert(records);
