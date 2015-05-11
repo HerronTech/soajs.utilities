@@ -30,8 +30,6 @@ var dsbrdProduct = {
 							"access": ["administrator"]
 						}
 					]
-					//"account.." :[access : true],
-					//"admin..." : [ access: admin]
 				},
 				"dashboard": {
 					"access": ["administrator"]
@@ -42,12 +40,15 @@ var dsbrdProduct = {
 		{
 			"code": "DSBRD_CNSMR",
 			"name": "Consumer package",
-			"locked": true,
 			"description": "This package is for the consumer.",
 			"acl": {
 				"urac": {
 					"access": false,
-					"apis": {},
+					"apis": {
+						"/admin/all":{
+							"access": ['root']
+						}
+					},
 					"apisRegExp": [
 						{
 							"regExp": /^\/account\/.+$/, //All APIs starting with /account/...
@@ -59,7 +60,6 @@ var dsbrdProduct = {
 						}
 					]
 				},
-				"example04":{},
 				"dashboard": {
 					"apisPermission": "restricted",
 					"access": ["administrator"],
@@ -91,13 +91,7 @@ var dsbrdProduct = {
 						"/settings/tenant/application/key/ext/delete": {},
 						"/settings/tenant/application/key/ext/list": {},
 						"/settings/tenant/application/key/ext/update": {}
-					},
-					"apisRegExp": [
-						{
-							"regExp": /^\/settings\/.+$/,
-							"access": ["administrator"]
-						}
-					]
+					}
 				}
 			},
 			"_TTL": 86400000 // 24 hours
