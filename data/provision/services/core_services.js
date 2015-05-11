@@ -113,6 +113,11 @@ var core_services = [
 				"l": "Reset Password",
 				"group": "Guest",
 				'v': "/resetPassword"
+			},
+			{
+				"l": "Get all Users & Groups",
+				"group": "Administration",
+				'v': "/admin/all"
 			}
 		]
 	},
@@ -422,6 +427,123 @@ var core_services = [
 				"l": "Get Tenant Security Permissions",
 				"group": "Tenant",
 				'v': "/tenant/permissions/get"
+			},
+			{
+				"l":"Get Tenant",
+				"group": "Tenant Settings",
+				"groupMain": true,
+				"v":"/settings/tenant/get"
+			},
+			{
+				"l":"Update Tenant",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/update"
+			},
+			{
+				"l":"Get Tenant oAuth Configuration",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/oauth/list"
+			},
+			{
+				"l":"Delete Tenant oAuth Configuration",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/oauth/delete"
+			},
+			{
+				"l":"Add Tenant oAuth Configuration",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/oauth/add"
+			},
+			{
+				"l":"Update Tenant oAuth Configuration",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/oauth/update"
+			},
+			{
+				"l":"List Tenant oAuth Users",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/oauth/users/list"
+			},
+			{
+				"l":"Add Tenant oAuth User",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/oauth/users/add"
+			},
+			{
+				"l":"Delete Tenant oAuth User",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/oauth/users/delete"
+			},
+			{
+				"l":"Update Tenant oAuth User",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/oauth/users/update"
+			},
+			{
+				"l":"List Tenant Applications",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/application/list"
+			},
+			{
+				"l":"Delete Tenant Application",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/application/delete"
+			},
+			{
+				"l":"Add Tenant Application",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/application/add"
+			},
+			{
+				"l":"Update Tenant Application",
+				"group": "Tenant Settings",
+				"v":"/settings/tenant/application/update"
+			},
+			{
+				"l": "Add Tenant Application Key",
+				"group": "Tenant Settings",
+				'v': "/settings/tenant/application/key/add"
+			},
+			{
+				"l": "List Application Keys",
+				"group": "Tenant Settings",
+				'v': "/settings/tenant/application/key/list"
+			},
+			{
+				"l": "Delete Application Key",
+				"group": "Tenant Settings",
+				'v': "/settings/tenant/application/key/delete"
+			},
+			{
+				"l": "List Application Key Configuration",
+				"group": "Tenant Settings",
+				'v': "/settings/tenant/application/key/config/list"
+			},
+			{
+				"l": "Update Application Key Configuration",
+				"group": "Tenant Settings",
+				'v': "/settings/tenant/application/key/config/update"
+			},
+
+			{
+				"l": "Add Application External Key",
+				"group": "Tenant Settings",
+				'v': "/settings/tenant/application/key/ext/add"
+			},
+			{
+				"l": "Delete Application External Key",
+				"group": "Tenant Settings",
+				'v': "/settings/tenant/application/key/ext/delete"
+			},
+			{
+				"l": "List Application External Keys",
+				"group": "Tenant Settings",
+				'v': "/settings/tenant/application/key/ext/list"
+			},
+			{
+				"l": "Update Application External Key",
+				"group": "Tenant Settings",
+				'v': "/settings/tenant/application/key/ext/update"
 			}
 		]
 	},

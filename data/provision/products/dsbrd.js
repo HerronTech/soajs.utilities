@@ -59,8 +59,45 @@ var dsbrdProduct = {
 						}
 					]
 				},
+				"example04":{},
 				"dashboard": {
-					"access": ["administrator"]
+					"apisPermission": "restricted",
+					"access": ["administrator"],
+					"apis": {
+						"/tenant/permissions/get":{},
+						"tenant/application/acl/get":{},
+						"/product/list":{},
+
+						"/settings/tenant/get": {},
+						"/settings/tenant/update": {},
+						"/settings/tenant/oauth/list": {},
+						"/settings/tenant/oauth/delete": {},
+						"/settings/tenant/oauth/add": {},
+						"/settings/tenant/oauth/update": {},
+						"/settings/tenant/oauth/users/list": {},
+						"/settings/tenant/oauth/users/add": {},
+						"/settings/tenant/oauth/users/delete": {},
+						"/settings/tenant/oauth/users/update": {},
+						"/settings/tenant/application/list": {},
+						"/settings/tenant/application/delete": {},
+						"/settings/tenant/application/add": {},
+						"/settings/tenant/application/update": {},
+						"/settings/tenant/application/key/add": {},
+						"/settings/tenant/application/key/delete": {},
+						"/settings/tenant/application/key/list": {},
+						"/settings/tenant/application/key/config/list": {},
+						"/settings/tenant/application/key/config/update": {},
+						"/settings/tenant/application/key/ext/add": {},
+						"/settings/tenant/application/key/ext/delete": {},
+						"/settings/tenant/application/key/ext/list": {},
+						"/settings/tenant/application/key/ext/update": {}
+					},
+					"apisRegExp": [
+						{
+							"regExp": /^\/settings\/.+$/,
+							"access": ["administrator"]
+						}
+					]
 				}
 			},
 			"_TTL": 86400000 // 24 hours
