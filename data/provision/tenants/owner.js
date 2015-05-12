@@ -125,9 +125,6 @@ var dsbrd = {
 													"/tenant/permissions/get": {
 														"access": true
 													},
-													"/environment/list": {
-														"access": ["client"]
-													},
 													"/settings/tenant/get": {
 														"access": ["client"]
 													},
