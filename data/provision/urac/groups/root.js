@@ -6,7 +6,7 @@ var root = {
 	"name": "Root Owner",
 	"description": "this is the root owner group",
 	"tenant":{
-		"id": '551286bce603d7e01ab1688e',
-		"code": 'ROOT'
+		"id": '5551aca9e179c39b760f7a1a',
+		"code": 'DBTN'
 	}
 };
