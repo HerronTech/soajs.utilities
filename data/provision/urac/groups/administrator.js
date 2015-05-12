@@ -1,13 +1,13 @@
 'use strict';
 
 var administrator = {
-	"_id": ObjectId('55128764e603d7e01ab1688f'),
+	"_id": ObjectId('5552115ce179c39b760f7a1d'),
 	"locked": true,
-	"code": "administrator",
-	"name": "administrator",
-	"description": "this is the administrator group",
+	"code": "client",
+	"name": "Client Group",
+	"description": "this is Client Group that uses the Dashboard",
 	"tenant":{
-		"id": '54ee2150b7a669fc22b7f6b9',
-		"code": 'TNT1'
+		"id": '5551aca9e179c39b760f7a1a',
+		"code": 'DCTN'
 	}
 };

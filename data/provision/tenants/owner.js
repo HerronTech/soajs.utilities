@@ -3,15 +3,15 @@ var dsbrd = {
 	"_id": ObjectId("5551aca9e179c39b760f7a1a"),
 	"locked": true,
 	"code": "DBTN",
-	"name": "Dashboard Tenant",
+	"name": "Dashboard Owner Tenant",
 	"description": "this is the main dashboard tenant",
 	"oauth": {},
 	"applications": [
 		{
 			"product": "DSBRD",
-			"package": "DSBRD_DEFLT",
+			"package": "DSBRD_MAIN",
 			"appId": ObjectId('5512926a7a1f0e2123f638de'),
-			"description": "This is the main application for the dashboard tenant",
+			"description": "This application uses the Dashboard Main Package.",
 			"_TTL": 7 * 24 * 3600 * 1000, // 7 days hours
 			"keys": [
 				{
@@ -77,12 +77,12 @@ var dsbrd = {
 													},
 													{
 														"regExp": /^\/admin\/.+$/, //All APIs starting with /admin/...
-														"access": ["root"]
+														"access": ["owner"]
 													}
 												]
 											},
 											"dashboard": {
-												"access": ["root"],
+												"access": ["owner"],
 												"apis": {
 													"/tenant/permissions/get": {"access": true}
 												}
@@ -94,99 +94,99 @@ var dsbrd = {
 											"urac": {
 												"access": false,
 												"apis": {
-													"/admin/all": {"access": ['root']},
+													"/admin/all": {"access": ['owner']},
 													"/account/getUser": {"access": true},
 													"/account/changePassword": {"access": true},
 													"/account/editProfile": {"access": true},
 													"/account/changeEmail": {"access": true},
 
-													"/admin/listUsers": {"access": ["administrator"]},
-													"/admin/addUser": {"access": ["administrator"]},
-													"/admin/getUser": {"access": ["administrator"]},
-													"/admin/changeUserStatus": {"access": ["administrator"]},
-													"/admin/editUser": {"access": ["administrator"]},
-													"/admin/group/add": {"access": ["administrator"]},
-													"/admin/group/addUsers": {"access": ["administrator"]},
-													"/admin/group/delete": {"access": ["administrator"]},
-													"/admin/group/edit": {"access": ["administrator"]},
-													"/admin/group/list": {"access": ["administrator"]}
+													"/admin/listUsers": {"access": ["client"]},
+													"/admin/addUser": {"access": ["client"]},
+													"/admin/getUser": {"access": ["client"]},
+													"/admin/changeUserStatus": {"access": ["client"]},
+													"/admin/editUser": {"access": ["client"]},
+													"/admin/group/add": {"access": ["client"]},
+													"/admin/group/addUsers": {"access": ["client"]},
+													"/admin/group/delete": {"access": ["client"]},
+													"/admin/group/edit": {"access": ["client"]},
+													"/admin/group/list": {"access": ["client"]}
 												}
 											},
 											"dashboard": {
 												"apisPermission": "restricted",
-												"access": ["administrator"],
+												"access": ["client"],
 												"apis": {
 													"/tenant/application/acl/get": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/services/list": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/tenant/permissions/get": {
 														"access": true
 													},
 													"/environment/list": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/get": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/update": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/oauth/list": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/oauth/delete": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/oauth/add": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/oauth/update": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/oauth/users/list": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/oauth/users/add": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/oauth/users/delete": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/oauth/users/update": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/application/list": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/application/key/add": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/application/key/delete": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/application/key/list": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/application/key/config/list": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/application/key/config/update": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/application/key/ext/add": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/application/key/ext/delete": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/application/key/ext/list": {
-														"access": ["administrator"]
+														"access": ["client"]
 													},
 													"/settings/tenant/application/key/ext/update": {
-														"access": ["administrator"]
+														"access": ["client"]
 													}
 												}
 											}

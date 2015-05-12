@@ -46,6 +46,9 @@ provDb.products.drop();
 
 var records = [];
 records.push(dsbrdProduct);
+records.push(client);
+records.push(product1);
+records.push(testProduct);
 provDb.products.insert(records);
 
 /* Indexes for products */
@@ -88,7 +91,11 @@ provDb.tenants.drop();
 
 var records = [];
 records.push(dsbrd);
+records.push(client);
 records.push(tenant1);
+records.push(tenant2);
+records.push(tenant3);
+records.push(test);
 
 provDb.tenants.insert(records);
 
@@ -125,7 +132,7 @@ for(var i = 0; i < gfiles.length; i++) {
 ddb.groups.drop();
 
 var records = [];
-records.push(root);
+records.push(owner);
 records.push(administrator);
 
 ddb.groups.insert(records);

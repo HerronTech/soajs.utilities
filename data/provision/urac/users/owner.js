@@ -10,7 +10,7 @@ var owner = {
 	"ts": new Date().getTime(),
 	"status": "active",
 	"profile": {},
-	"groups": ["root"],
+	"groups": ["owner"],
 	"config": {
 		"packages": {},
 		"keys": {}

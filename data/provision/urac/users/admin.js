@@ -11,13 +11,13 @@ var admin = {
 	"ts": new Date().getTime(),
 	"status": "active",
 	"profile": {},
-	"groups": ["administrator"],
+	"groups": ["client"],
 	"config": {
 		"packages": {},
 		"keys": {}
 	},
 	"tenant":{
-		"id": '54ee2150b7a669fc22b7f6b9',
-		"code": 'TNT1'
+		"id": '5552115ce179c39b760f7a1d',
+		"code": 'DCTN'
 	}
 };

@@ -4,14 +4,14 @@ var dsbrdProduct = {
 	"_id": ObjectId("5512867be603d7e01ab1688d"),
 	"locked": true,
 	"code": "DSBRD",
-	"name": "Main Product",
+	"name": "Dashboard Product",
 	"description": "This is the main dashboard product.",
 	"packages": [
 		{
-			"code": "DSBRD_DEFLT",
-			"name": "Default package",
+			"code": "DSBRD_MAIN",
+			"name": "Public Product Main Package",
 			"locked": true,
-			"description": "This is the main dashboard product package.",
+			"description": "This package allows you to login to the dashboard.",
 			"acl": {
 				"dashboard": {
 					"apisPermission": "restricted",
