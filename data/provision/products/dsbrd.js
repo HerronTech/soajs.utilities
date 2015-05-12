@@ -74,25 +74,34 @@ var dsbrdProduct = {
 				"urac": {
 					"access": false,
 					"apis":{
-						"/admin/all":{
-							"access": ['root']
-						}
-					},
-					"apisRegExp": [
-						{
-							"regExp": /^\/account\/.+$/, //All APIs starting with /account/...
-							"access": true
-						},
-						{
-							"regExp": /^\/admin\/.+$/, //All APIs starting with /admin/...
-							"access": ["administrator"]
-						}
-					]
+						"/admin/all":{"access": ['root']},
+						"/account/getUser": {"access": true},
+						"/account/changePassword": {"access": true},
+						"/account/editProfile": {"access": true},
+						"/account/changeEmail": {"access": true},
+
+						"/admin/listUsers":{"access": ["administrator"]},
+						"/admin/addUser":{"access": ["administrator"]},
+						"/admin/getUser":{"access": ["administrator"]},
+						"/admin/changeUserStatus":{"access": ["administrator"]},
+						"/admin/editUser":{"access": ["administrator"]},
+						"/admin/group/add":{"access": ["administrator"]},
+						"/admin/group/addUsers":{"access": ["administrator"]},
+						"/admin/group/delete":{"access": ["administrator"]},
+						"/admin/group/edit":{"access": ["administrator"]},
+						"/admin/group/list":{"access": ["administrator"]}
+					}
 				},
 				"dashboard": {
 					"apisPermission": "restricted",
 					"access": ["administrator"],
 					"apis": {
+						"/tenant/application/acl/get":{
+							"access": ["administrator"]
+						},
+						"/services/list":{
+							"access": ["administrator"]
+						},
 						"/tenant/permissions/get":{
 							"access": true
 						},
@@ -132,7 +141,6 @@ var dsbrdProduct = {
 						"/settings/tenant/application/list": {
 							"access": ["administrator"]
 						},
-
 						"/settings/tenant/application/key/add": {
 							"access": ["administrator"]
 						},
