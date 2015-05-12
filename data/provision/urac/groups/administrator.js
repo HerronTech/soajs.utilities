@@ -7,7 +7,7 @@ var administrator = {
 	"name": "Client Group",
 	"description": "this is Client Group that uses the Dashboard",
 	"tenant":{
-		"id": '5551aca9e179c39b760f7a1a',
+		"id": '5552115ce179c39b760f7a1d',
 		"code": 'DCTN'
 	}
 };
