@@ -16,7 +16,7 @@ var dsbrdProduct = {
 				"dashboard": {
 					"apisPermission": "restricted",
 					"apis": {
-						"/tenant/permissions/get": {}
+						"/tenant/permissions/get": { "access": true }
 					}
 				},
 				"urac": {
@@ -46,11 +46,6 @@ var dsbrdProduct = {
 			"acl": {
 				"urac": {
 					"access": false,
-					"apis": {
-						"/admin/all":{
-							"access": ['root']
-						}
-					},
 					"apisRegExp": [
 						{
 							"regExp": /^\/account\/.+$/, //All APIs starting with /account/...
@@ -65,9 +60,7 @@ var dsbrdProduct = {
 				"dashboard": {
 					"access": ["root"],
 					"apis":{
-						"/tenant/permissions/get":{
-							"access": true
-						}
+						"/tenant/permissions/get":{ "access": true }
 					}
 				}
 			},
@@ -103,32 +96,70 @@ var dsbrdProduct = {
 						"/tenant/permissions/get":{
 							"access": true
 						},
-						"tenant/application/acl/get":{
-							"access": true
+						"/environment/list":{
+							"access": ["administrator"]
 						},
-						"/environment/list":{},
+						"/settings/tenant/get": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/update": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/oauth/list": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/oauth/delete": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/oauth/add": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/oauth/update": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/oauth/users/list": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/oauth/users/add": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/oauth/users/delete": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/oauth/users/update": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/application/list": {
+							"access": ["administrator"]
+						},
 
-						"/settings/tenant/get": {},
-						"/settings/tenant/update": {},
-						"/settings/tenant/oauth/list": {},
-						"/settings/tenant/oauth/delete": {},
-						"/settings/tenant/oauth/add": {},
-						"/settings/tenant/oauth/update": {},
-						"/settings/tenant/oauth/users/list": {},
-						"/settings/tenant/oauth/users/add": {},
-						"/settings/tenant/oauth/users/delete": {},
-						"/settings/tenant/oauth/users/update": {},
-						"/settings/tenant/application/list": {},
-
-						"/settings/tenant/application/key/add": {},
-						"/settings/tenant/application/key/delete": {},
-						"/settings/tenant/application/key/list": {},
-						"/settings/tenant/application/key/config/list": {},
-						"/settings/tenant/application/key/config/update": {},
-						"/settings/tenant/application/key/ext/add": {},
-						"/settings/tenant/application/key/ext/delete": {},
-						"/settings/tenant/application/key/ext/list": {},
-						"/settings/tenant/application/key/ext/update": {}
+						"/settings/tenant/application/key/add": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/application/key/delete": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/application/key/list": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/application/key/config/list": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/application/key/config/update": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/application/key/ext/add": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/application/key/ext/delete": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/application/key/ext/list": {
+							"access": ["administrator"]
+						},
+						"/settings/tenant/application/key/ext/update": {
+							"access": ["administrator"]
+						}
 					}
 				}
 			},
