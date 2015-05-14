@@ -92,13 +92,14 @@ var dsbrd = {
 									"consumer": {
 										"acl": {
 											"urac": {
+												"apisPermission": "restricted",
 												"access": false,
 												"apis": {
-													"/admin/all": {"access": ['owner']},
 													"/account/getUser": {"access": true},
 													"/account/changePassword": {"access": true},
 													"/account/editProfile": {"access": true},
 													"/account/changeEmail": {"access": true},
+													"/logout": {"access": true},
 
 													"/admin/listUsers": {"access": ["client"]},
 													"/admin/addUser": {"access": ["client"]},
@@ -117,9 +118,6 @@ var dsbrd = {
 												"access": ["client"],
 												"apis": {
 													"/tenant/application/acl/get": {
-														"access": ["client"]
-													},
-													"/services/list": {
 														"access": ["client"]
 													},
 													"/tenant/permissions/get": {
