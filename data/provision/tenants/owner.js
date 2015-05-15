@@ -67,6 +67,7 @@ var dsbrd = {
 							"dashboard": {
 								"package": {
 									"owner": {
+										"name": "owner",
 										"acl": {
 											"urac": {
 												"access": false,
@@ -90,6 +91,7 @@ var dsbrd = {
 										}
 									},
 									"consumer": {
+										"name": "consumer",
 										"acl": {
 											"urac": {
 												"apisPermission": "restricted",
