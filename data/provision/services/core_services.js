@@ -147,403 +147,325 @@ var core_services = [
 		"requestTimeoutRenewal": 5,
 		"apis": [
 			{
-				'l': "List Environments",
+				"l": "List Environments",
 				'v': "/environment/list",
 				"group": "Environment",
 				"groupMain": true
-			},
-			{
-				'l': "Add Environment",
+			}
+			, {
+				"l": "Add Environment",
 				'v': "/environment/add",
 				"group": "Environment"
 			},
 			{
-				'l': "Delete Environment",
+				"l": "Delete Environment",
 				'v': "/environment/delete",
 				"group": "Environment"
 			},
 			{
-				'l': "Update Environment",
+				"l": "Update Environment",
 				'v': "/environment/update",
 				"group": "Environment"
-			},
-			{
-				'l': 'List Environment Databases',
-				'v': '/environment/dbs/list',
-				'group': 'Environment'
-			},
-			{
-				'l': 'Add Environment Database',
-				'v': '/environment/dbs/add',
-				'group': 'Environment'
-			},
-			{
-				'l': 'Update Environment Database',
-				'v': '/environment/dbs/update',
-				'group': 'Environment'
-			},
-			{
-				'l': 'Delete Environment Database',
-				'v': '/environment/dbs/delete',
-				'group': 'Environment'
-			},
-			{
-				'l': 'Update Environment Databases Prefix',
-				'v': '/environment/dbs/updatePrefix',
-				'group': 'Environment'
-			},
-			{
-				'l': 'List Environment Database Clusters',
-				'v': '/environment/clusters/list',
-				'group': 'Environment'
-			},
-			{
-				'l': 'Add Environment Database Cluster',
-				'v': '/environment/clusters/add',
-				'group': 'Environment'
-			},
-			{
-				'l': 'Update Environment Database Cluster',
-				'v': '/environment/clusters/update',
-				'group': 'Environment'
-			},
-			{
-				'l': 'Delete Environment Database Cluster',
-				'v': '/environment/clusters/delete',
-				'group': 'Environment'
-			},
-			{
-				'l': "Update Product",
-				'v': "/product/update",
-				"group": "Product"
-			},
-			{
-				'l': "Add Product",
-				'v': "/product/add",
-				"group": "Product"
-			},
-			{
-				'l': "Delete Product",
-				'v': "/product/delete",
-				"group": "Product"
-			},
-			{
-				'l': "List Products",
+			}, {
+				"l": "Update Environment Tenant Key Security",
+				'v': "/environment/key/update",
+				"group": "Environment"
+			}, {
+				"l": "List Environment Databases",
+				'v': "/environment/dbs/list",
+				"group": "Environment Databases",
+				"groupMain": true
+			}, {
+				"l": "Add Environment Database",
+				'v': "/environment/dbs/add",
+				"group": "Environment Databases"
+			}, {
+				"l": "Update Environment Database",
+				'v': "/environment/dbs/update",
+				"group": "Environment Databases"
+			}, {
+				"l": "Delete Environment Database",
+				'v': "/environment/dbs/delete",
+				"group": "Environment Databases"
+			}, {
+				"l": "Update Environment Databases Prefix",
+				'v': "/environment/dbs/updatePrefix",
+				"group": "Environment Databases"
+			}, {
+				"l": "List Environment Database Clusters",
+				'v': "/environment/clusters/list",
+				"group": "Environment Clusters",
+				"groupMain" : true
+			}, {
+				"l": "Add Environment Database Cluster",
+				'v': "/environment/clusters/add",
+				"group": "Environment Clusters"
+			}, {
+				"l": "Update Environment Database Cluster",
+				'v': "/environment/clusters/update",
+				"group": "Environment Clusters"
+			}, {
+				"l": "Delete Environment Database Cluster",
+				'v': "/environment/clusters/delete",
+				"group": "Environment Clusters"
+			}, {
+				"l": "List Products",
 				'v': "/product/list",
 				"group": "Product",
 				"groupMain": true
 			},
 			{
-				'l': "Get Product",
+				"l": "Get Product",
 				'v': "/product/get",
 				"group": "Product"
-			},
-			{
-				'l': "Add Product Package",
-				'v': "/product/packages/add",
+			}, {
+				"l": "Add Product",
+				'v': "/product/add",
 				"group": "Product"
-			},
-			{
-				'l': "Get Product Package",
+			}, {
+				"l": "Delete Product",
+				'v': "/product/delete",
+				"group": "Product"
+			}, {
+				"l": "Update Product",
+				'v': "/product/update",
+				"group": "Product"
+			}, {
+				"l": "Delete Product Package",
+				'v': "/product/packages/delete",
+				"group": "Product"
+			}, {
+				"l": "List Product Packages",
+				'v': "/product/packages/list",
+				"group": "Product"
+			}, {
+				"l": "Get Product Package",
 				'v': "/product/packages/get",
 				"group": "Product"
-			},
-			{
-				"l": "Delete Product Package",
-				"group": "Product",
-				'v': "/product/packages/delete"
-			},
-			{
-				"l": "List Product Packages",
-				"group": "Product",
-				'v': "/product/packages/list"
-			},
-			{
+			}, {
+				"l": "Add Product Package",
+				'v': "/product/packages/add",
+				"group": "Product"
+			}, {
 				"l": "Update Product Package",
-				"group": "Product",
-				'v': "/product/packages/update"
-			},
-			{
-				"l": "List Tenants",
-				"group": "Tenant",
-				"groupMain": true,
-				'v': "/tenant/list"
-			},
-			{
-				"l": "Get Tenant Info",
-				"group": "Tenant",
-				'v': "/tenant/get"
-			},
-			{
-				"l": "Add Tenant",
-				"group": "Tenant",
-				'v': "/tenant/add"
-			},
-			{
-				"l": "Update Tenant",
-				"group": "Tenant",
-				'v': "/tenant/update"
-			},
-			{
-				"l": "List Tenant Applications",
-				"group": "Tenant Application",
-				'v': "/tenant/application/list",
-				"groupMain": true
-			},
-			{
-				"l": "Add Tenant Application",
-				"group": "Tenant Application",
-				'v': "/tenant/application/add"
-			},
-			{
-				"l": "Update Tenant Application",
-				"group": "Tenant Application",
-				'v': "/tenant/application/update"
-			},
-			{
-				"l": "Delete Tenant",
-				"group": "Tenant",
-				'v': "/tenant/delete"
-			},
-			{
-				"l": "Delete Tenant Application",
-				"group": "Tenant Application",
-				'v': "/tenant/application/delete"
-			},
-			{
-				"v": "/tenant/application/acl/get",
-				"l": "Get Tenant Application By External Key",
-				"group": "Tenant Application"
-			},
-			{
-				"l": "Add Tenant Application Key",
-				"group": "Tenant Application",
-				'v': "/tenant/application/key/add"
-			},
-			{
-				"l": "List Application Key Configuration",
-				"group": "Tenant Application",
-				'v': "/tenant/application/key/config/list"
-			},
-			{
-				"l": "Update Application Key Configuration",
-				"group": "Tenant Application",
-				'v': "/tenant/application/key/config/update"
-			},
-			{
-				"l": "Delete Application Key",
-				"group": "Tenant Application",
-				'v': "/tenant/application/key/delete"
-			},
-			{
-				"l": "Add Application External Key",
-				"group": "Tenant Application",
-				'v': "/tenant/application/key/ext/add"
-			},
-			{
-				"l": "Delete Application External Key",
-				"group": "Tenant Application",
-				'v': "/tenant/application/key/ext/delete"
-			},
-			{
-				"l": "List Application External Keys",
-				"group": "Tenant Application",
-				'v': "/tenant/application/key/ext/list"
-			},
-			{
-				"l": "Update Application External Key",
-				"group": "Tenant Application",
-				'v': "/tenant/application/key/ext/update"
-			},
-			{
-				"l": "List Application Keys",
-				"group": "Tenant Application",
-				'v': "/tenant/application/key/list"
-			},
-			{
-				"l": "List Tenant oAuth Users",
-				"group": "Tenant oAuth",
-				"groupMain": true,
-				'v': "/tenant/oauth/users/list"
-			},
-			{
-				"l": "Add Tenant oAuth Configuration",
-				"group": "Tenant oAuth",
-				'v': "/tenant/oauth/add"
-			},
-			{
-				"l": "Delete Tenant oAuth Configuration",
-				"group": "Tenant oAuth",
-				'v': "/tenant/oauth/delete"
-			},
-			{
-				"l": "Get Tenant oAuth Configuration",
-				"group": "Tenant oAuth",
-				'v': "/tenant/oauth/list"
-			},
-			{
-				"l": "Update Tenant oAuth Configuration",
-				"group": "Tenant oAuth",
-				'v': "/tenant/oauth/update"
-			},
-			{
-				"l": "Add Tenant oAuth User",
-				"group": "Tenant oAuth",
-				'v': "/tenant/oauth/users/add"
-			},
-			{
-				"l": "Delete Tenant oAuth User",
-				"group": "Tenant oAuth",
-				'v': "/tenant/oauth/users/delete"
-			},
-			{
-				"l": "Update Tenant oAuth User",
-				"group": "Tenant oAuth",
-				'v': "/tenant/oauth/users/update"
-			},
-			{
-				"l": "List Hosts",
-				"group": "Hosts",
-				'v': "/hosts/list",
-				"groupMain": true
-			},
-			{
-				"v":"/hosts/delete",
-				"l": "Delete Hosts",
-				"group": "Hosts"
-			},
-			{
-				"v":"/hosts/maintenanceOperation",
-				"l": "Perform Maintenance Operation",
-				"group": "Hosts"
-			},
-			{
-				"l": "List Services",
-				"group": "Services",
-				'v': "/services/list",
-				"groupMain": true
+				'v': "/product/packages/update",
+				"group": "Product"
 			},
 			{
 				"l": "Get Tenant Security Permissions",
+				'v': "/tenant/permissions/get",
+				"group": "Tenant"
+			},
+			{
+				"l": "List Tenants",
+				'v': "/tenant/list",
 				"group": "Tenant",
-				'v': "/tenant/permissions/get"
-			},
-			{
-				"l":"Get Tenant",
-				"group": "Tenant Settings",
-				"groupMain": true,
-				"v":"/settings/tenant/get"
-			},
-			{
-				"l":"Update Tenant",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/update"
-			},
-			{
-				"l":"Get Tenant oAuth Configuration",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/oauth/list"
-			},
-			{
-				"l":"Delete Tenant oAuth Configuration",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/oauth/delete"
-			},
-			{
-				"l":"Add Tenant oAuth Configuration",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/oauth/add"
-			},
-			{
-				"l":"Update Tenant oAuth Configuration",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/oauth/update"
-			},
-			{
-				"l":"List Tenant oAuth Users",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/oauth/users/list"
-			},
-			{
-				"l":"Add Tenant oAuth User",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/oauth/users/add"
-			},
-			{
-				"l":"Delete Tenant oAuth User",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/oauth/users/delete"
-			},
-			{
-				"l":"Update Tenant oAuth User",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/oauth/users/update"
-			},
-			{
-				"l":"List Tenant Applications",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/application/list"
-			},
-			{
-				"l":"Delete Tenant Application",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/application/delete"
-			},
-			{
-				"l":"Add Tenant Application",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/application/add"
-			},
-			{
-				"l":"Update Tenant Application",
-				"group": "Tenant Settings",
-				"v":"/settings/tenant/application/update"
-			},
-			{
+				"groupMain": true
+			}, {
+				"l": "Add Tenant",
+				'v': "/tenant/add",
+				"group": "Tenant"
+			}, {
+				"l": "Delete Tenant",
+				'v': "/tenant/delete",
+				"group": "Tenant"
+			}, {
+				"l": "Get Tenant",
+				'v': "/tenant/get",
+				"group": "Tenant"
+			}, {
+				"l": "Update Tenant",
+				'v': "/tenant/update",
+				"group": "Tenant"
+			}, {
+				"l": "Get Tenant oAuth Configuration",
+				'v': "/tenant/oauth/list",
+				"group": "Tenant oAuth"
+			}, {
+				"l": "Delete Tenant oAuth Configuration",
+				'v': "/tenant/oauth/delete",
+				"group": "Tenant oAuth"
+			}, {
+				"l": "Add Tenant oAuth Configuration",
+				'v': "/tenant/oauth/add",
+				"group": "Tenant oAuth"
+			}, {
+				"l": "Update Tenant oAuth Configuration",
+				'v': "/tenant/oauth/update",
+				"group": "Tenant oAuth"
+			}, {
+				"l": "List Tenant oAuth Users",
+				'v': "/tenant/oauth/users/list",
+				"group": "Tenant oAuth"
+			}, {
+				"l": "Delete Tenant oAuth User",
+				'v': "/tenant/oauth/users/delete",
+				"group": "Tenant oAuth"
+			}, {
+				"l": "Add Tenant oAuth User",
+				'v': "/tenant/oauth/users/add",
+				"group": "Tenant oAuth"
+			}, {
+				"l": "Update Tenant oAuth User",
+				'v': "/tenant/oauth/users/update",
+				"group": "Tenant oAuth"
+			}, {
+				"l": "List Tenant Applications",
+				'v': "/tenant/application/list",
+				"group": "Tenant Application"
+			}, {
+				"l": "Delete Tenant Application",
+				'v': "/tenant/application/delete",
+				"group": "Tenant Application"
+			}, {
+				"l": "Add Tenant Application",
+				'v': "/tenant/application/add",
+				"group": "Tenant Application"
+			}, {
+				"l": "Update Tenant Application",
+				'v': "/tenant/application/update",
+				"group": "Tenant Application"
+			}, {
+				"l": "Get Current Tenant Access Level",
+				'v': "/tenant/acl/get",
+				"group": "Tenant"
+			}, {
 				"l": "Add Tenant Application Key",
-				"group": "Tenant Settings",
-				'v': "/settings/tenant/application/key/add"
-			},
-			{
-				"l": "List Application Keys",
-				"group": "Tenant Settings",
-				'v': "/settings/tenant/application/key/list"
-			},
-			{
-				"l": "Delete Application Key",
-				"group": "Tenant Settings",
-				'v': "/settings/tenant/application/key/delete"
-			},
-			{
-				"l": "List Application Key Configuration",
-				"group": "Tenant Settings",
-				'v': "/settings/tenant/application/key/config/list"
-			},
-			{
-				"l": "Update Application Key Configuration",
-				"group": "Tenant Settings",
-				'v': "/settings/tenant/application/key/config/update"
-			},
-
-			{
-				"l": "Add Application External Key",
-				"group": "Tenant Settings",
-				'v': "/settings/tenant/application/key/ext/add"
-			},
-			{
-				"l": "Delete Application External Key",
-				"group": "Tenant Settings",
-				'v': "/settings/tenant/application/key/ext/delete"
-			},
-			{
-				"l": "List Application External Keys",
-				"group": "Tenant Settings",
-				'v': "/settings/tenant/application/key/ext/list"
-			},
-			{
-				"l": "Update Application External Key",
-				"group": "Tenant Settings",
-				'v': "/settings/tenant/application/key/ext/update"
+				'v': "/tenant/application/key/add",
+				"group": "Tenant Application"
+			}, {
+				"l": "List Tenant Application Keys",
+				'v': "/tenant/application/key/list",
+				"group": "Tenant Application"
+			}, {
+				"l": "Delete Tenant Application Key",
+				'v': "/tenant/application/key/delete",
+				"group": "Tenant Application"
+			}, {
+				"l": "List Tenant Application External Keys",
+				'v': "/tenant/application/key/ext/list",
+				"group": "Tenant Application"
+			}, {
+				"l": "Add Tenant Application External Key",
+				'v': "/tenant/application/key/ext/add",
+				"group": "Tenant Application"
+			}, {
+				"l": "Update Tenant Application External Key",
+				'v': "/tenant/application/key/ext/update",
+				"group": "Tenant Application"
+			}, {
+				"l": "Delete Tenant Application External Key",
+				'v': "/tenant/application/key/ext/delete",
+				"group": "Tenant Application"
+			}, {
+				"l": "List Tenant Application Key Configuration",
+				'v': "/tenant/application/key/config/list",
+				"group": "Tenant Application"
+			}, {
+				"l": "Update Tenant Application Key Configuration",
+				'v': "/tenant/application/key/config/update",
+				"group": "Tenant Application"
+			}, {
+				"l": "Get Tenant",
+				'v': "/settings/tenant/get",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Update Tenant",
+				'v': "/settings/tenant/update",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Get Tenant oAuth Configuration",
+				'v': "/settings/tenant/oauth/list",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Delete Tenant oAuth Configuration",
+				'v': "/settings/tenant/oauth/delete",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Add Tenant oAuth Configuration",
+				'v': "/settings/tenant/oauth/add",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Update Tenant oAuth Configuration",
+				'v': "/settings/tenant/oauth/update",
+				"group": "Tenant Settings"
+			}, {
+				"l": "List Tenant oAuth Users",
+				'v': "/settings/tenant/oauth/users/list",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Delete Tenant oAuth User",
+				'v': "/settings/tenant/oauth/users/delete",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Add Tenant oAuth User",
+				'v': "/settings/tenant/oauth/users/add",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Update Tenant oAuth User",
+				'v': "/settings/tenant/oauth/users/update",
+				"group": "Tenant Settings"
+			}, {
+				"l": "List Tenant Applications",
+				'v': "/settings/tenant/application/list",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Add Tenant Application Key",
+				'v': "/settings/tenant/application/key/add",
+				"group": "Tenant Settings"
+			}, {
+				"l": "List Tenant Application Keys",
+				'v': "/settings/tenant/application/key/list",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Delete Tenant Application Key",
+				'v': "/settings/tenant/application/key/delete",
+				"group": "Tenant Settings"
+			}, {
+				"l": "List Tenant Application External Keys",
+				'v': "/settings/tenant/application/key/ext/list",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Add Tenant Application External Key",
+				'v': "/settings/tenant/application/key/ext/add",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Update Tenant Application External Key",
+				'v': "/settings/tenant/application/key/ext/update",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Delete Tenant Application External Key",
+				'v': "/settings/tenant/application/key/ext/delete",
+				"group": "Tenant Settings"
+			}, {
+				"l": "List Tenant Application Key Configuration",
+				'v': "/settings/tenant/application/key/config/list",
+				"group": "Tenant Settings"
+			}, {
+				"l": "Update Tenant Application Key Configuration",
+				'v': "/settings/tenant/application/key/config/update",
+				"group": "Tenant Settings"
+			}, {
+				"l": "List Services",
+				'v': "/services/list",
+				"group": "Services"
+			}, {
+				"l": "Update Service",
+				'v': "/services/delete",
+				"group": "Services"
+			}, {
+				"l": "List Hosts",
+				'v': "/hosts/list",
+				"group": "Hosts",
+				"groupMain": true
+			}, {
+				"l": "Delete Hosts",
+				'v': "/hosts/delete",
+				"group": "Hosts"
+			}, {
+				"l": "Perform Maintenance Operation",
+				'v': "/hosts/maintenanceOperation",
+				"group": "Hosts"
 			}
 		]
 	},
