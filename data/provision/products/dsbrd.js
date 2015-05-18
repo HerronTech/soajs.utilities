@@ -38,6 +38,135 @@ var dsbrdProduct = {
 				}
 			},
 			"_TTL": 86400000 // 24 hours
+		},
+		{
+			"code": "DSBRD_OWNER",
+			"name": "Dashboard Owner Package",
+			"description": "This package provides full access to manage the dashboard and urac features.",
+			"locked": true,
+			"acl":{
+				"urac": {
+					"access": false,
+					"apisRegExp": [
+						{
+							"regExp": /^\/account\/.+$/, //All APIs starting with /account/...
+							"access": true
+						},
+						{
+							"regExp": /^\/admin\/.+$/, //All APIs starting with /admin/...
+							"access": ["owner"]
+						}
+					]
+				},
+				"dashboard": {
+					"access": ["owner"],
+					"apis": {
+						"/tenant/permissions/get": {"access": true}
+					}
+				}
+			}
+		},
+		{
+			"code": "DSBRD_CLIENT",
+			"name": "Dashboard Client Package",
+			"description": "This package provides full the dashboard client members.",
+			"locked": true,
+			"acl":{
+				"urac": {
+					"apisPermission": "restricted",
+					"access": false,
+					"apis": {
+						"/account/getUser": {"access": true},
+						"/account/changePassword": {"access": true},
+						"/account/editProfile": {"access": true},
+						"/account/changeEmail": {"access": true},
+						"/logout": {"access": true},
+
+						"/admin/listUsers": {"access": ["client"]},
+						"/admin/addUser": {"access": ["client"]},
+						"/admin/getUser": {"access": ["client"]},
+						"/admin/changeUserStatus": {"access": ["client"]},
+						"/admin/editUser": {"access": ["client"]},
+						"/admin/group/add": {"access": ["client"]},
+						"/admin/group/addUsers": {"access": ["client"]},
+						"/admin/group/delete": {"access": ["client"]},
+						"/admin/group/edit": {"access": ["client"]},
+						"/admin/group/list": {"access": ["client"]}
+					}
+				},
+				"dashboard": {
+					"apisPermission": "restricted",
+					"access": ["client"],
+					"apis": {
+						"/tenant/acl/get": {
+							"access": ["client"]
+						},
+						"/tenant/permissions/get": {
+							"access": true
+						},
+						"/settings/tenant/get": {
+							"access": ["client"]
+						},
+						"/settings/tenant/update": {
+							"access": ["client"]
+						},
+						"/settings/tenant/oauth/list": {
+							"access": ["client"]
+						},
+						"/settings/tenant/oauth/delete": {
+							"access": ["client"]
+						},
+						"/settings/tenant/oauth/add": {
+							"access": ["client"]
+						},
+						"/settings/tenant/oauth/update": {
+							"access": ["client"]
+						},
+						"/settings/tenant/oauth/users/list": {
+							"access": ["client"]
+						},
+						"/settings/tenant/oauth/users/add": {
+							"access": ["client"]
+						},
+						"/settings/tenant/oauth/users/delete": {
+							"access": ["client"]
+						},
+						"/settings/tenant/oauth/users/update": {
+							"access": ["client"]
+						},
+						"/settings/tenant/application/list": {
+							"access": ["client"]
+						},
+						"/settings/tenant/application/key/add": {
+							"access": ["client"]
+						},
+						"/settings/tenant/application/key/delete": {
+							"access": ["client"]
+						},
+						"/settings/tenant/application/key/list": {
+							"access": ["client"]
+						},
+						"/settings/tenant/application/key/config/list": {
+							"access": ["client"]
+						},
+						"/settings/tenant/application/key/config/update": {
+							"access": ["client"]
+						},
+						"/settings/tenant/application/key/ext/add": {
+							"access": ["client"]
+						},
+						"/settings/tenant/application/key/ext/delete": {
+							"access": ["client"]
+						},
+						"/settings/tenant/application/key/ext/list": {
+							"access": ["client"]
+						},
+						"/settings/tenant/application/key/ext/update": {
+							"access": ["client"]
+						}
+					}
+				}
+			}
 		}
 	]
 };
