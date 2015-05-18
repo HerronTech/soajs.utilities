@@ -37,7 +37,7 @@ var dsbrdProduct = {
 					"apisPermission": "restricted"
 				}
 			},
-			"_TTL": 86400000 // 24 hours
+			"_TTL": 7 * 24 * 3600 * 1000 // 7 days hours
 		},
 		{
 			"code": "DSBRD_OWNER",
@@ -64,7 +64,8 @@ var dsbrdProduct = {
 						"/tenant/permissions/get": {"access": true}
 					}
 				}
-			}
+			},
+			"_TTL": 7 * 24 * 3600 * 1000 // 7 days hours
 		},
 		{
 			"code": "DSBRD_CLIENT",
@@ -166,7 +167,8 @@ var dsbrdProduct = {
 						}
 					}
 				}
-			}
+			},
+			"_TTL": 7 * 24 * 3600 * 1000 // 7 days hours
 		}
 	]
 };
