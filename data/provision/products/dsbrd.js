@@ -21,6 +21,7 @@ var dsbrdProduct = {
 				},
 				"urac": {
 					"access": false,
+					"apisPermission": "restricted",
 					"apis": {
 						"/login": {},
 						"/forgotPassword": {},
@@ -33,8 +34,7 @@ var dsbrdProduct = {
 						"/account/changePassword": {"access": true},
 						"/account/editProfile": {"access": true},
 						"/account/changeEmail": {"access": true}
-					},
-					"apisPermission": "restricted"
+					}
 				}
 			},
 			"_TTL": 7 * 24 * 3600 * 1000 // 7 days hours
@@ -70,7 +70,7 @@ var dsbrdProduct = {
 		{
 			"code": "DSBRD_CLIENT",
 			"name": "Dashboard Client Package",
-			"description": "This package provides full the dashboard client members.",
+			"description": "This package provides access to the dashboard client members.",
 			"locked": true,
 			"acl":{
 				"urac": {
