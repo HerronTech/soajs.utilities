@@ -1,8 +1,7 @@
 'use strict';
 //password = password
 var admin = {
-	"_id": ObjectId("551287c9e603d7e01ab16890"), 
-	"locked" : true,
+	"_id": ObjectId("551287c9e603d7e01ab16890"),
 	"username": "client",
 	"password": '$2a$04$GfQ/6TJX82HcCoq8z8R44uN6x38hmJVIh7sKXIxknjt9UjN/f90sy',
 	"firstName": "client",
@@ -11,7 +10,7 @@ var admin = {
 	"ts": new Date().getTime(),
 	"status": "active",
 	"profile": {},
-	"groups": ["client"],
+	"groups": ["administrator"],
 	"config": {
 		"packages": {},
 		"keys": {}

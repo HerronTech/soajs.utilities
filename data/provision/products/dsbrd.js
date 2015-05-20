@@ -82,88 +82,87 @@ var dsbrdProduct = {
 						"/account/editProfile": {"access": true},
 						"/account/changeEmail": {"access": true},
 						"/logout": {"access": true},
-
-						"/admin/listUsers": {"access": ["client"]},
-						"/admin/addUser": {"access": ["client"]},
-						"/admin/getUser": {"access": ["client"]},
-						"/admin/changeUserStatus": {"access": ["client"]},
-						"/admin/editUser": {"access": ["client"]},
-						"/admin/group/add": {"access": ["client"]},
-						"/admin/group/addUsers": {"access": ["client"]},
-						"/admin/group/delete": {"access": ["client"]},
-						"/admin/group/edit": {"access": ["client"]},
-						"/admin/group/list": {"access": ["client"]}
+						"/admin/getUser": {"access": ["administrator"]},
+						"/admin/listUsers": {"access": ["administrator"]},
+						"/admin/addUser": {"access": ["administrator"]},
+						"/admin/changeUserStatus": {"access": ["administrator"]},
+						"/admin/editUser": {"access": ["administrator"]},
+						"/admin/group/add": {"access": ["administrator"]},
+						"/admin/group/addUsers": {"access": ["administrator"]},
+						"/admin/group/delete": {"access": ["administrator"]},
+						"/admin/group/edit": {"access": ["administrator"]},
+						"/admin/group/list": {"access": ["administrator"]}
 					}
 				},
 				"dashboard": {
 					"apisPermission": "restricted",
-					"access": ["client"],
+					"access": ["administrator"],
 					"apis": {
 						"/tenant/acl/get": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/tenant/permissions/get": {
 							"access": true
 						},
 						"/settings/tenant/get": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/update": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/oauth/list": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/oauth/delete": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/oauth/add": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/oauth/update": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/oauth/users/list": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/oauth/users/add": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/oauth/users/delete": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/oauth/users/update": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/application/list": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/application/key/add": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/application/key/delete": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/application/key/list": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/application/key/config/list": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/application/key/config/update": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/application/key/ext/add": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/application/key/ext/delete": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/application/key/ext/list": {
-							"access": ["client"]
+							"access": ["administrator"]
 						},
 						"/settings/tenant/application/key/ext/update": {
-							"access": ["client"]
+							"access": ["administrator"]
 						}
 					}
 				}

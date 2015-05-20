@@ -1,22 +1,21 @@
 'use strict';
 //password = password
-var owner = {
-	"locked": true,
-	"username": "owner",
+var adminT1 = {
+	"username": "adminT1",
 	"password": '$2a$04$GfQ/6TJX82HcCoq8z8R44uN6x38hmJVIh7sKXIxknjt9UjN/f90sy',
-	"firstName": "owner",
-	"lastName": "owner",
-	"email": "owner@domain.com",
+	"firstName": "admin",
+	"lastName": "T1",
+	"email": "admin@tnt1.com",
 	"ts": new Date().getTime(),
 	"status": "active",
 	"profile": {},
-	"groups": ["owner"],
+	"groups": ["administrator"],
 	"config": {
 		"packages": {},
 		"keys": {}
 	},
 	"tenant":{
-		"id": '5551aca9e179c39b760f7a1a',
-		"code": 'DBTN'
+		"id": '54ee2150b7a669fc22b7f6b9',
+		"code": 'TNT1'
 	}
 };

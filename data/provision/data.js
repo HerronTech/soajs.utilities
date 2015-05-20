@@ -121,6 +121,11 @@ var records = [];
 records.push(admin);
 records.push(owner);
 
+records.push(adminT1);
+records.push(adminT2);
+records.push(adminT3);
+records.push(testAdmin);
+
 ddb.users.insert(records);
 
 /* add grps */
@@ -134,5 +139,9 @@ ddb.groups.drop();
 var records = [];
 records.push(owner);
 records.push(administrator);
+records.push(administratorT1);
+records.push(administratorT2);
+records.push(administratorT3);
+records.push(testAdministrator);
 
 ddb.groups.insert(records);
