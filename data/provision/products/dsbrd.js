@@ -82,6 +82,7 @@ var dsbrdProduct = {
 						"/account/editProfile": {"access": true},
 						"/account/changeEmail": {"access": true},
 						"/logout": {"access": true},
+						"/changeEmail/validate": {"access": true},
 						"/admin/getUser": {"access": ["administrator"]},
 						"/admin/listUsers": {"access": ["administrator"]},
 						"/admin/addUser": {"access": ["administrator"]},
