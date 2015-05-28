@@ -15,14 +15,8 @@ var user2 = {
 			"PROD1_PCK1": {
 				"acl": {
 					"urac": {},
-					"example04": {},
-					"example03": {
-						"apisPermission": "restricted",					
-						"apis": {						
-							"/buildName": {								
-							}
-						}																
-					}
+					"example03": {},
+					"example04": {}
 				}
 			}
 		},
