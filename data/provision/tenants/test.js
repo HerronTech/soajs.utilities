@@ -55,13 +55,16 @@ var test = {
 								"validateJoin": true, //true if registration needs validation
 								"mail": { //urac mail options
 									"join": {
-										"subject": 'Welcome to SOAJS'
+										"subject": 'Welcome to SOAJS',
+										"path": "./mail/urac/join.tmpl"
 									},
 									"forgotPassword": {
-										"subject": 'Reset Your Password at SOAJS'
+										"subject": 'Reset Your Password at SOAJS',
+										"path": "./mail/urac/forgotPassword.tmpl"
 									},
 									"addUser": {
-										"subject": 'Account Created at SOAJS'
+										"subject": 'Account Created at SOAJS',
+										"path": "./mail/urac/addUser.tmpl"
 									},
 									"changeUserStatus": {
 										"subject": "Account Status changed at SOAJS",
@@ -69,7 +72,8 @@ var test = {
 										"content": "<p>Dear <b>{{ username }}</b>, <br />The administrator update your account status to <b>{{ status }}</b> on {{ ts|date('F jS, Y') }}.<br /><br />Regards,<br/>SOAJS Team.</p>"
 									},
 									"changeEmail": {
-										"subject": "Change Account Email at SOAJS"
+										"subject": "Change Account Email at SOAJS",
+										"path": "./mail/urac/changeEmail.tmpl"
 									}
 								}
 							}
