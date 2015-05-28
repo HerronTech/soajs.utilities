@@ -22,7 +22,7 @@ ddb.users.ensureIndex({email: 1}, {unique: true});
 
 
 /* new tenant db*/
-var ddbT = db.getSiblingDB('TN1_urac');
+var ddbT = db.getSiblingDB('TNT1_urac');
 //provDb.dropDatabase();
 
 /* Tenants */
