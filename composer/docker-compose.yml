@@ -7,28 +7,21 @@ nginx:
 controller:
     image: soajsorg/controller
     external_links:
-        - soajsData:dataProxy
+        - soajsData01:dataProxy
     ports:
         - "4000:4000"
         - "5000:5000"
 urac:
     image: soajsorg/urac
     external_links:
-        - soajsData:dataProxy
+        - soajsData01:dataProxy
     ports:
         - "4001:4001"
         - "5001:5001"
-oauth:
-    image: soajsorg/oauth
-    external_links:
-        - soajsData:dataProxy
-    ports:
-        - "4002:4002"
-        - "5002:5002"
 dashboard:
     image: soajsorg/dashboard
     external_links:
-        - soajsData:dataProxy
+        - soajsData01:dataProxy
     ports:
         - "4003:4003"
         - "5003:5003"
