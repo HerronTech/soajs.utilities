@@ -5,6 +5,7 @@ var core_services = [
 		"port": 4001,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
+		"image": "soajsorg/urac",
 		"apis": [
 			{
 				"l": "Change Email",
@@ -127,6 +128,7 @@ var core_services = [
 		"port": 4002,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
+		"image": "soajsorg/oauth",
 		"apis": [
 			{
 				"l": "Create Token",
@@ -145,6 +147,7 @@ var core_services = [
 		"port": 4003,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
+		"image": "soajsorg/dashboard",
 		"apis": [
 			{
 				"l": "List Environments",
@@ -195,7 +198,7 @@ var core_services = [
 				"l": "List Environment Database Clusters",
 				'v': "/environment/clusters/list",
 				"group": "Environment Clusters",
-				"groupMain" : true
+				"groupMain": true
 			}, {
 				"l": "Add Environment Database Cluster",
 				'v': "/environment/clusters/add",
@@ -466,6 +469,48 @@ var core_services = [
 				"l": "Perform Maintenance Operation",
 				'v': "/hosts/maintenanceOperation",
 				"group": "Hosts"
+			},
+			{
+				"v": "host/deployController",
+				"l": "Deploy New Controller",
+				"group": "Hosts"
+			},
+			{
+				'v': "host/deployNginx",
+				"l": "Deploy New Nginx",
+				"group": "Hosts"
+			},
+			{
+				'v': "host/deployService",
+				"l": "Deploy New Service",
+				"group": "Hosts"
+			},
+
+			{
+				'v': "/cb/list",
+				"l": "List Content Schema",
+				"group": "Content Builder",
+				"groupMain": true
+			},
+			{
+				'v': "/cb/add",
+				"l": "Add New Content Schema",
+				"group": "Content Builder"
+			},
+			{
+				'v': "/cb/update",
+				"l": "Update Content Schema",
+				"group": "Content Builder"
+			},
+			{
+				'v': "/cb/get",
+				"l": "Get One Content Schema",
+				"group": "Content Builder"
+			},
+			{
+				'v': "/cb/listRevisions",
+				"l": "List Content Schema Revisions",
+				"group": "Content Builder"
 			}
 		]
 	},
@@ -475,6 +520,7 @@ var core_services = [
 		"port": 4010,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
+		"image": "soajsorg/example01",
 		"apis": [
 			{
 				"l": "Test Get",
@@ -504,6 +550,7 @@ var core_services = [
 		"port": 4011,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
+		"image": "soajsorg/example02",
 		"apis": [
 			{
 				'l': 'Build Name',
@@ -517,6 +564,7 @@ var core_services = [
 		"port": 4012,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
+		"image": "soajsorg/example03",
 		"apis": [
 			{
 				"l": "Test Get Api",
@@ -534,6 +582,7 @@ var core_services = [
 		"port": 4013,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
+		"image": "soajsorg/example04",
 		"apis": [
 			{
 				'l': 'Build Name',

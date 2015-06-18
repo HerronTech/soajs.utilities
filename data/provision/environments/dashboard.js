@@ -1,8 +1,10 @@
 'use strict';
-var dev = {
-	"code": "DEV",
-	"port": 8080,
-	"description": "this is the DEV environment",
+var dashboard = {
+	"_id": ObjectId('55128442e603d7e01ab1688c'),
+	"code": "DASHBOARD",
+	"locked": true,
+	"port": 80,
+	"description": "this is the Dashboard environment",
 	"dbs": {
 		"clusters": {
 			"cluster1": {
@@ -67,7 +69,7 @@ var dev = {
 			},
 			"key": {
 				"algorithm": 'aes256',
-				"password": 'soajs encryption key'
+				"password": 'soajs key lal massa'
 			},
 			"logger": { //ATTENTION: this is not all the properties for logger
 				"src": true,
@@ -85,22 +87,16 @@ var dev = {
 				"grants": ['password', 'refresh_token'],
 				"debug": false
 			},
-			"ports": {
-				"controller": 4000,
-				"maintenanceInc": 1000,
-				"randomInc": 100
-			},
-			"cookie": {
-				"secret": "this is a secret sentence"
-			},
+			"ports": {"controller": 4000, "maintenanceInc": 1000, "randomInc": 100},
+			"cookie": {"secret": "this is a secret sentence"},
 			"session": {
 				"name": "soajsID",
-				"secret": "My Secret Phrase",
+				"secret": "this is antoine hage app server",
 				"cookie": {
 					"path": '/',
 					"httpOnly": true,
 					"secure": false,
-					"domain": "myDomain.com",
+					"domain": "soajs.com",
 					"maxAge": null
 				},
 				"resave": false,

@@ -10,6 +10,7 @@ provDb.environment.drop();
 
 var records = [];
 records.push(dev);
+records.push(dashboard);
 provDb.environment.insert(records);
 
 /* Indexes for products */
