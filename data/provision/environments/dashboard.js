@@ -4,13 +4,19 @@ var dashboard = {
 	"code": "DASHBOARD",
 	"locked": true,
 	"port": 80,
+	"docker": {
+		"local": {
+			'host': '192.168.59.103',
+			'port': 2376
+		}
+	},
 	"description": "this is the Dashboard environment",
 	"dbs": {
 		"clusters": {
 			"cluster1": {
 				"servers": [
 					{
-						"host": "dataProxy",
+						"host": "dataProxy01",
 						"port": 27017
 					}
 				],
