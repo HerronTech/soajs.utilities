@@ -3,11 +3,21 @@ var dev = {
 	"code": "DEV",
 	"port": 8080,
 	"description": "this is the DEV environment",
-	"docker": {
-		"local": {
+	"deployer": {
+		"selected": "unix",
+		"unix": {
+			'socketPath': '/var/run/docker.sock',
+			'driver': 'docker'
+		},
+		"boot2docker": {
 			'host': '192.168.59.103',
-			'port': 2376
-		}
+			'port': 2376,
+			'driver': 'docker'
+		},
+		"Joyent": {},
+		"AWS": {},
+		"gCloud": {},
+		"azure": {}
 	},
 	"dbs": {
 		"clusters": {

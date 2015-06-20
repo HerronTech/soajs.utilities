@@ -4,11 +4,21 @@ var dashboard = {
 	"code": "DASHBOARD",
 	"locked": true,
 	"port": 80,
-	"docker": {
-		"local": {
+	"deployer": {
+		"selected": "unix",
+		"unix": {
+			'socketPath': '/var/run/docker.sock',
+			'driver': 'docker'
+		},
+		"boot2docker": {
 			'host': '192.168.59.103',
-			'port': 2376
-		}
+			'port': 2376,
+			'driver': 'docker'
+		},
+		"Joyent": {},
+		"AWS": {},
+		"gCloud": {},
+		"azure": {}
 	},
 	"description": "this is the Dashboard environment",
 	"dbs": {
