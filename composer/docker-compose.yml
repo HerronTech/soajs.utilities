@@ -6,7 +6,7 @@ nginx:
         - "80:80"
     environment:
         - SOAJS_NX_NBCONTROLLER=1
-        - SOAJS_NX_APIDOMAIN=dashboad-api.soajs.org
+        - SOAJS_NX_APIDOMAIN=dashboard-api.soajs.org
         - SOAJS_NX_DASHDOMAIN=dashboard.soajs.org
         - SOAJS_NX_APIPORT=80
 
@@ -23,7 +23,7 @@ controller:
 urac:
     image: local/urac
     external_links:
-        - soajsData01:dataProxy01
+        - soajsData:dataProxy01
     ports:
         - "4001:4001"
         - "5001:5001"
