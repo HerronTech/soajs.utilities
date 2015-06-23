@@ -67,6 +67,8 @@ for (var i = 0; i < files.length; i++) {
 
 provDb.services.drop();
 
+provDb.docker.drop();
+
 var records = core_services;
 provDb.services.insert(records);
 
