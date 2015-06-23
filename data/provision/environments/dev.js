@@ -2,6 +2,7 @@
 var dev = {
 	"code": "DEV",
 	"port": 8080,
+	"profile": "/opt/soajs/FILES/profiles/single.js",
 	"description": "this is the DEV environment",
 	"deployer": {
 		"selected": "unix",

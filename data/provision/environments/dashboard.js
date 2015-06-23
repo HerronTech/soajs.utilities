@@ -4,6 +4,7 @@ var dashboard = {
 	"code": "DASHBOARD",
 	"locked": true,
 	"port": 80,
+	"profile": "/opt/soajs/FILES/profiles/single.js",
 	"deployer": {
 		"selected": "unix",
 		"unix": {
