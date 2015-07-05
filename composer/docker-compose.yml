@@ -30,6 +30,7 @@ urac:
     environment:
         - SOAJS_ENV=dashboard
         - SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js
+        - SOAJS_SRV_AUTOREGISTER=true
 
 dashboard:
     image: local/dashboard
@@ -41,5 +42,6 @@ dashboard:
     environment:
         - SOAJS_ENV=dashboard
         - SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js
+        - SOAJS_SRV_AUTOREGISTER=true
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
