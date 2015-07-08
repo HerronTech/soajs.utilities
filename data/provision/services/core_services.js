@@ -2,6 +2,7 @@ var core_services = [
 	{
 		"name": "urac",
 		"extKeyRequired": true,
+		"awareness": false,
 		"port": 4001,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
@@ -125,6 +126,7 @@ var core_services = [
 	{
 		"name": "oauth",
 		"extKeyRequired": true,
+		"awareness": false,
 		"port": 4002,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
@@ -144,6 +146,7 @@ var core_services = [
 	{
 		"name": "dashboard",
 		"extKeyRequired": true,
+		"awareness": true,
 		"port": 4003,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
@@ -517,6 +520,7 @@ var core_services = [
 	{
 		"name": "example01",
 		"extKeyRequired": false,
+		"awareness": false,
 		"port": 4010,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
@@ -547,6 +551,7 @@ var core_services = [
 	{
 		"name": "example02",
 		"extKeyRequired": false,
+		"awareness": false,
 		"port": 4011,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
@@ -561,6 +566,7 @@ var core_services = [
 	{
 		"name": "example03",
 		"extKeyRequired": true,
+		"awareness": false,
 		"port": 4012,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
@@ -579,6 +585,7 @@ var core_services = [
 	{
 		"name": "example04",
 		"extKeyRequired": true,
+		"awareness": false,
 		"port": 4013,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
