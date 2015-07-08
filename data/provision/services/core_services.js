@@ -5,7 +5,7 @@ var core_services = [
 		"port": 4001,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "local/urac",
+		"image": "soajsorg/urac",
 		"apis": [
 			{
 				"l": "Change Email",
@@ -128,7 +128,7 @@ var core_services = [
 		"port": 4002,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "local/oauth",
+		"image": "soajsorg/oauth",
 		"apis": [
 			{
 				"l": "Create Token",
@@ -147,7 +147,7 @@ var core_services = [
 		"port": 4003,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "local/dashboard",
+		"image": "soajsorg/dashboard",
 		"apis": [
 			{
 				"l": "List Environments",
@@ -520,7 +520,7 @@ var core_services = [
 		"port": 4010,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "local/example01",
+		"image": "soajsorg/example01",
 		"apis": [
 			{
 				"l": "Test Get",
@@ -550,7 +550,7 @@ var core_services = [
 		"port": 4011,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "local/example02",
+		"image": "soajsorg/example02",
 		"apis": [
 			{
 				'l': 'Build Name',
@@ -564,7 +564,7 @@ var core_services = [
 		"port": 4012,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "local/example03",
+		"image": "soajsorg/example03",
 		"apis": [
 			{
 				"l": "Test Get Api",
@@ -582,7 +582,7 @@ var core_services = [
 		"port": 4013,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "local/example04",
+		"image": "soajsorg/example04",
 		"apis": [
 			{
 				'l': 'Build Name',
