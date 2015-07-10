@@ -11,6 +11,8 @@ docker run -p 27017:27017 -v ${WRKDIR}data:/data -v ${WRKDIR}data/db:/data/db --
 
 MONGOIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' soajsData`
 
+echo "Mongo ip is: ${MONGOIP}"
+
 node index data import provision ${MONGOIP}
 node index data import urac ${MONGOIP}
 
