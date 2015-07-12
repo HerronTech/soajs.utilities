@@ -28,4 +28,4 @@ docker run --link soajsData:dataProxy01 -e "SOAJS_ENV=dashboard" -e "NODE_ENV=pr
 #Terminal 5:
 #NGINX container
 ###################################
-docker run --link controller:controllerProxy01 --link controller:controllerProxy02 -p 80:8080 -e "SOAJS_NX_NBCONTROLLER=2" -e "SOAJS_NX_APIDOMAIN=dashboard-api.soajs.org" --name nginxapi antoinehage/nginx
+docker run --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.soajs.org" -e "SOAJS_NX_DASHDOMAIN=dashboard.soajs.org" -e "SOAJS_NX_APIPORT=80" --name nginx antoinehage/nginx
