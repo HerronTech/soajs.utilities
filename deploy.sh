@@ -4,7 +4,7 @@
 #Terminal 1:
 #SOAJSDATA container
 ###################################
-docker run -p 27017:27017 -v /Users/soajs/data:/data -v /Users/soajs/data/db:/data/db --name soajsData mongo mongod --smallfiles
+#docker run -p 27017:27017 -v /Users/soajs/data:/data -v /Users/soajs/data/db:/data/db --name soajsData mongo mongod --smallfiles
 
 ###################################
 #Terminal 2:
