@@ -16,7 +16,11 @@ var dashboard = {
 			'port': 2376,
 			'driver': 'docker'
 		},
-		"Joyent": {},
+		"Joyent": {
+			'host': 'us-east-1.docker.joyent.com',
+			'port': 2376,
+			'driver': 'docker'
+		},
 		"AWS": {},
 		"gCloud": {},
 		"azure": {}
