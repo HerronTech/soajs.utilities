@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+IMAGE_PREFIX='antoinehage'
+PROFILE='/opt/soajs/FILES/profiles/single.js'
+
 ###################################
 #Terminal 1:
 #SOAJSDATA container
@@ -33,14 +36,14 @@ echo $'\n--------------------------'
 #URAC container
 ###################################
 echo $'\n5- Starting URAC Container "urac" ... '
-docker run -d --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v /Users/soajs/FILES/profiles:/opt/soajs/FILES/profiles -v /Users/soajs/services/urac:/opt/soajs/node_modules/urac -i -t --name urac antoinehage/soajs bash -c 'cd /opt/soajs/node_modules/urac/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/node_modules/urac/index.js'
+docker run -d --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v /Users/soajs/FILES:/opt/soajs/FILES -v /Users/soajs/services/urac:/opt/soajs/node_modules/urac -i -t --name urac ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/urac/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/urac/index.js'
 echo $'\n--------------------------'
 ###################################
 #Terminal 3:
 #DASHBOARD container
 ###################################
 echo $'\n6- Starting Dashboard Container "dashboard" ... '
-docker run -d --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v /Users/soajs/FILES/profiles:/opt/soajs/FILES/profiles -v /Users/soajs/services:/opt/soajs/services -v /Users/soajs/services/dashboard:/opt/soajs/node_modules/dashboard -v /Users/soajs/uploads:/opt/soajs/uploads -v /var/run/docker.sock:/var/run/docker.sock -i -t --name dashboard antoinehage/soajs bash -c 'cd /opt/soajs/node_modules/dashboard/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/node_modules/dashboard/index.js'
+docker run -d --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v /Users/soajs/FILES:/opt/soajs/FILES -v /Users/soajs/services:/opt/soajs/services -v /Users/soajs/services/dashboard:/opt/soajs/node_modules/dashboard -v /Users/soajs/uploads:/opt/soajs/uploads -v /var/run/docker.sock:/var/run/docker.sock -i -t --name dashboard ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/dashboard/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/dashboard/index.js'
 echo $'\n--------------------------'
 ###################################
 #Terminal 4:
@@ -48,7 +51,7 @@ echo $'\n--------------------------'
 ###################################
 sleep 5
 echo $'\n7- Starting Controller Container "controller" ...'
-docker run -d --link soajsData:dataProxy01 -e "SOAJS_ENV=dashboard" -e "NODE_ENV=production" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v /Users/soajs/FILES/profiles:/opt/soajs/FILES/profiles -v /Users/soajs/services/controller:/opt/soajs/node_modules/controller -i -t --name controller antoinehage/soajs bash -c 'cd /opt/soajs/node_modules/controller/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/node_modules/controller/index.js'
+docker run -d --link soajsData:dataProxy01 -e "SOAJS_ENV=dashboard" -e "NODE_ENV=production" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v /Users/soajs/FILES:/opt/soajs/FILES -v /Users/soajs/services/controller:/opt/soajs/node_modules/controller -i -t --name controller ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/controller/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/controller/index.js'
 echo $'\n--------------------------'
 ###################################
 #Terminal 5:
@@ -56,7 +59,7 @@ echo $'\n--------------------------'
 ###################################
 sleep 5
 echo $'\n8- Starting NGINX Container "nginx" ... '
-docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.soajs.org" -e "SOAJS_NX_DASHDOMAIN=dashboard.soajs.org" -e "SOAJS_NX_APIPORT=80" -v /Users/soajs/dashboard:/opt/soajs/dashboard/ --name nginx antoinehage/nginx
+docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.soajs.org" -e "SOAJS_NX_DASHDOMAIN=dashboard.soajs.org" -e "SOAJS_NX_APIPORT=80" -v /Users/soajs/dashboard:/opt/soajs/dashboard/ --name nginx ${IMAGE_PREFIX}/nginx
 echo $'\n--------------------------'
 
 echo $'\n9- Containers created and deployed:'
