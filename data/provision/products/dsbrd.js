@@ -63,6 +63,10 @@ var dsbrdProduct = {
 					"apis": {
 						"/tenant/permissions/get": {"access": true}
 					}
+				},
+				"gc_pages":{
+					"apis": {},
+					"access": true
 				}
 			},
 			"_TTL": 7 * 24 * 3600 * 1000 // 7 days hours
