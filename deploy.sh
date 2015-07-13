@@ -24,7 +24,7 @@ node index data import urac ${MONGOIP}
 docker run --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v http://127.0.0.1/Users/soajs/services/urac:/opt/soajs/urac -v http://127.0.0.1/Users/soajs/FILES/profiles:/opt/soajs/FILES/profiles -i -t --name urac antoinehage/soajs bash -c 'cd /opt/soajs/urac/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/urac/index.js'
 
 #alternative cmd:
-docker run --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v http://127.0.0.1/Users/soajs/services/urac:/opt/soajs/urac -i -t --name urac antoinehage/soajs bash -c 'cd /opt/soajs/urac/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/urac/index.js'
+#docker run --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v http://127.0.0.1/Users/soajs/services/urac:/opt/soajs/urac -i -t --name urac antoinehage/soajs bash -c 'cd /opt/soajs/urac/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/urac/index.js'
 
 ###################################
 #Terminal 3:
@@ -33,7 +33,7 @@ docker run --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=d
 docker run --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v http://127.0.0.1/Users/soajs/services:/opt/soajs/services -v /Users/soajs/services/dashboard:/opt/soajs/dashboard -v http://127.0.0.1/Users/soajs/FILES/profiles:/opt/soajs/FILES/profiles -v http://127.0.0.1/Users/soajs/uploads:/opt/soajs/uploads -v http://127.0.0.1/var/run/docker.sock:/var/run/docker.sock -i -t --name dashboard antoinehage/soajs bash -c 'cd /opt/soajs/dashboard/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/dashboard/index.js'
 
 #alternative cmd:
-docker run --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v http://127.0.0.1/Users/soajs/services:/opt/soajs/services -v http://127.0.0.1/Users/soajs/uploads:/opt/soajs/uploads -v http://127.0.0.1/var/run/docker.sock:/var/run/docker.sock -v /Users/soajs/services/dashboard:/opt/soajs/dashboard -i -t --name dashboard antoinehage/soajs bash -c 'cd /opt/soajs/dashboard/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/dashboard/index.js'
+#docker run --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v http://127.0.0.1/Users/soajs/services:/opt/soajs/services -v http://127.0.0.1/Users/soajs/uploads:/opt/soajs/uploads -v http://127.0.0.1/var/run/docker.sock:/var/run/docker.sock -v /Users/soajs/services/dashboard:/opt/soajs/dashboard -i -t --name dashboard antoinehage/soajs bash -c 'cd /opt/soajs/dashboard/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/dashboard/index.js'
 
 ###################################
 #Terminal 4:
@@ -42,7 +42,7 @@ docker run --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=d
 docker run --link soajsData:dataProxy01 -e "SOAJS_ENV=dashboard" -e "NODE_ENV=production" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v http://127.0.0.1/Users/soajs/services/controller:/opt/soajs/controller -v http://127.0.0.1/Users/soajs/FILES/profiles:/opt/soajs/FILES/profiles -i -t --name controller antoinehage/soajs bash -c 'cd /opt/soajs/controller/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/controller/index.js'
 
 #alternative cmd:
-docker run --link soajsData:dataProxy01 -e "SOAJS_ENV=dashboard" -e "NODE_ENV=production" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v http://127.0.0.1/Users/soajs/services/controller:/opt/soajs/controller -i -t --name controller antoinehage/soajs bash -c 'cd /opt/soajs/controller/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/controller/index.js'
+#docker run --link soajsData:dataProxy01 -e "SOAJS_ENV=dashboard" -e "NODE_ENV=production" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTER=true" -v http://127.0.0.1/Users/soajs/services/controller:/opt/soajs/controller -i -t --name controller antoinehage/soajs bash -c 'cd /opt/soajs/controller/; npm install; /opt/soajs/FILES/runService.sh /opt/soajs/controller/index.js'
 
 ###################################
 #Terminal 5:
