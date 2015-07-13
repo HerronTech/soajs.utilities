@@ -107,6 +107,18 @@ provDb.tenants.ensureIndex({ code: 1 }, { unique: true });
 provDb.tenants.ensureIndex({ 'applications.appId': 1 } );
 provDb.tenants.ensureIndex({ 'applications.keys.key': 1 } );
 
+/* GC */
+var files = listFiles('./gc');
+for (var i = 0; i < files.length; i++) {
+	load(files[i].name);
+}
+
+provDb.gc.drop();
+
+var records = [];
+records.push(gc);
+provDb.gc.insert(records);
+
 
 /* DBTN URAC */
 var ddb = db.getSiblingDB('DBTN_urac');
