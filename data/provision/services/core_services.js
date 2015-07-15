@@ -604,5 +604,44 @@ var core_services = [
 				'v': "/testGet"
 			}
 		]
+	},
+	{
+		"gcId": "55a3c82b945e350f00a2ab7e",
+		"name": "gc_pages",
+		"port": 4500,
+		"extKeyRequired": true,
+		"awareness": false,
+		"requestTimeout": 30,
+		"requestTimeoutRenewal": 5,
+		"image": "soajsorg/gcs",
+		"gcV": 1,
+		"apis": [
+			{
+				"l": "List Entries",
+				"v": "/list",
+				"group": "Pages",
+				"groupMain": true
+			},
+			{
+				"l": "Add Page",
+				"v": "/add",
+				"group": "Pages"
+			},
+			{
+				"l": "Update Page",
+				"v": "/update",
+				"group": "Pages"
+			},
+			{
+				"l": "Get One Page",
+				"v": "/get",
+				"group": "Pages"
+			},
+			{
+				"l": "Delete Page",
+				"v": "/delete",
+				"group": "Pages"
+			}
+		]
 	}
 ];
