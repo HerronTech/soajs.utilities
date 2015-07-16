@@ -102,7 +102,10 @@ var dashboard = {
 			},
 			"logger": { //ATTENTION: this is not all the properties for logger
 				"src": true,
-				"level": "debug"
+				"level": "debug",
+				"formatter": {
+					outputMode: 'long'
+				}
 			},
 			"cors": {
 				"enabled": true,
