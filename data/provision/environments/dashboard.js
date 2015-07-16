@@ -6,24 +6,32 @@ var dashboard = {
 	"port": 80,
 	"profile": "/opt/soajs/FILES/profiles/single.js",
 	"deployer": {
-		"selected": "unix",
-		"unix": {
-			'socketPath': '/var/run/docker.sock',
-			'driver': 'docker'
+		"type": "container", //available options: container | manual | cloud (chef | puppet)
+		"container": {
+			"docker": {
+				"selected": "socket",
+				"socket": {
+					'socketPath': '/var/run/docker.sock'
+				},
+				"boot2docker": {
+					'host': '192.168.59.103',
+					'port': 2376
+				},
+				"Joyent": {
+					'host': 'us-east-1.docker.joyent.com',
+					'port': 2376
+				}
+			},
+			"coreos": { //coming soon
+
+			}
 		},
-		"boot2docker": {
-			'host': '192.168.59.103',
-			'port': 2376,
-			'driver': 'docker'
-		},
-		"Joyent": {
-			'host': 'us-east-1.docker.joyent.com',
-			'port': 2376,
-			'driver': 'docker'
-		},
-		"AWS": {},
-		"gCloud": {},
-		"azure": {}
+		"cloud": {	//coming soon
+			"joyent": {},
+			"AWS": {},
+			"gCloud": {},
+			"azure": {}
+		}
 	},
 	"description": "this is the Dashboard environment",
 	"dbs": {

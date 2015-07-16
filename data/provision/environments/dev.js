@@ -5,24 +5,32 @@ var dev = {
 	"profile": "/opt/soajs/FILES/profiles/single.js",
 	"description": "this is the DEV environment",
 	"deployer": {
-		"selected": "unix",
-		"unix": {
-			'socketPath': '/var/run/docker.sock',
-			'driver': 'docker'
+		"type": "container", //available options: container | manual | cloud (chef | puppet)
+		"container": {
+			"docker": {
+				"selected": "socket",
+				"socket": {
+					'socketPath': '/var/run/docker.sock'
+				},
+				"boot2docker": {
+					'host': '192.168.59.103',
+					'port': 2376
+				},
+				"Joyent": {
+					'host': 'us-east-1.docker.joyent.com',
+					'port': 2376
+				}
+			},
+			"coreos": { //coming soon
+
+			}
 		},
-		"boot2docker": {
-			'host': '192.168.59.103',
-			'port': 2376,
-			'driver': 'docker'
-		},
-		"Joyent": {
-			'host': 'us-east-1.docker.joyent.com',
-			'port': 2376,
-			'driver': 'docker'
-		},
-		"AWS": {},
-		"gCloud": {},
-		"azure": {}
+		"cloud": {	//coming soon
+			"joyent": {},
+			"AWS": {},
+			"gCloud": {},
+			"azure": {}
+		}
 	},
 	"dbs": {
 		"clusters": {
@@ -81,7 +89,7 @@ var dev = {
 				"healthCheckInterval": 1000 * 5, // 5 seconds
 				"autoRelaodRegistry": 1000 * 60 * 60, // 1 hr
 				"maxLogCount": 5,
-				"autoRegisterService": true
+				"autoRegisterService": true //register at the controller or not
 			},
 			"agent": {
 				"topologyDir": "/opt/soajs/"
