@@ -8,8 +8,8 @@ var dashboard = {
 	"deployer": {
 		"type": "container", //available options: container | manual | cloud (chef | puppet)
 		"container": {
+			"selected": "docker.socket",
 			"docker": {
-				"selected": "socket",
 				"socket": {
 					'socketPath': '/var/run/docker.sock'
 				},

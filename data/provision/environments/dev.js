@@ -7,6 +7,7 @@ var dev = {
 	"deployer": {
 		"type": "container", //available options: container | manual | cloud (chef | puppet)
 		"container": {
+			"selected": "docker.socket",
 			"docker": {
 				"selected": "socket",
 				"socket": {
