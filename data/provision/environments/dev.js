@@ -17,7 +17,7 @@ var dev = {
 					'host': '192.168.59.103',
 					'port': 2376
 				},
-				"Joyent": {
+				"joyent": {
 					'host': 'us-east-1.docker.joyent.com',
 					'port': 2376
 				}
