@@ -43,7 +43,7 @@ echo $'\n--------------------------'
 #DASHBOARD container
 ###################################
 echo $'\n6- Starting Dashboard Container "dashboard" ... '
-docker run -d --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTERHOST=true" -v /Users/soajs/FILES:/opt/soajs/FILES -v /Users/soajs/open_source/services:/opt/soajs/services -v /Users/soajs/open_source/services/dashboard:/opt/soajs/node_modules/dashboard -v /Users/soajs/uploads:/opt/soajs/uploads -v /var/run/docker.sock:/var/run/docker.sock -i -t --name dashboard ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/dashboard/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/dashboard/index.js'
+docker run -d --link soajsData:dataProxy01 -e "NODE_ENV=production" -e "SOAJS_ENV=dashboard" -e "SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js" -e "SOAJS_SRV_AUTOREGISTERHOST=true" -e "SOAJS_ENV_WORKDIR=/Users/" -v /Users/soajs/open_source/services/dashboard:/opt/soajs/node_modules/dashboard -v /Users/soajs/FILES:/opt/soajs/FILES -v /Users/soajs:/Users/soajs -v /var/run/docker.sock:/var/run/docker.sock -i -t --name dashboard ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/dashboard/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/dashboard/index.js'
 echo $'\n--------------------------'
 ###################################
 #Terminal 4:
@@ -59,7 +59,7 @@ echo $'\n--------------------------'
 ###################################
 sleep 5
 echo $'\n8- Starting NGINX Container "nginx" ... '
-docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.soajs.org" -e "SOAJS_NX_DASHDOMAIN=dashboard.soajs.org" -e "SOAJS_NX_APIPORT=80" -v /Users/soajs/dashboard:/opt/soajs/dashboard/ --name nginx ${IMAGE_PREFIX}/nginx
+docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.soajs.org" -e "SOAJS_NX_DASHDOMAIN=dashboard.soajs.org" -e "SOAJS_NX_APIPORT=80" -v /Users/soajs/open_source/dashboard:/opt/soajs/open_source/dashboard/ --name nginx ${IMAGE_PREFIX}/nginx
 echo $'\n--------------------------'
 
 echo $'\n9- Containers created and deployed:'
