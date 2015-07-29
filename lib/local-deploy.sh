@@ -19,6 +19,14 @@ function createContainer(){
 
     echo $'\n--------------------------'
 }
+function program_is_installed {
+  # set to 1 initially
+  local return_=1
+  # set to 0 if not found
+  type $1 >/dev/null 2>&1 || { local return_=0; }
+  # return value
+  echo "$return_"
+}
 
 ###################################
 #SOAJSDATA container
@@ -36,13 +44,19 @@ docker run -d -p 27017:27017 -v /data:/data -v /data/db:/data/db --name ${DATA_C
 echo $'\n--------------------------'
 
 #get mongo container IP address
-MONGOIP=`boot2docker ip`
+BOOT2DOCKER=$(program_is_installed boot2docker)
+if [ ${BOOT2DOCKER} == 1 ]; then
+    echo $'\nboot2docker setup identified'
+    MONGOIP=`boot2docker ip`
+else
+    MONGOIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${DATA_CONTAINER}`
+fi
 echo $'\nMongo ip is: '${MONGOIP}
-sleep 2
+
 #import provisioned data to mongo
+sleep 2
 echo $'\n3- Importing core provisioned data ...'
 node index data import provision ${MONGOIP}
-
 echo $'\n4- Importing URAC data...'
 node index data import urac ${MONGOIP}
 echo $'\n--------------------------'
