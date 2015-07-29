@@ -70,7 +70,7 @@ createContainer "controller"
 ###################################
 sleep 5
 echo $'\n6- Starting NGINX Container "nginx" ... '
-docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.soajs.org" -e "SOAJS_NX_DASHDOMAIN=dashboard.soajs.org" -e "SOAJS_NX_APIPORT=80" -v /Users/soajs/open_source/dashboard:/opt/soajs/open_source/dashboard/ -v /Users/soajs/FILES:/opt/soajs/FILES --name nginx ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
+docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.soajs.org" -e "SOAJS_NX_DASHDOMAIN=dashboard.soajs.org" -e "SOAJS_NX_APIPORT=80" -v /Users/soajs/open_source/dashboard:/opt/soajs/dashboard/ -v /Users/soajs/FILES:/opt/soajs/FILES --name nginx ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
 echo $'\n--------------------------'
 
 echo $'\n7- Containers created and deployed:'
