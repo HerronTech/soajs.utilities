@@ -3,6 +3,7 @@
 DATA_CONTAINER='soajsData'
 IMAGE_PREFIX='antoinehage'
 NGINX_CONTAINER='nginx'
+MASTER_DOMAIN='soajs.org'
 
 function createContainer(){
     local WHAT=${1}
@@ -12,7 +13,7 @@ function createContainer(){
     echo $'- Starting Controller Container '${WHAT}' ...'
 
     if [ ${WHAT} == "dashboard" ]; then
-        local EXTRA='-e "SOAJS_ENV_WORKDIR=/Users/" -v /Users/soajs:/Users/soajs -v /var/run/docker.sock:/var/run/docker.sock'
+        local EXTRA='-e SOAJS_ENV_WORKDIR=/Users/ -v /Users/soajs:/Users/soajs -v /var/run/docker.sock:/var/run/docker.sock'
         docker run -d --link ${DATA_CONTAINER}:dataProxy01 ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js'
     else
         docker run -d --link ${DATA_CONTAINER}:dataProxy01 ${ENV} ${VLM} -i -t --name ${WHAT} ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js'
@@ -46,7 +47,7 @@ fi
 DOCKER=$(program_is_installed docker)
 if [ ${DOCKER} == 0 ]; then
     echo $'\n ... Unable to find docker on your machine. PLease install docker!'
-    exit
+    exit -1
 fi
 echo $'\n1- Cleaning previous docker containers ...'
 docker stop $(docker ps -a -q)
@@ -70,7 +71,7 @@ echo $'\nMongo ip is: '${MONGOIP}
 #import provisioned data to mongo
 sleep 2
 echo $'\n3- Importing core provisioned data ...'
-node index data import provision ${MONGOIP}
+node index data import provision ${MONGOIP} DOCKER
 echo $'\n4- Importing URAC data...'
 node index data import urac ${MONGOIP}
 echo $'\n--------------------------'
@@ -97,7 +98,7 @@ echo $'\n--------------------------'
 ###################################
 sleep 5
 echo $'\n6- Starting NGINX Container "nginx" ... '
-docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.soajs.org" -e "SOAJS_NX_DASHDOMAIN=dashboard.soajs.org" -e "SOAJS_NX_APIPORT=80" -v /Users/soajs/open_source/dashboard:/opt/soajs/dashboard/ -v /Users/soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
+docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_NX_APIPORT=80" -v /Users/soajs/open_source/dashboard:/opt/soajs/dashboard/ -v /Users/soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
 echo $'\n--------------------------'
 
 ###################################
@@ -113,7 +114,7 @@ else
     NGINXIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${NGINX_CONTAINER}`
 fi
 echo $'\n\n Add the following to your /etc/hosts file:'
-echo $'\t 192.168.59.103 dashboard-api.soajs.org'
-echo $'\t 192.168.59.103 dashboard.soajs.org'
-echo $'\n Containers started, please login to the dashboard @ http://dashboard.soajs.org'
+echo $'\t 192.168.59.103 dashboard-api.'${MASTER_DOMAIN}
+echo $'\t 192.168.59.103 dashboard.'${MASTER_DOMAIN}
+echo $'\n Containers started, please login to the dashboard @ http://dashboard.'${MASTER_DOMAIN}
 
