@@ -31,22 +31,35 @@ function program_is_installed {
 ###################################
 #SOAJSDATA container
 ###################################
-echo "0- Building /data folder inside VM"
-boot2docker ssh "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
-
-echo "1- Cleaning previous docker containers ..."
+echo 'Initializing and checking prerequisites ... '
+BOOT2DOCKER=$(program_is_installed boot2docker)
+if [ ${BOOT2DOCKER} == 1 ]; then
+    echo $'\nboot2docker setup identified'
+    boot2docker init
+    boot2docker start
+    eval "$(boot2docker shellinit)"
+    MONGOIP=`boot2docker ip`
+    boot2docker ssh "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
+    SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
+else
+    SOAJS_DATA_VLM='-v /Users/soajs/data:/data -v /Users/soajs/data/db:/data/db'
+fi
+DOCKER=$(program_is_installed docker)
+if [ ${DOCKER} == 0 ]; then
+    echo '\n ... Unable to find docker on your machine. PLease install docker!'
+    exit
+fi
+echo '\n1- Cleaning previous docker containers ...'
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 echo $'\n--------------------------'
 
 echo $'\n2- Starging Mongo Container "soajsData" ...'
-docker run -d -p 27017:27017 -v /data:/data -v /data/db:/data/db --name ${DATA_CONTAINER} mongo mongod --smallfiles
+docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
 echo $'\n--------------------------'
 
 #get mongo container IP address
-BOOT2DOCKER=$(program_is_installed boot2docker)
 if [ ${BOOT2DOCKER} == 1 ]; then
-    echo $'\nboot2docker setup identified'
     MONGOIP=`boot2docker ip`
 else
     MONGOIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${DATA_CONTAINER}`
