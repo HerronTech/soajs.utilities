@@ -5,7 +5,7 @@ var dev = {
 	"profile": "/opt/soajs/FILES/profiles/single.js",
 	"description": "this is the DEV environment",
 	"deployer": {
-		"type": "container", //available options: container | manual | cloud (chef | puppet)
+		"type": "manual", //available options: container | manual | cloud (chef | puppet)
 		"container": {
 			"selected": "docker.socket",
 			"docker": {
@@ -38,7 +38,7 @@ var dev = {
 			"cluster1": {
 				"servers": [
 					{
-						"host": "dataProxy01",
+						"host": "127.0.0.1",
 						"port": 27017
 					}
 				],

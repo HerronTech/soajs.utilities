@@ -8,7 +8,14 @@ for (var i = 0; i < files.length; i++) {
 
 provDb.environment.drop();
 
+var internalDocker = this.docker || null;
 var records = [];
+if (internalDocker){
+    dashboard.deployer.type = "container";
+    dashboard.dbs.clusters.cluster1.servers[0].host = "dataProxy01";
+    dev.deployer.type = "container";
+    dev.dbs.clusters.cluster1.servers[0].host = "dataProxy01"
+}
 records.push(dev);
 records.push(dashboard);
 provDb.environment.insert(records);
