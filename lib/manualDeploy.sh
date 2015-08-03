@@ -90,7 +90,7 @@ function uracSuccess(){
     startDashboard
 }
 function uracFailure(){
-    echo $'\n ... unable to install urac npm package. exiting!'
+    echo $'\n ... unable to install urac '${DEPLOY_FROM}' package. exiting!'
     exit -1
 }
 function dashSuccess(){
@@ -105,7 +105,7 @@ function dashSuccess(){
     wait $b && uracSuccess || uracFailure
 }
 function dashFailure(){
-    echo $'\n ... unable to install dashboard npm package. exiting!'
+    echo $'\n ... unable to install dashboard '${DEPLOY_FROM}' package. exiting!'
     exit -1
 }
 function controllerSuccess(){
@@ -120,7 +120,7 @@ function controllerSuccess(){
     wait $b && dashSuccess || dashFailure
 }
 function controllerFailure(){
-    echo $'\n ... unable to install controller npm package. exiting!'
+    echo $'\n ... unable to install controller '${DEPLOY_FROM}' package. exiting!'
     exit -1
 }
 function soajsSuccess(){
@@ -135,18 +135,20 @@ function soajsSuccess(){
     wait $b && controllerSuccess || controllerFailure
 }
 function soajsFailure(){
-    echo $'\n ... unable to install soajs npm package. exiting!'
+    echo $'\n ... unable to install soajs '${DEPLOY_FROM}' package. exiting!'
     exit -1
 }
 function exec(){
-    mkdir -p ${WRK_DIR}
-    pushd ${WRK_DIR}
-    export NODE_ENV=production
     if [ ${DEPLOY_FROM} == "NPM" ]; then
+        mkdir -p ${WRK_DIR}
+        pushd ${WRK_DIR}
+        export NODE_ENV=production
         npm install soajs
         b=$!
         wait $b && soajsSuccess || soajsFailure
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        mkdir -p ${WRK_DIR}
+        pushd ${WRK_DIR}
         git clone git@github.com:soajs/soajs.git --branch ${GIT_BRANCH}
         b=$!
         wait $b && soajsSuccess || soajsFailure
