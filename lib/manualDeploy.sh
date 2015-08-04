@@ -138,8 +138,21 @@ function soajsFailure(){
     echo $'\n ... unable to install soajs '${DEPLOY_FROM}' package. exiting!'
     exit -1
 }
+function confirmDeployment(){
+
+    echo $'\nYou are about to install at this location [ '${WRK_DIR}' ]'
+    echo $'All its content will be replaced from [ '${DEPLOY_FROM}' ]'
+    read -p "Are you sure? " -n 1 -r
+    echo    # (optional) move to a new line
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        echo $'\n... exiting!'
+        exit -1
+    fi
+}
 function exec(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
+        confirmDeployment
         mkdir -p ${WRK_DIR}
         pushd ${WRK_DIR}
         export NODE_ENV=production
@@ -147,6 +160,7 @@ function exec(){
         b=$!
         wait $b && soajsSuccess || soajsFailure
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        confirmDeployment
         mkdir -p ${WRK_DIR}
         pushd ${WRK_DIR}
         git clone git@github.com:soajs/soajs.git --branch ${GIT_BRANCH}
