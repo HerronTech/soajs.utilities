@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/opt/tmp/'
+[ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/opt/'
 
 [ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='LOCAL'
 WRK_DIR=${LOC}'soajs/node_modules'
@@ -142,6 +142,10 @@ function confirmDeployment(){
 
     echo $'\nYou are about to install at this location [ '${WRK_DIR}' ]'
     echo $'All its content will be replaced from [ '${DEPLOY_FROM}' ]'
+    echo $'\nTo change the location set the environment variable SOAJS_DEPLOY_DIR'
+    echo $'export SOAJS_DEPLOY_DIR="/opt/"'
+    echo $'\n'
+    printf '\7'
     read -p "Are you sure? " -n 1 -r
     echo    # (optional) move to a new line
     if [[ ! $REPLY =~ ^[Yy]$ ]]
