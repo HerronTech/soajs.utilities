@@ -142,6 +142,7 @@ function buildFolder(){
     cp -R ${SRC}'soajs.dashboard/ui' ${WRK_DIR}'/open_source/dashboard'
     cp -R ${SRC}'soajs.controller' ${WRK_DIR}'/open_source/services/controller'
     cp -R ${SRC}'soajs.dashboard' ${WRK_DIR}'/open_source/services/dashboard'
+    cp -R ${SRC}'soajs.GCS' ${WRK_DIR}'/open_source/services/gcs'
     rm -Rf ${WRK_DIR}'/open_source/services/dashboard/ui'
     cp -R ${SRC}'soajs.urac' ${WRK_DIR}'/open_source/services/urac'
 

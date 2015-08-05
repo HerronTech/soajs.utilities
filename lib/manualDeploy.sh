@@ -61,6 +61,8 @@ function importData(){
 }
 
 function startDashboard(){
+	pushd ${WRK_DIR}
+	killall node
     pushd soajs.controller
     node . &
     popd
@@ -69,6 +71,7 @@ function startDashboard(){
     popd
     pushd soajs.dashboard
     node . &
+    popd
     popd
 
     ps aux | grep node
