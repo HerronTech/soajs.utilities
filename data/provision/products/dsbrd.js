@@ -64,7 +64,7 @@ var dsbrdProduct = {
 						"/tenant/permissions/get": {"access": true}
 					}
 				},
-				"gc_pages":{
+				"gc_articles":{
 					"apis": {},
 					"access": true
 				}

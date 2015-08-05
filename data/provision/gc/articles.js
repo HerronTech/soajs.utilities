@@ -1,13 +1,13 @@
 'use strict';
 var gc = {
     "_id": ObjectId('55a3c82b945e350f00a2ab7e'),
-    "name": "gc_pages",
+    "name": "gc_articles",
     "author": "owner",
     "genericService": {
         "config": {
             "errors": {
                 "400": "Database Error",
-                "401": "Invalid Page Id Provided"
+                "401": "Invalid Article Id Provided"
             },
             "schema": {
                 "commonFields": {
@@ -41,15 +41,15 @@ var gc = {
                 },
                 "/list": {
                     "_apiInfo": {
-                        "l": "List Entries",
-                        "group": "Pages",
+                        "l": "List Articles",
+                        "group": "Articles",
                         "groupMain": true
                     }
                 },
                 "/add": {
                     "_apiInfo": {
-                        "l": "Add Page",
-                        "group": "Pages"
+                        "l": "Add Article",
+                        "group": "Articles"
                     },
                     "commonFields": [
                         "title",
@@ -58,8 +58,8 @@ var gc = {
                 },
                 "/update": {
                     "_apiInfo": {
-                        "l": "Update Page",
-                        "group": "Pages"
+                        "l": "Update Article",
+                        "group": "Articles"
                     },
                     "commonFields": [
                         "title",
@@ -69,8 +69,8 @@ var gc = {
                 },
                 "/get": {
                     "_apiInfo": {
-                        "l": "Get One Page",
-                        "group": "Pages"
+                        "l": "Get One Article",
+                        "group": "Articles"
                     },
                     "commonFields": [
                         "id"
@@ -78,20 +78,21 @@ var gc = {
                 },
                 "/delete": {
                     "_apiInfo": {
-                        "l": "Delete Page",
-                        "group": "Pages"
+                        "l": "Delete Article",
+                        "group": "Articles"
                     },
                     "commonFields": [
                         "id"
                     ]
                 }
             },
-            "serviceName": "gc_pages",
+            "serviceName": "gc_articles",
             "servicePort": 4500,
             "requestTimeout": 30,
             "requestTimeoutRenewal": 5,
             "awareness": false,
-            "extKeyRequired": true
+            "extKeyRequired": true,
+            "maxFileUpload": "4096"
         },
         "options": {
             "multitenant": true,
@@ -105,9 +106,9 @@ var gc = {
         "db": {
             "config": {
                 "DEV": {
-                    "gc_pages": {
-                        "tenantSpecific": true,
-                        "cluster": "cluster1"
+                    "gc_articles": {
+                        "cluster": "cluster1",
+                        "tenantSpecific": true
                     }
                 }
             },
@@ -177,8 +178,8 @@ var gc = {
                 {
                     "name": "title",
                     "label": "Title",
-                    "placeholder": "My Page ...",
-                    "tooltip": "Enter the title of the page",
+                    "placeholder": "My Article ...",
+                    "tooltip": "Enter the title of the article",
                     "type": "text",
                     "required": true
                 },
@@ -189,14 +190,28 @@ var gc = {
                     "tooltip": "",
                     "type": "editor",
                     "required": true
+                },
+                {
+                    "name": "picture",
+                    "label": "Picture",
+                    "limit": 1,
+                    "type": "image",
+                    "required": false
+                },
+                {
+                    "name": "attachments",
+                    "label": "Attachments",
+                    "limit": 0,
+                    "type": "document",
+                    "required": false
                 }
             ],
             "update": [
                 {
                     "name": "title",
                     "label": "Title",
-                    "placeholder": "My Page ...",
-                    "tooltip": "Enter the title of the page",
+                    "placeholder": "My Article ...",
+                    "tooltip": "Enter the title of the article",
                     "type": "text",
                     "required": true
                 },
@@ -207,10 +222,25 @@ var gc = {
                     "tooltip": "",
                     "type": "editor",
                     "required": true
+                },
+                {
+                    "name": "picture",
+                    "label": "Picture",
+                    "limit": 1,
+                    "type": "image",
+                    "required": false
+                },
+                {
+                    "name": "attachments",
+                    "label": "Attachments",
+                    "limit": 0,
+                    "type": "document",
+                    "required": false
                 }
             ]
         }
     },
     "v": 1,
-    "ts": 1436796971128
+    "ts": 1438604213165,
+    "modified": 1438604213159
 };

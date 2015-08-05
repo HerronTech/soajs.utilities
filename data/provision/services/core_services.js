@@ -607,7 +607,7 @@ var core_services = [
 	},
 	{
 		"gcId": "55a3c82b945e350f00a2ab7e",
-		"name": "gc_pages",
+		"name": "gc_articles",
 		"port": 4500,
 		"extKeyRequired": true,
 		"awareness": false,
@@ -617,30 +617,30 @@ var core_services = [
 		"gcV": 1,
 		"apis": [
 			{
-				"l": "List Entries",
+				"l": "List Articles",
 				"v": "/list",
-				"group": "Pages",
+				"group": "Articles",
 				"groupMain": true
 			},
 			{
-				"l": "Add Page",
+				"l": "Add Article",
 				"v": "/add",
-				"group": "Pages"
+				"group": "Articles"
 			},
 			{
-				"l": "Update Page",
+				"l": "Update Article",
 				"v": "/update",
-				"group": "Pages"
+				"group": "Articles"
 			},
 			{
-				"l": "Get One Page",
+				"l": "Get One Article",
 				"v": "/get",
-				"group": "Pages"
+				"group": "Articles"
 			},
 			{
-				"l": "Delete Page",
+				"l": "Delete Article",
 				"v": "/delete",
-				"group": "Pages"
+				"group": "Articles"
 			}
 		]
 	}
