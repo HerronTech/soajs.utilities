@@ -5,6 +5,7 @@
 [ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='LOCAL'
 WRK_DIR=${LOC}'soajs/node_modules'
 GIT_BRANCH="develop"
+MASTER_DOMAIN="soajs.org"
 
 function program_is_installed(){
   # set to 1 initially
@@ -60,6 +61,20 @@ function importData(){
     echo $'\n--------------------------'
 }
 
+function setupNginx(){
+	export SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}
+	export SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}
+	export SOAJS_NX_APIPORT=80
+	export SOAJS_NX_HOSTPREFIX=127.0.0.1
+	export SOAJS_NX_DASHBOARDROOT=${WRK_DIR}"/soajs.dashboard/ui"
+	mkdir -p ${WRK_DIR}"/nginx"
+
+	export SOAJS_NX_LOC=${WRK_DIR}
+	export SOAJS_NX_SETUPTYPE=local
+	node ./FILES/nginx/index.js
+	echo "DONE"
+}
+
 function startDashboard(){
 	pushd ${WRK_DIR}
 	killall node
@@ -75,7 +90,7 @@ function startDashboard(){
     popd
 
     ps aux | grep node
-    echo "DONE"
+    setupNginx
 }
 
 function uracSuccess(){

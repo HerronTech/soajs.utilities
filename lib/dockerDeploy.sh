@@ -138,7 +138,7 @@ function buildFolder(){
     mkdir -p ${WRK_DIR}'open_source/services'
     mkdir -p ${WRK_DIR}'uploads'
 
-    cp -R ${SRC}'soajs.buildImages/FILES' ${WRK_DIR}'/FILES'
+    cp -R './FILES' ${WRK_DIR}'/FILES'
     cp -R ${SRC}'soajs.dashboard/ui' ${WRK_DIR}'/open_source/dashboard'
     cp -R ${SRC}'soajs.controller' ${WRK_DIR}'/open_source/services/controller'
     cp -R ${SRC}'soajs.dashboard' ${WRK_DIR}'/open_source/services/dashboard'
@@ -150,12 +150,10 @@ function buildFolder(){
 }
 function uracSuccess(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
-        npm install soajs.buildImages
         npm install soajs.oauth
         npm install soajs.GCS
         npm install soajs.examples
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
-        git clone git@github.com:soajs/soajs.buildImages.git --branch ${GIT_BRANCH}
         git clone git@github.com:soajs/soajs.oauth.git --branch ${GIT_BRANCH}
         git clone git@github.com:soajs/soajs.GCS.git --branch ${GIT_BRANCH}
         git clone git@github.com:soajs/soajs.examples.git --branch ${GIT_BRANCH}
