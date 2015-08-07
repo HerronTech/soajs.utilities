@@ -132,19 +132,23 @@ function start(){
 
 function buildFolder(){
     local SRC=${1}
-    pushd ${WRK_DIR}
-    rm -Rf 'open_source'
-    rm -Rf 'FILES'
+    rm -Rf ${WRK_DIR}'open_source'
+    rm -Rf ${WRK_DIR}'FILES'
     mkdir -p ${WRK_DIR}'open_source/services'
     mkdir -p ${WRK_DIR}'uploads'
 
     cp -R './FILES' ${WRK_DIR}'/FILES'
+
+    pushd ${WRK_DIR}
+
     cp -R ${SRC}'soajs.dashboard/ui' ${WRK_DIR}'/open_source/dashboard'
     cp -R ${SRC}'soajs.controller' ${WRK_DIR}'/open_source/services/controller'
     cp -R ${SRC}'soajs.dashboard' ${WRK_DIR}'/open_source/services/dashboard'
     cp -R ${SRC}'soajs.GCS' ${WRK_DIR}'/open_source/services/gcs'
     rm -Rf ${WRK_DIR}'/open_source/services/dashboard/ui'
     cp -R ${SRC}'soajs.urac' ${WRK_DIR}'/open_source/services/urac'
+
+    popd
 
     start
 }
@@ -160,6 +164,7 @@ function uracSuccess(){
     else
         exit -1
     fi
+    popd
     buildFolder ${SRC_DIR}
 }
 function uracFailure(){
