@@ -220,6 +220,7 @@ function soajsFailure(){
 
 function exec(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
+        rm -Rf ${SRC_DIR}
         mkdir -p ${SRC_DIR}
         pushd ${SRC_DIR}
         export NODE_ENV=production
@@ -227,6 +228,7 @@ function exec(){
         b=$!
         wait $b && soajsSuccess || soajsFailure
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        rm -Rf ${SRC_DIR}
         mkdir -p ${SRC_DIR}
         pushd ${SRC_DIR}
         git clone git@github.com:soajs/soajs.git --branch ${GIT_BRANCH}
