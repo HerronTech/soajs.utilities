@@ -83,21 +83,12 @@ function startDashboard(){
 	pushd ${WRK_DIR}
 	killall node
     pushd soajs.controller
-    if [ ${DEPLOY_FROM} == "GIT" ]; then
-        npm install
-    fi
     node . &
     popd
     pushd soajs.urac
-    if [ ${DEPLOY_FROM} == "GIT" ]; then
-        npm install
-    fi
     node . &
     popd
     pushd soajs.dashboard
-    if [ ${DEPLOY_FROM} == "GIT" ]; then
-        npm install
-    fi
     node . &
     popd
     popd
@@ -112,9 +103,21 @@ function uracSuccess(){
         npm install soajs.GCS
         npm install soajs.examples
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        cd ./soajs.urac
+        npm install
+        cd ../
         git clone git@github.com:soajs/soajs.oauth.git --branch ${GIT_BRANCH}
+        cd ./soajs.oauth
+        npm install
+        cd ../
         git clone git@github.com:soajs/soajs.GCS.git --branch ${GIT_BRANCH}
+        cd ./soajs.GCS
+        npm install
+        cd ../
         git clone git@github.com:soajs/soajs.examples.git --branch ${GIT_BRANCH}
+        cd ./soajs.examples
+        npm install
+        cd ../
     else
         exit -1
     fi
@@ -129,6 +132,9 @@ function dashSuccess(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
         npm install soajs.urac
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        cd ./soajs.dashboard
+        npm install
+        cd ../
         git clone git@github.com:soajs/soajs.urac.git --branch ${GIT_BRANCH}
     else
         exit -1
@@ -144,6 +150,9 @@ function controllerSuccess(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
         npm install soajs.dashboard
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        cd ./soajs.controller
+        npm install
+        cd ../
         git clone git@github.com:soajs/soajs.dashboard.git --branch ${GIT_BRANCH}
     else
         exit -1
@@ -159,6 +168,9 @@ function soajsSuccess(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
         npm install soajs.controller
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        cd ./soajs
+        npm install
+        cd ../
         git clone git@github.com:soajs/soajs.controller.git --branch ${GIT_BRANCH}
     else
         exit -1
