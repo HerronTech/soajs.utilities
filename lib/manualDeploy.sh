@@ -118,6 +118,7 @@ function uracSuccess(){
     else
         exit -1
     fi
+    popd
     startDashboard
 }
 function uracFailure(){
