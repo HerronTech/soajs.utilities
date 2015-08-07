@@ -7,9 +7,9 @@ WRK_DIR=${LOC}'soajs/node_modules'
 GIT_BRANCH="develop"
 MASTER_DOMAIN="soajs.org"
 
-[ ${SOAJS_ENV} ] && SOAJS_ENV=${SOAJS_ENV} || SOAJS_ENV='dashboard'
-[ ${SOAJS_SRVIP} ] && SOAJS_SRVIP=${SOAJS_SRVIP} || SOAJS_SRVIP=127.0.0.1
-[ ${SOAJS_PROFILE} ] && SOAJS_PROFILE=${SOAJS_PROFILE} || SOAJS_PROFILE=${WRK_DIR}/soajs.utilities/lib/FILES/profiles/single.js
+[ ${SOAJS_ENV} ] && export SOAJS_ENV=${SOAJS_ENV} || export SOAJS_ENV='dashboard'
+[ ${SOAJS_SRVIP} ] && export SOAJS_SRVIP=${SOAJS_SRVIP} || export SOAJS_SRVIP=127.0.0.1
+[ ${SOAJS_PROFILE} ] && export SOAJS_PROFILE=${SOAJS_PROFILE} || export SOAJS_PROFILE=${WRK_DIR}/soajs.utilities/lib/FILES/profiles/single.js
 
 function program_is_installed(){
   # set to 1 initially
