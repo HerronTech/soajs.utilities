@@ -83,12 +83,21 @@ function startDashboard(){
 	pushd ${WRK_DIR}
 	killall node
     pushd soajs.controller
+    if [ ${DEPLOY_FROM} == "GIT" ]; then
+        npm install
+    fi
     node . &
     popd
     pushd soajs.urac
+    if [ ${DEPLOY_FROM} == "GIT" ]; then
+        npm install
+    fi
     node . &
     popd
     pushd soajs.dashboard
+    if [ ${DEPLOY_FROM} == "GIT" ]; then
+        npm install
+    fi
     node . &
     popd
     popd
@@ -175,6 +184,8 @@ function confirmDeployment(){
         echo $'\n... exiting!'
         exit -1
     fi
+
+    rm -Rf ${WRK_DIR}
 }
 function exec(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
@@ -189,6 +200,7 @@ function exec(){
         confirmDeployment
         mkdir -p ${WRK_DIR}
         pushd ${WRK_DIR}
+        export NODE_ENV=production
         git clone git@github.com:soajs/soajs.git --branch ${GIT_BRANCH}
         b=$!
         wait $b && soajsSuccess || soajsFailure
