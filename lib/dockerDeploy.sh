@@ -60,6 +60,7 @@ function init(){
     fi
     echo $'\n1- Cleaning previous docker containers ...'
     docker stop $(docker ps -a -q)
+    sleep 1
     docker rm $(docker ps -a -q)
     echo $'\n--------------------------'
 }
@@ -79,7 +80,7 @@ function importData(){
     fi
     echo $'\nMongo ip is: '${MONGOIP}
     #import provisioned data to mongo
-    sleep 2
+    sleep 5
     echo $'\n3- Importing core provisioned data ...'
     node index data import provision ${MONGOIP} DOCKER
     echo $'\n4- Importing URAC data...'
@@ -132,6 +133,7 @@ function start(){
 
 function buildFolder(){
     local SRC=${1}
+    echo $'\nSRC dir is: '${SRC}
     rm -Rf ${WRK_DIR}'open_source'
     rm -Rf ${WRK_DIR}'FILES'
     mkdir -p ${WRK_DIR}'open_source/services'
