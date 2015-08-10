@@ -148,7 +148,7 @@ function buildFolder(){
     cp -R ${SRC}'soajs.dashboard/ui' ${WRK_DIR}'/open_source/dashboard'
     cp -R ${SRC}'soajs.controller' ${WRK_DIR}'/open_source/services/controller'
     cp -R ${SRC}'soajs.dashboard' ${WRK_DIR}'/open_source/services/dashboard'
-    cp -R ${SRC}'soajs.GCS' ${WRK_DIR}'/open_source/services/gcs'
+    cp -R ${SRC}'soajs.gcs' ${WRK_DIR}'/open_source/services/gcs'
     rm -Rf ${WRK_DIR}'/open_source/services/dashboard/ui'
     cp -R ${SRC}'soajs.urac' ${WRK_DIR}'/open_source/services/urac'
 
@@ -159,11 +159,11 @@ function buildFolder(){
 function uracSuccess(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
         npm install soajs.oauth
-        npm install soajs.GCS
+        npm install soajs.gcs
         npm install soajs.examples
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
         git clone git@github.com:soajs/soajs.oauth.git --branch ${GIT_BRANCH}
-        git clone git@github.com:soajs/soajs.GCS.git --branch ${GIT_BRANCH}
+        git clone git@github.com:soajs/soajs.gcs.git --branch ${GIT_BRANCH}
         git clone git@github.com:soajs/soajs.examples.git --branch ${GIT_BRANCH}
     else
         exit -1

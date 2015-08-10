@@ -101,7 +101,7 @@ function startDashboard(){
 function uracSuccess(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
         npm install soajs.oauth
-        npm install soajs.GCS
+        npm install soajs.gcs
         npm install soajs.examples
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
         cd ./soajs.urac
@@ -111,8 +111,8 @@ function uracSuccess(){
         cd ./soajs.oauth
         npm install
         cd ../
-        git clone git@github.com:soajs/soajs.GCS.git --branch ${GIT_BRANCH}
-        cd ./soajs.GCS
+        git clone git@github.com:soajs/soajs.gcs.git --branch ${GIT_BRANCH}
+        cd ./soajs.gcs
         npm install
         cd ../
         git clone git@github.com:soajs/soajs.examples.git --branch ${GIT_BRANCH}
