@@ -58,6 +58,7 @@ function init(){
         echo $'\n ... Unable to find docker on your machine. PLease install docker!'
         exit -1
     fi
+    docker ps -a
     echo $'\n1- Cleaning previous docker containers ...'
     docker stop $(docker ps -a -q)
     sleep 1
