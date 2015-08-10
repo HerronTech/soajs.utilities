@@ -160,6 +160,7 @@ function buildFolder(){
 function uracSuccess(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
         npm install soajs.oauth
+        rm -Rf ./soajs.oauth/node_modules/bcrypt
         npm install soajs.gcs
         npm install soajs.examples
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
@@ -179,6 +180,7 @@ function uracFailure(){
 function dashSuccess(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
         npm install soajs.urac
+        rm -Rf ./soajs.urac/node_modules/bcrypt
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
         git clone git@github.com:soajs/soajs.urac.git --branch ${GIT_BRANCH}
     else
@@ -195,6 +197,7 @@ function dashFailure(){
 function controllerSuccess(){
     if [ ${DEPLOY_FROM} == "NPM" ]; then
         npm install soajs.dashboard
+        rm -Rf ./soajs.dashboard/node_modules/bcrypt
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
         git clone git@github.com:soajs/soajs.dashboard.git --branch ${GIT_BRANCH}
     else
