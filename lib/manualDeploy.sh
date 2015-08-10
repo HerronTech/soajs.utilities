@@ -2,7 +2,7 @@
 
 [ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/opt/'
 
-[ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='LOCAL'
+[ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='NPM'
 WRK_DIR=${LOC}'soajs/node_modules'
 GIT_BRANCH="develop"
 MASTER_DOMAIN="soajs.org"
@@ -69,7 +69,7 @@ function setupNginx(){
 	export SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}
 	export SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}
 	export SOAJS_NX_APIPORT=80
-	export SOAJS_NX_HOSTPREFIX=127.0.0.1
+	export SOAJS_NX_HOSTIP=127.0.0.1
 	export SOAJS_NX_DASHBOARDROOT=${WRK_DIR}"/soajs.dashboard/ui"
 	mkdir -p ${WRK_DIR}"/nginx"
 

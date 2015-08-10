@@ -3,7 +3,7 @@
 [ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/Users/'
 [ ${SOAJS_DEPLOY_LOCAL_SRC} ] && LOC=${SOAJS_DEPLOY_LOCAL_SRC} || LOC_LOCAL_SRC='/opt/soajs/node_modules/'
 
-[ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='LOCAL'
+[ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='NPM'
 WRK_DIR=${LOC}'soajs/'
 SRC_DIR=${WRK_DIR}'src/node_modules/'
 GIT_BRANCH="develop"
@@ -140,6 +140,8 @@ function buildFolder(){
     mkdir -p ${WRK_DIR}'uploads'
 
     cp -R './FILES' ${WRK_DIR}'/FILES'
+    mv ${WRK_DIR}'/FILES/profiles/single.js' ${WRK_DIR}'/FILES/profiles/single-manual.js'
+    mv ${WRK_DIR}'/FILES/profiles/single-docker.js' ${WRK_DIR}'/FILES/profiles/single.js'
 
     pushd ${WRK_DIR}
 
