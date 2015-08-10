@@ -8,7 +8,7 @@ WRK_DIR=${LOC}'soajs/'
 SRC_DIR=${WRK_DIR}'src/node_modules/'
 GIT_BRANCH="develop"
 DATA_CONTAINER='soajsData'
-IMAGE_PREFIX='antoinehage'
+IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
 MASTER_DOMAIN='soajs.org'
 
