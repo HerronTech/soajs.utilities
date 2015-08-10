@@ -2,55 +2,21 @@
 [![NPM version](https://badge.fury.io/js/soajs.utilities.svg)](http://badge.fury.io/js/soajs.utilities)
 
 SOAJS Utilities has 2 functions: 
-1. The ability to build docker images or run docker compose configuration files.
-2. The ability to import SOAJS data into a mongo docker containers.
+1. The ability to deploy SOAJS and its core services.
+2. The ability to import SOAJS data into mongo or a mongo docker container.
 
-##Build SOAJS docker images
+## Deploy SOAJS
 
-Build SOAJS docker images:
-
-**syntax**:
+**Using Docker**
 ```sh
-node ./lib/index.js docker serviceNPM <PROFILE_PATH> <NPM_PACKAGE> [version]
-node ./lib/index.js docker serviceLocal <PROFILE_PATH> <SERVICE_FOLDER>
-node ./lib/index.js docker soajsLocal <PROFILE_PATH> <SOAJS_FOLDER>
-node ./lib/index.js docker nginx <NGINX_PATH> [DASHBOARD_UI_FOLDER]
+cd lib
+./dockerDeploy.sh [ NPM | GIT | LOCAL]
 ```
 
-**Development Environment:**
+**Manually**
 ```sh
-# build image from folder /deployment/development/nginx
-$ node ./lib/index.js docker buildImage development/nginx
-
-# build image from folder /deployment/development/service
-$ node ./lib/index.js docker buildImage development/service
-```
-
-**Dashboard Environment:**
-```sh
-# build image from folder /deployment/cloud/dashboard/nginx
-$ node ./lib/index.js docker buildImage cloud/dashboard/nginx
-
-# build image from folder /deployment/cloud/dashboard/controller
-$ node ./lib/index.js docker buildImage cloud/dashboard/controller
-
-# build image from folder /deployment/cloud/dashboard/urac_dashboard
-$ node ./lib/index.js docker buildImage cloud/dashboard/urac_dashboard
-```
-
-**Production Environment:**
-```sh
-# build image from folder /deployment/cloud/prod/nginx
-$ node ./lib/index.js docker buildImage cloud/prod/nginx
-
-# build image from folder /deployment/cloud/prod/controller
-$ node ./lib/index.js docker buildImage cloud/prod/controller
-
-# build image from folder /deployment/cloud/prod/urac_oauth
-$ node ./lib/index.js docker buildImage cloud/prod/urac_oauth
-
-# build image from folder /deployment/cloud/prod/examples
-$ node ./lib/index.js docker buildImage cloud/prod/examples
+cd lib
+./manualDeploy.sh [ NPM | GIT | LOCAL]
 ```
 
 ---
