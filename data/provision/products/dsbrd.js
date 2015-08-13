@@ -16,7 +16,8 @@ var dsbrdProduct = {
 				"dashboard": {
 					"apisPermission": "restricted",
 					"apis": {
-						"/tenant/permissions/get": { "access": true }
+						"/extKey/get": { "access": true },
+						"/permissions/get": { "access": true }
 					}
 				},
 				"urac": {
@@ -106,7 +107,10 @@ var dsbrdProduct = {
 						"/tenant/acl/get": {
 							"access": ["administrator"]
 						},
-						"/tenant/permissions/get": {
+                        "/extKey/get": {
+                            "access": true
+                        },
+						"/permissions/get": {
 							"access": true
 						},
 						"/settings/tenant/get": {
