@@ -258,10 +258,15 @@ var core_services = [
 				"group": "Product"
 			},
 			{
-				"l": "Get Tenant Security Permissions",
-				'v': "/tenant/permissions/get",
+				"l": "Get the user dashboard key",
+				'v': "/key/get",
 				"group": "Tenant"
 			},
+            {
+                "l": "Get Tenant Security Permissions",
+                'v': "/permissions/get",
+                "group": "Tenant"
+            },
 			{
 				"l": "List Tenants",
 				'v': "/tenant/list",
