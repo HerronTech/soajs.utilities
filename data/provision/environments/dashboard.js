@@ -128,7 +128,7 @@ var dashboard = {
 					"path": '/',
 					"httpOnly": true,
 					"secure": false,
-					"domain": "soajs.com",
+					//"domain": "soajs.com",
 					"maxAge": null
 				},
 				"resave": false,

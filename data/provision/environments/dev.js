@@ -133,7 +133,7 @@ var dev = {
 					"path": '/',
 					"httpOnly": true,
 					"secure": false,
-					"domain": "myDomain.com",
+					//"domain": "myDomain.com",
 					"maxAge": null
 				},
 				"resave": false,
