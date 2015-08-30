@@ -7,8 +7,8 @@ var client = {
 	"oauth": {},
 	"applications": [
 		{
-			"product": "CPROD",
-			"package": "CPROD_MAIN",
+			"product": "DSBRD",
+			"package": "DSBRD_CLIENT",
 			"appId": ObjectId('555214e9799d20bca477c1d9'),
 			"description": "This application uses the Dashboard Main Package and gives access to example03 and example04.",
 			"keys": [
@@ -23,12 +23,48 @@ var client = {
 					],
 					"config": {
 						"dev": {
-							"example03":{
-								"tenantName":"Dashboard Client Tenant"
-							},
-							"example04":{
-								"tenantName":"Dashboard Client Tenant"
-							}
+                            "mail": {
+                                "from": 'me@localhost.com',
+                                "transport": {
+                                    "type": "sendmail",
+                                    "options": {}
+                                }
+                            },
+                            "urac": {
+                                "hashIterations": 1024, //used by hasher
+                                "seedLength": 32, //used by hasher
+                                "link": {
+                                    "addUser": "http://dashboard.soajs.org/#/setNewPassword",
+                                    "changeEmail": "http://dashboard.soajs.org/#/changeEmail/validate",
+                                    "forgotPassword": "http://dashboard.soajs.org/#/resetPassword",
+                                    "join": "http://dashboard.soajs.org/#/join/validate"
+                                },
+                                "tokenExpiryTTL": 2 * 24 * 3600 * 1000,// token expiry limit in seconds
+                                "validateJoin": true, //true if registration needs validation
+                                "mail": { //urac mail options
+                                    "join": {
+                                        "subject": 'Welcome to SOAJS',
+                                        "path": "./mail/urac/join.tmpl"
+                                    },
+                                    "forgotPassword": {
+                                        "subject": 'Reset Your Password at SOAJS',
+                                        "path": "./mail/urac/forgotPassword.tmpl"
+                                    },
+                                    "addUser": {
+                                        "subject": 'Account Created at SOAJS',
+                                        "path": "./mail/urac/addUser.tmpl"
+                                    },
+                                    "changeUserStatus": {
+                                        "subject": "Account Status changed at SOAJS",
+                                        //use custom HTML
+                                        "content": "<p>Dear <b>{{ username }}</b>, <br />The administrator update your account status to <b>{{ status }}</b> on {{ ts|date('F jS, Y') }}.<br /><br />Regards,<br/>SOAJS Team.</p>"
+                                    },
+                                    "changeEmail": {
+                                        "subject": "Change Account Email at SOAJS",
+                                        "path": "./mail/urac/changeEmail.tmpl"
+                                    }
+                                }
+                            }
 						}
 					}
 				}

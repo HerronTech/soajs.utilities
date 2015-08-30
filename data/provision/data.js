@@ -1,6 +1,16 @@
 var provDb = db.getSiblingDB('core_provision');
 //provDb.dropDatabase();
 
+var files = listFiles('./extKeys');
+for (var i = 0; i < files.length; i++) {
+    load(files[i].name);
+}
+
+var keys = extKeys;
+provDb.dashboard_extKeys.drop();
+provDb.dashboard_extKeys.insert(keys);
+
+
 var files = listFiles('./environments');
 for (var i = 0; i < files.length; i++) {
 	load(files[i].name);
