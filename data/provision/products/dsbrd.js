@@ -8,35 +8,6 @@ var dsbrdProduct = {
 	"description": "This is the main dashboard product.",
 	"packages": [
 		{
-			"code": "DSBRD_PUB",
-			"name": "Public Product Dashboard Package",
-			"locked": true,
-			"description": "This package allows you to login to the dashboard.",
-			"acl": {
-				"dashboard": {
-					"apisPermission": "restricted",
-					"apis": {
-						"/key/get": { "access": true },
-						"/permissions/get": { "access": true }
-					}
-				},
-				"urac": {
-					"access": false,
-					"apisPermission": "restricted",
-					"apis": {
-						"/login": {},
-						"/forgotPassword": {},
-						"/changeEmail/validate": {},
-						"/join": {},
-						"/logout": {},
-						"/join/validate": {},
-						"/resetPassword": {}
-					}
-				}
-			},
-			"_TTL": 7 * 24 * 3600 * 1000 // 7 days hours
-		},
-		{
 			"code": "DSBRD_MAIN",
 			"name": "Main Product Dashboard Package",
 			"locked": true,
@@ -54,12 +25,17 @@ var dsbrdProduct = {
 					"apisPermission": "restricted",
 					"access": false,
 					"apis": {
+						"/login": {},
+						"/forgotPassword": {},
+						"/changeEmail/validate": {},
+						"/join": {},
+						"/join/validate": {},
+						"/resetPassword": {},
 						"/account/getUser": {"access": true},
 						"/account/changePassword": {"access": true},
 						"/account/editProfile": {"access": true},
 						"/account/changeEmail": {"access": true},
 						"/logout": {"access": true},
-						"/changeEmail/validate": {"access": true},
 						"/admin/getUser": {"access": ["administrator", "owner"]},
 						"/admin/listUsers": {"access": ["administrator", "owner"]},
 						"/admin/addUser": {"access": ["administrator", "owner"]},
