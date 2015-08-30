@@ -8,8 +8,8 @@ var dsbrdProduct = {
 	"description": "This is the main dashboard product.",
 	"packages": [
 		{
-			"code": "DSBRD_MAIN",
-			"name": "Public Product Main Package",
+			"code": "DSBRD_PUB",
+			"name": "Public Product Dashboard Package",
 			"locked": true,
 			"description": "This package allows you to login to the dashboard.",
 			"acl": {
@@ -30,11 +30,46 @@ var dsbrdProduct = {
 						"/join": {},
 						"/logout": {},
 						"/join/validate": {},
-						"/resetPassword": {},
+						"/resetPassword": {}
+					}
+				}
+			},
+			"_TTL": 7 * 24 * 3600 * 1000 // 7 days hours
+		},
+		{
+			"code": "DSBRD_MAIN",
+			"name": "Main Product Dashboard Package",
+			"locked": true,
+			"description": "This package allows you to login to the dashboard.",
+			"acl": {
+				"dashboard": {
+					"apisPermission": "restricted",
+					"apis": {
+						"/key/get": { "access": true },
+						"/permissions/get": { "access": true },
+						"/tenant/acl/get": { "access": true }
+					}
+				},
+				"urac": {
+					"apisPermission": "restricted",
+					"access": false,
+					"apis": {
 						"/account/getUser": {"access": true},
 						"/account/changePassword": {"access": true},
 						"/account/editProfile": {"access": true},
-						"/account/changeEmail": {"access": true}
+						"/account/changeEmail": {"access": true},
+						"/logout": {"access": true},
+						"/changeEmail/validate": {"access": true},
+						"/admin/getUser": {"access": ["administrator", "owner"]},
+						"/admin/listUsers": {"access": ["administrator", "owner"]},
+						"/admin/addUser": {"access": ["administrator", "owner"]},
+						"/admin/changeUserStatus": {"access": ["administrator", "owner"]},
+						"/admin/editUser": {"access": ["administrator", "owner"]},
+						"/admin/group/add": {"access": ["administrator", "owner"]},
+						"/admin/group/addUsers": {"access": ["administrator", "owner"]},
+						"/admin/group/delete": {"access": ["administrator", "owner"]},
+						"/admin/group/edit": {"access": ["administrator", "owner"]},
+						"/admin/group/list": {"access": ["administrator", "owner"]}
 					}
 				}
 			},
