@@ -24,22 +24,22 @@ function init(){
     PRE_EXIT=0
     _SW_CHECK=$(program_is_installed node)
     if [ ${_SW_CHECK} == 0 ]; then
-        echo $'\n ... Unable to find docker on your machine. PLease install node!'
+        echo $'\n ... Unable to find nodejs on your machine. PLease install node!'
         PRE_EXIT=1
     fi
     _SW_CHECK=$(program_is_installed mongo)
     if [ ${_SW_CHECK} == 0 ]; then
-        echo $'\n ... Unable to find docker on your machine. PLease install mongo!'
+        echo $'\n ... Unable to find mongodb on your machine. PLease install mongo!'
         PRE_EXIT=1
     fi
     _SW_CHECK=$(program_is_installed nginx)
     if [ ${_SW_CHECK} == 0 ]; then
-        echo $'\n ... Unable to find docker on your machine. PLease install nginx!'
+        echo $'\n ... Unable to find nginx on your machine. PLease install nginx!'
         PRE_EXIT=1
     fi
     _SW_CHECK=$(program_is_installed npm)
     if [ ${_SW_CHECK} == 0 ]; then
-        echo $'\n ... Unable to find docker on your machine. PLease install npm!'
+        echo $'\n ... Unable to find npm on your machine. PLease install npm!'
         PRE_EXIT=1
     fi
 
