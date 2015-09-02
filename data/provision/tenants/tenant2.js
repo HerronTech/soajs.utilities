@@ -32,6 +32,16 @@ var tenant2 = {
 							"example03": {
 								"tenantName":"Client Two"
 							}
+						},
+						"dashboard":{
+							"urac": {
+								"hashIterations": 1024, //used by hasher
+								"seedLength": 32, //used by hasher
+								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
+							},
+							"example03": {
+								"tenantName":"Client Two"
+							}
 						}
 					}
 				},
@@ -49,6 +59,15 @@ var tenant2 = {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher								
+								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
+							},
+							"example03": {
+							}
+						},
+						"dashboard" :{
+							"urac": {
+								"hashIterations": 1024, //used by hasher
+								"seedLength": 32, //used by hasher
 								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
 							},
 							"example03": {

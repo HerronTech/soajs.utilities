@@ -69,7 +69,48 @@ var dsbrd = {
                             }
 						},
 						"dev": {
-
+							"mail": {
+								"from": 'me@localhost.com',
+								"transport": {
+									"type": "sendmail",
+									"options": {}
+								}
+							},
+							"urac": {
+								"hashIterations": 1024, //used by hasher
+								"seedLength": 32, //used by hasher
+								"link": {
+									"addUser": "http://dashboard.soajs.org/#/setNewPassword",
+									"changeEmail": "http://dashboard.soajs.org/#/changeEmail/validate",
+									"forgotPassword": "http://dashboard.soajs.org/#/resetPassword",
+									"join": "http://dashboard.soajs.org/#/join/validate"
+								},
+								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,// token expiry limit in seconds
+								"validateJoin": true, //true if registration needs validation
+								"mail": { //urac mail options
+									"join": {
+										"subject": 'Welcome to SOAJS',
+										"path": "./mail/urac/join.tmpl"
+									},
+									"forgotPassword": {
+										"subject": 'Reset Your Password at SOAJS',
+										"path": "./mail/urac/forgotPassword.tmpl"
+									},
+									"addUser": {
+										"subject": 'Account Created at SOAJS',
+										"path": "./mail/urac/addUser.tmpl"
+									},
+									"changeUserStatus": {
+										"subject": "Account Status changed at SOAJS",
+										//use custom HTML
+										"content": "<p>Dear <b>{{ username }}</b>, <br />The administrator update your account status to <b>{{ status }}</b> on {{ ts|date('F jS, Y') }}.<br /><br />Regards,<br/>SOAJS Team.</p>"
+									},
+									"changeEmail": {
+										"subject": "Change Account Email at SOAJS",
+										"path": "./mail/urac/changeEmail.tmpl"
+									}
+								}
+							}
 						}
 					}
 				}
@@ -137,7 +178,48 @@ var dsbrd = {
                             }
                         },
                         "dev": {
-
+	                        "mail": {
+		                        "from": 'me@localhost.com',
+		                        "transport": {
+			                        "type": "sendmail",
+			                        "options": {}
+		                        }
+	                        },
+	                        "urac": {
+		                        "hashIterations": 1024, //used by hasher
+		                        "seedLength": 32, //used by hasher
+		                        "link": {
+			                        "addUser": "http://dashboard.soajs.org/#/setNewPassword",
+			                        "changeEmail": "http://dashboard.soajs.org/#/changeEmail/validate",
+			                        "forgotPassword": "http://dashboard.soajs.org/#/resetPassword",
+			                        "join": "http://dashboard.soajs.org/#/join/validate"
+		                        },
+		                        "tokenExpiryTTL": 2 * 24 * 3600 * 1000,// token expiry limit in seconds
+		                        "validateJoin": true, //true if registration needs validation
+		                        "mail": { //urac mail options
+			                        "join": {
+				                        "subject": 'Welcome to SOAJS',
+				                        "path": "./mail/urac/join.tmpl"
+			                        },
+			                        "forgotPassword": {
+				                        "subject": 'Reset Your Password at SOAJS',
+				                        "path": "./mail/urac/forgotPassword.tmpl"
+			                        },
+			                        "addUser": {
+				                        "subject": 'Account Created at SOAJS',
+				                        "path": "./mail/urac/addUser.tmpl"
+			                        },
+			                        "changeUserStatus": {
+				                        "subject": "Account Status changed at SOAJS",
+				                        //use custom HTML
+				                        "content": "<p>Dear <b>{{ username }}</b>, <br />The administrator update your account status to <b>{{ status }}</b> on {{ ts|date('F jS, Y') }}.<br /><br />Regards,<br/>SOAJS Team.</p>"
+			                        },
+			                        "changeEmail": {
+				                        "subject": "Change Account Email at SOAJS",
+				                        "path": "./mail/urac/changeEmail.tmpl"
+			                        }
+		                        }
+	                        }
                         }
                     }
                 }
