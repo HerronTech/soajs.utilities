@@ -41,16 +41,14 @@ function init(){
     #SOAJSDATA container
     ###################################
     echo $'Initializing and checking prerequisites ... '
-    DOCKERMACHINE=$(program_is_installed docker-machine)
-    if [ ${DOCKERMACHINE} == 1 ]; then
-        echo $'\ndocker-machine setup identified'
-        docker-machine create --driver virtualbox soajs
-        docker-machine stop soajs
-        docker-machine start soajs
-        docker-machine regenerate-certs soajs
-        eval "$(docker-machine env soajs)"
-        MONGOIP=`docker-machine ip soajs`
-        docker-machine ssh "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
+    BOOT2DOCKER=$(program_is_installed boot2docker)
+    if [ ${BOOT2DOCKER} == 1 ]; then
+        echo $'\nboot2docker setup identified'
+        boot2docker init
+        boot2docker start
+        eval "$(boot2docker shellinit)"
+        MONGOIP=`boot2docker ip`
+        boot2docker ssh "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
         SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
     else
         SOAJS_DATA_VLM='-v '${LOC}'soajs/data:/data -v '${LOC}'soajs/data/db:/data/db'
@@ -76,8 +74,8 @@ function importData(){
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
     echo $'\n--------------------------'
     #get mongo container IP address
-    if [ ${DOCKERMACHINE} == 1 ]; then
-        MONGOIP=`docker-machine ip soajs`
+    if [ ${BOOT2DOCKER} == 1 ]; then
+        MONGOIP=`boot2docker ip`
     else
         MONGOIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${DATA_CONTAINER}`
     fi
@@ -123,7 +121,7 @@ function start(){
 
     ###################################
     #get mongo container IP address
-    if [ ${DOCKERMACHINE} == 1 ]; then
+    if [ ${BOOT2DOCKER} == 1 ]; then
         NGINXIP=${MONGOIP}
     else
         NGINXIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${NGINX_CONTAINER}`
