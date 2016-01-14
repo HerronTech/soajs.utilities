@@ -8,13 +8,12 @@ var dev = {
 	"deployer": {
 		"type": "manual", //available options: container | manual | cloud (chef | puppet)
 		"container": {
-			"selected": "docker.socket",
+			"selected": "docker.machine",
 			"docker": {
-				"selected": "socket",
 				"socket": {
 					'socketPath': '/var/run/docker.sock'
 				},
-				"boot2docker": {
+				"machine": {
 					'host': '192.168.59.103',
 					'port': 2376
 				},

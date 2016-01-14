@@ -19,12 +19,16 @@ for (var i = 0; i < files.length; i++) {
 provDb.environment.drop();
 
 var internalDocker = this.docker || null;
+var internalMongoIP = this.mongoIP || "127.0.0.1";
+var internalDevMongoIP = this.devMongoIP || "127.0.0.1";
 var records = [];
 if (internalDocker){
     dashboard.deployer.type = "container";
-    dashboard.dbs.clusters.cluster1.servers[0].host = "dataProxy01";
+    dashboard.deployer.container.docker.machine.host = internalMongoIP;
+	dashboard.dbs.clusters.cluster1.servers[0].host = internalMongoIP;
     dev.deployer.type = "container";
-    dev.dbs.clusters.cluster1.servers[0].host = "dataProxy01"
+	dev.deployer.container.docker.machine.host = internalDevMongoIP;
+    dev.dbs.clusters.cluster1.servers[0].host = internalMongoIP;
 }
 records.push(dev);
 records.push(dashboard);
