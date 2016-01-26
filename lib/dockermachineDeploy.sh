@@ -148,6 +148,11 @@ function buildFolder(){
     cp -R ${SRC}'soajs.gcs' ${WRK_DIR}'open_source/services/gcs'
     rm -Rf ${WRK_DIR}'open_source/services/dashboard/ui'
     cp -R ${SRC}'soajs.urac' ${WRK_DIR}'open_source/services/urac'
+    cp -R ${SRC}'soajs.oauth' ${WRK_DIR}'open_source/services/oauth'
+    cp -R ${SRC}'soajs.examples/example01' ${WRK_DIR}'open_source/services/example01'
+    cp -R ${SRC}'soajs.examples/example02' ${WRK_DIR}'open_source/services/example02'
+    cp -R ${SRC}'soajs.examples/example03' ${WRK_DIR}'open_source/services/example03'
+    cp -R ${SRC}'soajs.examples/example04' ${WRK_DIR}'open_source/services/example04'
 
     popd
 

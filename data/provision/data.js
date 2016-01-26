@@ -24,10 +24,10 @@ var internalDevMongoIP = this.devMongoIP || "127.0.0.1";
 var records = [];
 if (internalDocker){
     dashboard.deployer.type = "container";
-    dashboard.deployer.container.docker.machine.host = internalMongoIP;
+    dashboard.deployer.docker.machine.host = internalMongoIP;
 	dashboard.dbs.clusters.cluster1.servers[0].host = internalMongoIP;
     dev.deployer.type = "container";
-	dev.deployer.container.docker.machine.host = internalDevMongoIP;
+	dev.deployer.docker.machine.host = internalDevMongoIP;
     dev.dbs.clusters.cluster1.servers[0].host = internalMongoIP;
 }
 records.push(dev);
