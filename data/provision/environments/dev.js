@@ -7,31 +7,25 @@ var dev = {
 	"description": "this is the DEV environment",
 	"deployer": {
 		"type": "container",
-		"selected": "dockermachine.local",
-		"dockermachine":{
-			"socket": {
-				"socketPath": "/var/run/docker.sock"
+		"selected": "container.dockermachine.local",
+		"container":{
+			"dockermachine":{
+				"local": {
+					"host": "192.168.99.101",
+					"port": 2376
+				},
+				"cloud":{
+					"rackspace": {
+						"host": "docker.rackspace.com",
+						"port": 2376
+						//additional info goes here like instances, credentials or keys ....
+					}
+				}
 			},
-			"local": {
-				"host": "192.168.99.101",
-				"port": 2376
-			},
-			"joyent": {
-				"host": "us-east-1.docker.joyent.com",
-				"port": 2376
-			},
-			"rackspace": {
-				"host": "docker.rackspace.com",
-				"port": 2376
-			}
-		},
-		"docker": {
-			"socket": {
-				"socketPath": "/var/run/docker.sock"
-			},
-			"boot2docker": {
-				"host": "192.168.99.101",
-				"port": 2376
+			"docker": {
+				"socket": {
+					"socketPath": "/var/run/docker.sock"
+				}
 			}
 		}
 	},
