@@ -7,23 +7,32 @@ var dashboard = {
 	"port": 80,
 	"profile": "/opt/soajs/FILES/profiles/single.js",
 	"deployer": {
-		"type": "container", //available options: container | manual | cloud (chef | puppet)
-		"selected": "docker.machine",
-		"docker": {
+		"type": "container",
+		"selected": "dockermachine.local",
+		"dockermachine":{
 			"socket": {
-				'socketPath': '/var/run/docker.sock'
+				"socketPath": "/var/run/docker.sock"
 			},
-			"machine": {
-				'host': '192.168.99.101',
-				'port': 2376
+			"local": {
+				"host": "192.168.99.101",
+				"port": 2376
 			},
 			"joyent": {
-				'host': 'us-east-1.docker.joyent.com',
-				'port': 2376
+				"host": "us-east-1.docker.joyent.com",
+				"port": 2376
 			},
-			"rackspace":{
-				'host': 'docker.rackspace.com',
-				'port': 2376
+			"rackspace": {
+				"host": "docker.rackspace.com",
+				"port": 2376
+			}
+		},
+		"docker": {
+			"socket": {
+				"socketPath": "/var/run/docker.sock"
+			},
+			"boot2docker": {
+				"host": "192.168.99.101",
+				"port": 2376
 			}
 		}
 	},
