@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# Requirement: docker-machine 0.6.0+
+#
+# https://github.com/docker/machine/releases
+
 
 [ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/Users/'
 [ ${SOAJS_DEPLOY_LOCAL_SRC} ] && LOC=${SOAJS_DEPLOY_LOCAL_SRC} || LOC_LOCAL_SRC='/opt/soajs/node_modules/'
@@ -62,11 +67,13 @@ function createDockerMachine(){
             docker-machine start ${machineName}
             docker-machine regenerate-certs ${machineName}
         else
-            docker-machine create -d virtualbox \
+            docker-machine create -d rackspace \
              --swarm \--swarm-discovery="consul://$(docker-machine ip v-keystore):8500" \
              --engine-opt="cluster-store=consul://$(docker-machine ip v-keystore):8500" \
              --engine-opt="cluster-advertise=eth1:2376" \
-             ${machineName}
+             --rackspace-api-key $rkapikey \
+             --rackspace-username $rkusername \
+             --rackspace-region IAD ${machineName}
         fi
     else
         echo $'\n ... to create a docker machine, a name must be provided!'
@@ -312,18 +319,20 @@ function setupDevEnv(){
 }
 #### DEV CLOUD END ###
 function setupComm(){
-    docker-machine create -d virtualbox v-keystore
+    docker-machine create --driver rackspace --rackspace-api-key $rkapikey --rackspace-username $rkusername --rackspace-region IAD v-keystore
     docker $(docker-machine config v-keystore) run -d -p "8500:8500" -h "consul" progrium/consul -server -bootstrap
     echo $'\n .....Keystore setup DONE'
 }
 function setupSwarmMaster(){
     docker-machine create \
-     -d virtualbox \
+     -d rackspace \
      --swarm --swarm-master \
      --swarm-discovery="consul://$(docker-machine ip v-keystore):8500" \
      --engine-opt="cluster-store=consul://$(docker-machine ip v-keystore):8500" \
      --engine-opt="cluster-advertise=eth1:2376" \
-     soajs-swarm-master
+     --rackspace-api-key $rkapikey \
+     --rackspace-username $rkusername \
+     --rackspace-region IAD soajs-swarm-master
     echo $'\n .....swarm-master setup DONE'
 }
 function setupContainerNetwork(){
@@ -331,8 +340,25 @@ function setupContainerNetwork(){
     docker network create --driver overlay soajsnet
     echo $'\n .....Container Network setup DONE'
 }
+function setupcloud(){
+    while [ "$answerinput" != "y" ]
+     do
+      clear
+      echo -n "Please type in your Rackspace username, followed by [ENTER]: "
+      read rkusername
+      echo ""
+      echo -n "Please type in your Rackspace API key, followed by [ENTER]: "
+      read rkapikey
+      echo ""
+      echo "Username: $rkusername"
+      echo "API key: $rkapikey"
+      echo ""
+      echo -n "Are the above correct? y or n: "
+      read answerinput
+    done
+}
 
-
+setupcloud
 setupComm
 setupSwarmMaster
 setupContainerNetwork
