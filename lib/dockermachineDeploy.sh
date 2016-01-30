@@ -260,8 +260,8 @@ function buildDashMongo(){
 
     local DEVMACHINEIP=`docker-machine ip ${machineDevName}`
     local MONGOIP=`docker-machine ip ${machineName}`
-    docker-machine ssh ${machineName} "sudo mkdir -p /dataDash; sudo chgrp staff -R /dataDash; sudo chmod 775 -R /dataDash; exit"
-    local SOAJS_DATA_VLM='-v /dataDash:/data -v /dataDash/db:/data/db'
+    docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
+    local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
     echo $'\n2- Starging Mongo Container "soajsData" ...'
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
@@ -293,8 +293,8 @@ function setupDashEnv(){
 function buildDevMongo(){
     local machineName=${1}
     local MONGOIP=`docker-machine ip ${machineName}`
-    docker-machine ssh ${machineName} "sudo mkdir -p /dataDev; sudo chgrp staff -R /dataDev; sudo chmod 775 -R /dataDev; exit"
-    local SOAJS_DATA_VLM='-v /dataDev:/data -v /dataDev/db:/data/db'
+    docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
+    local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
     echo $'\n2- Starging Mongo Container "soajsData" ...'
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
