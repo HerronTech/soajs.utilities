@@ -41,20 +41,7 @@ function init(){
     #SOAJSDATA container
     ###################################
     echo $'Initializing and checking prerequisites ... '
-    DOCKERMACHINE=$(program_is_installed docker-machine)
-    if [ ${DOCKERMACHINE} == 1 ]; then
-        echo $'\ndocker-machine setup identified'
-        docker-machine create --driver virtualbox soajs
-        docker-machine stop soajs
-        docker-machine start soajs
-        docker-machine regenerate-certs soajs
-        eval "$(docker-machine env soajs)"
-        MONGOIP=`docker-machine ip soajs`
-        docker-machine ssh "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
-        SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
-    else
-        SOAJS_DATA_VLM='-v '${LOC}'soajs/data:/data -v '${LOC}'soajs/data/db:/data/db'
-    fi
+    SOAJS_DATA_VLM='-v '${LOC}'soajs/data:/data -v '${LOC}'soajs/data/db:/data/db'
     DOCKER=$(program_is_installed docker)
     if [ ${DOCKER} == 0 ]; then
         echo $'\n ... Unable to find docker on your machine. PLease install docker!'
@@ -76,11 +63,7 @@ function importData(){
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
     echo $'\n--------------------------'
     #get mongo container IP address
-    if [ ${DOCKERMACHINE} == 1 ]; then
-        MONGOIP=`docker-machine ip soajs`
-    else
-        MONGOIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${DATA_CONTAINER}`
-    fi
+    MONGOIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${DATA_CONTAINER}`
     echo $'\nMongo ip is: '${MONGOIP}
     #import provisioned data to mongo
     sleep 5
@@ -123,11 +106,7 @@ function start(){
 
     ###################################
     #get mongo container IP address
-    if [ ${DOCKERMACHINE} == 1 ]; then
-        NGINXIP=${MONGOIP}
-    else
-        NGINXIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${NGINX_CONTAINER}`
-    fi
+    NGINXIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${NGINX_CONTAINER}`
     echo $'\n\n Add the following to your /etc/hosts file:'
     echo $'\t '${NGINXIP}' dashboard-api.'${MASTER_DOMAIN}
     echo $'\t '${NGINXIP}' dashboard.'${MASTER_DOMAIN}

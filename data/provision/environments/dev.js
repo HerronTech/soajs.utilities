@@ -31,7 +31,7 @@ var dev = {
 	},
 	"dbs": {
 		"clusters": {
-			"cluster1": {
+			"dev_cluster": {
 				"servers": [
 					{
 						"host": "127.0.0.1",
@@ -59,7 +59,7 @@ var dev = {
 		"config": {
 			"prefix": "",
 			"session": {
-				"cluster": "cluster1",
+				"cluster": "dev_cluster",
 				"name": "core_session",
 				'store': {},
 				"collection": "sessions",
@@ -69,7 +69,7 @@ var dev = {
 		},
 		"databases": {
 			"urac": {
-				"cluster": "cluster1",
+				"cluster": "dev_cluster",
 				"tenantSpecific": true
 			}
 		}

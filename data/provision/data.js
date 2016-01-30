@@ -18,17 +18,31 @@ for (var i = 0; i < files.length; i++) {
 
 provDb.environment.drop();
 
+var internalMachine = this.machine || null;
 var internalDocker = this.docker || null;
 var internalMongoIP = this.mongoIP || "127.0.0.1";
 var internalDevMongoIP = this.devMongoIP || "127.0.0.1";
 var records = [];
-if (internalDocker){
-    dashboard.deployer.type = "container";
-    dashboard.deployer.container.dockermachine.local.host = internalMongoIP;
-	dashboard.dbs.clusters.cluster1.servers[0].host = internalMongoIP;
-    dev.deployer.type = "container";
-	dev.deployer.container.dockermachine.local.host = internalDevMongoIP;
-    dev.dbs.clusters.cluster1.servers[0].host = internalMongoIP;
+if (internalDocker || internalMachine) {
+	dashboard.deployer.type = "container";
+	dev.deployer.type = "container";
+	dashboard.dbs.clusters.dash_cluster.servers[0].host = internalMongoIP;
+	dev.dbs.clusters.dev_cluster.servers[0].host = internalDevMongoIP;
+
+	if (internalDocker) {
+		dashboard.deployer.selected = "container.docker.socket";
+		dashboard.deployer.selected = "container.docker.socket";
+	}
+	if (internalMachine) {
+		dashboard.deployer.selected = "container.dockermachine.local";
+		dev.deployer.selected = "container.dockermachine.local";
+		dashboard.deployer.container.dockermachine.local.host = internalMongoIP;
+		dev.deployer.container.dockermachine.local.host = internalDevMongoIP;
+	}
+}
+else {
+	dashboard.deployer.type = "manual";
+	dev.deployer.type = "manual";
 }
 records.push(dev);
 records.push(dashboard);

@@ -33,7 +33,7 @@ var dashboard = {
 	"description": "this is the Dashboard environment",
 	"dbs": {
 		"clusters": {
-			"cluster1": {
+			"dash_cluster": {
 				"servers": [
 					{
 						"host": "127.0.0.1",
@@ -61,7 +61,7 @@ var dashboard = {
 		"config": {
 			"prefix": "",
 			"session": {
-				"cluster": "cluster1",
+				"cluster": "dash_cluster",
 				"name": "core_session",
 				'store': {},
 				"collection": "sessions",
@@ -71,7 +71,7 @@ var dashboard = {
 		},
 		"databases": {
 			"urac": {
-				"cluster": "cluster1",
+				"cluster": "dash_cluster",
 				"tenantSpecific": true
 			}
 		}

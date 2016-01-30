@@ -260,8 +260,8 @@ function buildDashMongo(){
 
     local DEVMACHINEIP=`docker-machine ip ${machineDevName}`
     local MONGOIP=`docker-machine ip ${machineName}`
-    docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
-    SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
+    docker-machine ssh ${machineName} "sudo mkdir -p /dataDash; sudo chgrp staff -R /dataDash; sudo chmod 775 -R /dataDash; exit"
+    local SOAJS_DATA_VLM='-v /dataDash:/data -v /dataDash/db:/data/db'
 
     echo $'\n2- Starging Mongo Container "soajsData" ...'
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
@@ -271,7 +271,7 @@ function buildDashMongo(){
     #import provisioned data to mongo
     sleep 5
     echo $'\n3- Importing core provisioned data ...'
-    node index data import provision ${MONGOIP} DOCKER ${DEVMACHINEIP}
+    node index data import provision ${MONGOIP} DOCKERMACHINE ${DEVMACHINEIP}
     echo $'\n4- Importing URAC data...'
     node index data import urac ${MONGOIP}
     echo $'\n--------------------------'
@@ -290,11 +290,25 @@ function setupDashEnv(){
 #### DASH CLOUD END ###
 
 #### DEV CLOUD
+function buildDevMongo(){
+    local machineName=${1}
+    local MONGOIP=`docker-machine ip ${machineName}`
+    docker-machine ssh ${machineName} "sudo mkdir -p /dataDev; sudo chgrp staff -R /dataDev; sudo chmod 775 -R /dataDev; exit"
+    local SOAJS_DATA_VLM='-v /dataDev:/data -v /dataDev/db:/data/db'
+
+    echo $'\n2- Starging Mongo Container "soajsData" ...'
+    docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
+    echo $'\n--------------------------'
+    echo $'\nMongo ip is: '${MONGOIP}
+}
 function setupDevEnv(){
     local machineName=${1}
     echo $'\n Setting up cloud for: '${machineName}
 
     local DEVMACHINEIP=`docker-machine ip ${machineName}`
+
+    cleanContainers ${machineName}
+    buildDevMongo ${machineName}
 
     echo $'\n\n Add the following to your /etc/hosts file:'
     echo $'\t '${DEVMACHINEIP}' api.mydomain.com'
