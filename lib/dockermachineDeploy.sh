@@ -126,7 +126,7 @@ function start(){
     ###################################
     sleep 5
 
-    local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' controller`
+    local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' controller`
     echo $'\n6- Starting NGINX Container "nginx" ... '
     docker run -d -p 80:80 -e "SOAJS_NX_HOSTIP=${CONTROLLERIP}" -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_NX_APIPORT=80" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ -v ${LOC}soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
     echo $'\n--------------------------'
