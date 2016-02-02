@@ -64,7 +64,7 @@ function createDockerMachine(){
             echo $'\n docker machine: '${machineName}' already exist, trying to force restart'
             docker-machine stop ${machineName}
             docker-machine start ${machineName}
-            docker-machine regenerate-certs ${machineName}
+            docker-machine regenerate-certs -f ${machineName}
         else
             docker-machine create -d virtualbox \
              --swarm \--swarm-discovery="consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
@@ -316,7 +316,7 @@ function buildDevMongo(){
     local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
     echo $'\n2- Starging Mongo Container "soajsData" '${machineName}' '${MONGOIP}' ...'
-    docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
+    docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}DEV --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
     echo $'\n--------------------------'
     echo $'\nMongo ip is: '${MONGOIP}
 }
@@ -347,7 +347,7 @@ function setupComm(){
         echo $'\n docker machine: '${KEYSTORE_MACHINE}' already exist, trying to force restart'
         docker-machine stop ${KEYSTORE_MACHINE}
         docker-machine start ${KEYSTORE_MACHINE}
-        docker-machine regenerate-certs ${KEYSTORE_MACHINE}
+        docker-machine regenerate-certs -f ${KEYSTORE_MACHINE}
     else
         docker-machine create -d virtualbox ${KEYSTORE_MACHINE}
     fi
@@ -367,7 +367,7 @@ function setupSwarmMaster(){
         echo $'\n docker machine: '${machineName}' already exist, trying to force restart'
         docker-machine stop ${machineName}
         docker-machine start ${machineName}
-        docker-machine regenerate-certs ${machineName}
+        docker-machine regenerate-certs -f ${machineName}
     else
         docker-machine create \
          -d virtualbox \
