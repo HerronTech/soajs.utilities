@@ -26,10 +26,8 @@ function createContainer(){
 
     if [ ${WHAT} == "dashboard" ]; then
         local EXTRA='-e SOAJS_PROFILE_LOC=/opt/soajs/FILES/profiles/ -e SOAJS_ENV_WORKDIR='${LOC}' -v '${LOC}'soajs:'${LOC}'soajs'
-#        docker run -d --link ${DATA_CONTAINER}:dataProxy01 ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js'
         docker run -d ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js'
     else
-#        docker run -d --link ${DATA_CONTAINER}:dataProxy01 ${ENV} ${VLM} -i -t --name ${WHAT} ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js'
         docker run -d ${ENV} ${VLM} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js'
     fi
 }
@@ -120,7 +118,6 @@ function start(){
     ###################################
     sleep 5
     echo $'\n6- Starting NGINX Container "nginx" ... '
-#    docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_NX_APIPORT=80" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ -v ${LOC}soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
     docker run -d -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_NX_APIPORT=80" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ -v ${LOC}soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
     echo $'\n--------------------------'
 
@@ -149,7 +146,7 @@ function buildFolder(){
 
     cp -R './FILES' ${WRK_DIR}'FILES'
     mv ${WRK_DIR}'FILES/profiles/single.js' ${WRK_DIR}'FILES/profiles/single-manual.js'
-    mv ${WRK_DIR}'FILES/profiles/single-docker.js' ${WRK_DIR}'FILES/profiles/single-docker.js'
+    #mv ${WRK_DIR}'FILES/profiles/single-docker.js' ${WRK_DIR}'FILES/profiles/single-docker.js'
     sed -e "s/__SOAJS_DASH_IP__/${MACHINEIP}/" ${WRK_DIR}'FILES/profiles/single-docker.js' > ${WRK_DIR}'FILES/profiles/single.js'
 
     pushd ${WRK_DIR}
@@ -273,10 +270,9 @@ function buildDashMongo(){
     local DEVMACHINEIP=`docker-machine ip ${machineDevName}`
     local MONGOIP=`docker-machine ip ${machineName}`
     docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
-    SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
+    local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
     echo $'\n2- Starging Mongo Container "soajsData" ...'
-#    docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} --net=soajsnet mongo mongod --smallfiles
     echo $'\n--------------------------'
     echo $'\nMongo ip is: '${MONGOIP}
@@ -284,7 +280,7 @@ function buildDashMongo(){
     #import provisioned data to mongo
     sleep 5
     echo $'\n3- Importing core provisioned data ...'
-    node index data import provision ${MONGOIP} DOCKER ${DEVMACHINEIP}
+    node index data import provision ${MONGOIP} DOCKERMACHINE ${DEVMACHINEIP}
     echo $'\n4- Importing URAC data...'
     node index data import urac ${MONGOIP}
     echo $'\n--------------------------'
@@ -316,6 +312,7 @@ function setupDevEnv(){
 
 }
 #### DEV CLOUD END ###
+
 function setupComm(){
     docker-machine create -d virtualbox v-keystore
     docker $(docker-machine config v-keystore) run -d -p "8500:8500" -h "consul" progrium/consul -server -bootstrap

@@ -123,7 +123,8 @@ function buildFolder(){
 
     cp -R './FILES' ${WRK_DIR}'/FILES'
     mv ${WRK_DIR}'/FILES/profiles/single.js' ${WRK_DIR}'/FILES/profiles/single-manual.js'
-    mv ${WRK_DIR}'/FILES/profiles/single-docker.js' ${WRK_DIR}'/FILES/profiles/single.js'
+    #mv ${WRK_DIR}'/FILES/profiles/single-docker.js' ${WRK_DIR}'/FILES/profiles/single.js'
+    sed -e "s/__SOAJS_DASH_IP__/${MONGOIP}/" ${WRK_DIR}'FILES/profiles/single-docker.js' > ${WRK_DIR}'FILES/profiles/single.js'
 
     pushd ${WRK_DIR}
 

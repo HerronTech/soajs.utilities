@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# Requirement: docker-machine 0.6.0+
+#
+# https://github.com/docker/machine/releases
+
 
 [ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/Users/'
 [ ${SOAJS_DEPLOY_LOCAL_SRC} ] && LOC=${SOAJS_DEPLOY_LOCAL_SRC} || LOC_LOCAL_SRC='/opt/soajs/node_modules/'
@@ -11,6 +16,7 @@ DATA_CONTAINER='soajsData'
 IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
 MASTER_DOMAIN='soajs.org'
+KEYSTORE_MACHINE="soajs-v-keystore"
 
 function createContainer(){
     local WHAT=${1}
@@ -21,9 +27,9 @@ function createContainer(){
 
     if [ ${WHAT} == "dashboard" ]; then
         local EXTRA='-e SOAJS_PROFILE_LOC=/opt/soajs/FILES/profiles/ -e SOAJS_ENV_WORKDIR='${LOC}' -v '${LOC}'soajs:'${LOC}'soajs'
-        docker run -d --link ${DATA_CONTAINER}:dataProxy01 ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js'
+        docker run -d ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js'
     else
-        docker run -d --link ${DATA_CONTAINER}:dataProxy01 ${ENV} ${VLM} -i -t --name ${WHAT} ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js'
+        docker run -d ${ENV} ${VLM} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js'
     fi
 }
 function program_is_installed(){
@@ -60,7 +66,11 @@ function createDockerMachine(){
             docker-machine start ${machineName}
             docker-machine regenerate-certs ${machineName}
         else
-            docker-machine create --driver virtualbox ${machineName}
+            docker-machine create -d virtualbox \
+             --swarm \--swarm-discovery="consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
+             --engine-opt="cluster-store=consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
+             --engine-opt="cluster-advertise=eth1:2376" \
+             ${machineName}
         fi
     else
         echo $'\n ... to create a docker machine, a name must be provided!'
@@ -69,13 +79,20 @@ function createDockerMachine(){
 }
 function cleanContainers(){
     local machineName=${1}
+    local type=${2}
 
     eval "$(docker-machine env ${machineName})"
     docker ps -a
     echo $'\n1- Cleaning previous docker containers ...'
-    docker stop $(docker ps -a -q)
-    sleep 1
-    docker rm $(docker ps -a -q)
+    if [ "${type}" == "all" ]; then
+        docker stop $(docker ps -a -q)
+        sleep 1
+        docker rm $(docker ps -a -q)
+    else
+        docker stop $(docker ps -a | grep -v CONT | grep -v swarm | awk {'print $1'})
+        sleep 1
+        docker rm $(docker ps -a | grep -v CONT | grep -v swarm | awk {'print $1'})
+    fi
     echo $'\n--------------------------'
 }
 function pullNeededImages(){
@@ -108,8 +125,10 @@ function start(){
     #NGINX container
     ###################################
     sleep 5
+
+    local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' controller`
     echo $'\n6- Starting NGINX Container "nginx" ... '
-    docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_NX_APIPORT=80" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ -v ${LOC}soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
+    docker run -d -p 80:80 -e "SOAJS_NX_HOSTIP=${CONTROLLERIP}" -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_NX_APIPORT=80" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ -v ${LOC}soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
     echo $'\n--------------------------'
 
     ###################################
@@ -137,7 +156,7 @@ function buildFolder(){
 
     cp -R './FILES' ${WRK_DIR}'FILES'
     mv ${WRK_DIR}'FILES/profiles/single.js' ${WRK_DIR}'FILES/profiles/single-manual.js'
-    mv ${WRK_DIR}'FILES/profiles/single-docker.js' ${WRK_DIR}'FILES/profiles/single-docker.js'
+    #mv ${WRK_DIR}'FILES/profiles/single-docker.js' ${WRK_DIR}'FILES/profiles/single-docker.js'
     sed -e "s/__SOAJS_DASH_IP__/${MACHINEIP}/" ${WRK_DIR}'FILES/profiles/single-docker.js' > ${WRK_DIR}'FILES/profiles/single.js'
 
     pushd ${WRK_DIR}
@@ -264,7 +283,7 @@ function buildDashMongo(){
     local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
     echo $'\n2- Starging Mongo Container "soajsData" ...'
-    docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
+    docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} --net=soajsnet mongo mongod --smallfiles
     echo $'\n--------------------------'
     echo $'\nMongo ip is: '${MONGOIP}
 
@@ -281,7 +300,7 @@ function setupDashEnv(){
     local machineDevName=${2}
     echo $'\n1- Setting up cloud for: '${machineName}
 
-    cleanContainers ${machineName}
+    cleanContainers ${machineName} "swarm"
     buildDashMongo ${machineName} ${machineDevName}
     exec ${machineName}
 
@@ -296,8 +315,8 @@ function buildDevMongo(){
     docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
     local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
-    echo $'\n2- Starging Mongo Container "soajsData" ...'
-    docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
+    echo $'\n2- Starging Mongo Container "soajsData" '${machineName}' '${MONGOIP}' ...'
+    docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
     echo $'\n--------------------------'
     echo $'\nMongo ip is: '${MONGOIP}
 }
@@ -307,7 +326,7 @@ function setupDevEnv(){
 
     local DEVMACHINEIP=`docker-machine ip ${machineName}`
 
-    cleanContainers ${machineName}
+    cleanContainers ${machineName} "swarm"
     buildDevMongo ${machineName}
 
     echo $'\n\n Add the following to your /etc/hosts file:'
@@ -317,6 +336,58 @@ function setupDevEnv(){
 
 }
 #### DEV CLOUD END ###
+
+function setupComm(){
+    dockerPrerequisites
+
+    echo $'\n about to create a docker machine with the following name: '${KEYSTORE_MACHINE}
+
+    local machineExist=`docker-machine inspect --format '{{ .Name }}' ${KEYSTORE_MACHINE}`
+    if [ "${machineExist}" == "${KEYSTORE_MACHINE}" ]; then
+        echo $'\n docker machine: '${KEYSTORE_MACHINE}' already exist, trying to force restart'
+        docker-machine stop ${KEYSTORE_MACHINE}
+        docker-machine start ${KEYSTORE_MACHINE}
+        docker-machine regenerate-certs ${KEYSTORE_MACHINE}
+    else
+        docker-machine create -d virtualbox ${KEYSTORE_MACHINE}
+    fi
+
+    cleanContainers ${KEYSTORE_MACHINE}
+    docker $(docker-machine config ${KEYSTORE_MACHINE}) run -d -p "8500:8500" -h "consul" progrium/consul -server -bootstrap
+    echo $'\n .....'${KEYSTORE_MACHINE}' setup DONE'
+}
+function setupSwarmMaster(){
+    local machineName=${1}
+    dockerPrerequisites
+
+    echo $'\n about to create a docker machine with the following name: '${machineName}
+
+    local machineExist=`docker-machine inspect --format '{{ .Name }}' ${machineName}`
+    if [ "${machineExist}" == "${machineName}" ]; then
+        echo $'\n docker machine: '${machineName}' already exist, trying to force restart'
+        docker-machine stop ${machineName}
+        docker-machine start ${machineName}
+        docker-machine regenerate-certs ${machineName}
+    else
+        docker-machine create \
+         -d virtualbox \
+         --swarm --swarm-master \
+         --swarm-discovery="consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
+         --engine-opt="cluster-store=consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
+         --engine-opt="cluster-advertise=eth1:2376" \
+         ${machineName}
+    fi
+
+    echo $'\n .....'${machineName}' setup DONE'
+
+    eval "$(docker-machine env --swarm ${machineName})"
+    docker network create --driver overlay soajsnet
+    echo $'\n .....Container Network setup DONE'
+}
+
+
+setupComm
+setupSwarmMaster "soajs-swarm-master"
 
 createDockerMachine "soajs-dash"
 createDockerMachine "soajs-dev"
