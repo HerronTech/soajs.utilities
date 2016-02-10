@@ -76,6 +76,23 @@ var dsbrdProduct = {
 					"dashboard": {
 						"access": ["owner"]
 					},
+					"proxy": {
+						"apis": {},
+						"access": [
+							"owner"
+						]
+					}
+				},
+				"dev":{
+					"urac": {
+						"apis": {
+							"/logout": {
+								"access": true
+							}
+						},
+						"access": false,
+						"apisPermission": "restricted"
+					},
 					"gc_articles": {
 						"apis": {},
 						"access": true

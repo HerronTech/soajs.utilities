@@ -12,7 +12,12 @@ var dev = {
 			"dockermachine":{
 				"local": {
 					"host": "192.168.99.101",
-					"port": 2376
+					"port": 2376,
+					"config":{
+						"HostConfig": {
+							"NetworkMode": "soajsnet"
+						}
+					}
 				},
 				"cloud":{
 					"rackspace": {
