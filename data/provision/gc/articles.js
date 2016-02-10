@@ -107,7 +107,7 @@ var gc = {
             "config": {
                 "DEV": {
                     "gc_articles": {
-                        "cluster": "cluster1",
+                        "cluster": "dev_cluster",
                         "tenantSpecific": true
                     }
                 }

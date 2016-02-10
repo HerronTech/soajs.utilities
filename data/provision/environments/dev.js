@@ -98,7 +98,7 @@ var dev = {
 			},
 			"key": {
 				"algorithm": 'aes256',
-				"password": 'soajs encryption key'
+				"password": 'soajs key lal massa'
 			},
 			"logger": { //ATTENTION: this is not all the properties for logger
 				"src": true,
@@ -129,7 +129,7 @@ var dev = {
 			},
 			"session": {
 				"name": "soajsID",
-				"secret": "My Secret Phrase",
+				"secret": "this is antoine hage app server",
 				"cookie": {
 					"path": '/',
 					"httpOnly": true,
