@@ -1,8 +1,8 @@
 'use strict';
 var dev = {
 	"code": "DEV",
-	"domain": "api.mydomain.com",
-	"port": 8080,
+	"domain": "mydomain.com",
+	"port": 80,
 	"profile": "/opt/soajs/FILES/profiles/single.js",
 	"description": "this is the DEV environment",
 	"deployer": {
