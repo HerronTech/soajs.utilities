@@ -61,26 +61,13 @@ var dsbrdProduct = {
 			"acl":{
 				"dashboard": {
 					"urac": {
-						"access": false,
-						"apisRegExp": [
-							{
-								"regExp": /^\/account\/.+$/, //All APIs starting with /account/...
-								"access": true
-							},
-							{
-								"regExp": /^\/admin\/.+$/, //All APIs starting with /admin/...
-								"access": ["owner"]
-							}
-						]
+						"access": ["owner"]
 					},
 					"dashboard": {
 						"access": ["owner"]
 					},
 					"proxy": {
-						"apis": {},
-						"access": [
-							"owner"
-						]
+						"access": ["owner"]
 					}
 				},
 				"dev":{

@@ -16,7 +16,8 @@ var dashboard = {
 					"port": 2376,
 					"config":{
 						"HostConfig": {
-							"NetworkMode": "soajsnet"
+							"NetworkMode": "soajsnet",
+							"MachineName": "soajs-dash"
 						}
 					}
 				},
