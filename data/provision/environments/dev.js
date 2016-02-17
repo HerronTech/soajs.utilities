@@ -17,7 +17,7 @@ var dev = {
 						"HostConfig": {
 							"NetworkMode": "soajsnet"
 						},
-						"MachineName": "soajs-dash"
+						"MachineName": "soajs-dev"
 					}
 				},
 				"cloud":{
