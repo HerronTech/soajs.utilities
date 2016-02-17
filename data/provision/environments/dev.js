@@ -15,9 +15,9 @@ var dev = {
 					"port": 2376,
 					"config":{
 						"HostConfig": {
-							"NetworkMode": "soajsnet",
-							"MachineName": "soajs-dash"
-						}
+							"NetworkMode": "soajsnet"
+						},
+						"MachineName": "soajs-dash"
 					}
 				},
 				"cloud":{
