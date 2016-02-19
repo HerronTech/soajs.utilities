@@ -397,6 +397,7 @@ function choices(){
       echo "1. Install"
       echo "2. Rebuild all containers?"
       echo "3. Rebuild Dash only?"
+      echo "4. Rebuild Dev only?"
       echo ""
       echo -n "What would you like to do? "
       read choice
@@ -424,15 +425,15 @@ function gochoice(){
         setupDashEnv "soajs-dash" "soajs-dev"
         setupDevEnv "soajs-dev"
     elif [ ${choice} == "2" ]; then
-
 #        eval $(docker-machine env soajs-dash)
-
-        pullNeededImages "soajs-dev"
-        pullNeededImages "soajs-dash"
+#        pullNeededImages "soajs-dev"
+#        pullNeededImages "soajs-dash"
         setupDashEnv "soajs-dash" "soajs-dev"
         setupDevEnv "soajs-dev"
     elif [ ${choice} == "3" ]; then
         setupDashEnv "soajs-dash" "soajs-dev"
+    elif [ ${choice} == "4" ]; then
+        setupDevEnv "soajs-dev"        
     else
         clear
         echo "Nothing executed."
