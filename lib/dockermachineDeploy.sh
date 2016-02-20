@@ -20,7 +20,7 @@ KEYSTORE_MACHINE="soajs-v-keystore"
 
 function createContainer(){
     local WHAT=${1}
-    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js -e SOAJS_SRV_AUTOREGISTERHOST=true'
+    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}''
     local VLM='-v '${LOC}'soajs/FILES:/opt/soajs/FILES -v '${LOC}'soajs/open_source/services/'${WHAT}':/opt/soajs/node_modules/'${WHAT}''
 
     echo $'- Starting Controller Container '${WHAT}' ...'
@@ -132,7 +132,7 @@ function start(){
 
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' controller`
     echo $'\n6- Starting NGINX Container "nginx" ... '
-    docker run -d -p 80:80 -e "SOAJS_NX_HOSTIP=${CONTROLLERIP}" -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_NX_APIPORT=80" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ -v ${LOC}soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
+    docker run -d -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ -v ${LOC}soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
     echo $'\n--------------------------'
 
     ###################################
@@ -159,9 +159,6 @@ function buildFolder(){
     cp $HOME'/.docker/machine/certs/cert.pem' ${WRK_DIR}'certs/'
 
     cp -R './FILES' ${WRK_DIR}'FILES'
-    mv ${WRK_DIR}'FILES/profiles/single.js' ${WRK_DIR}'FILES/profiles/single-manual.js'
-    #mv ${WRK_DIR}'FILES/profiles/single-docker.js' ${WRK_DIR}'FILES/profiles/single-docker.js'
-    sed -e "s/__SOAJS_DASH_IP__/${MACHINEIP}/" ${WRK_DIR}'FILES/profiles/single-docker.js' > ${WRK_DIR}'FILES/profiles/single.js'
 
     pushd ${WRK_DIR}
 
