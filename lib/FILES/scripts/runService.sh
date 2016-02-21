@@ -1,10 +1,12 @@
 #!/bin/bash
 
+service=$1
+
 function serviceSuccess()
 {
     echo "service config preparation done successfully"
 
-    export SOAJS_SRVIP=$(/sbin/ip route|awk '/172.17.0.0/ {print $9}')
+    export SOAJS_SRVIP=$(/sbin/ip route|awk '/10.0.0.0/ {print $9}')
     echo $SOAJS_SRVIP
     echo $SOAJS_ENV
     echo $SOAJS_PROFILE
@@ -14,7 +16,8 @@ function serviceSuccess()
     echo $SOAJS_GC_NAME
     fi
 
-    node $1
+    echo "about to run service ${1}"
+    node ${service}
 }
 function serviceFailure()
 {
