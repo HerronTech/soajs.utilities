@@ -17,6 +17,8 @@ IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
 MASTER_DOMAIN='soajs.org'
 KEYSTORE_MACHINE="soajs-v-keystore"
+IP_SUBNET="10.0.0.0"
+SET_SOAJS_SRVIP="off"
 
 function createContainer(){
     local WHAT=${1}
@@ -27,9 +29,9 @@ function createContainer(){
 
     if [ ${WHAT} == "dashboard" ]; then
         local EXTRA='-e SOAJS_PROFILE_LOC=/opt/soajs/FILES/profiles/ -e SOAJS_ENV_WORKDIR='${LOC}' -v '${LOC}'soajs:'${LOC}'soajs'
-        docker run -d ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js'
+        docker run -d ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js '${IP_SUBNET}' '${SET_SOAJS_SRVIP}
     else
-        docker run -d ${ENV} ${VLM} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js'
+        docker run -d ${ENV} ${VLM} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js '${IP_SUBNET}' '${SET_SOAJS_SRVIP}
     fi
 }
 function program_is_installed(){
@@ -304,9 +306,15 @@ function setupDashEnv(){
 
     cleanContainers ${machineName} "swarm"
     buildDashMongo ${machineName} ${machineDevName}
-    exec ${machineName}
 
-    echo $'\n .....Cloud setup DONE'
+    while true; do
+        read -p "Do you wish to build the containers?" yn
+        case $yn in
+            [Yy]* ) exec ${machineName}; echo $'\n .....Cloud setup DONE'; break;;
+            [Nn]* ) exit;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
 }
 #### DASH CLOUD END ###
 
