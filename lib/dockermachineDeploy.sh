@@ -29,9 +29,9 @@ function createContainer(){
 
     if [ ${WHAT} == "dashboard" ]; then
         local EXTRA='-e SOAJS_PROFILE_LOC=/opt/soajs/FILES/profiles/ -e SOAJS_ENV_WORKDIR='${LOC}' -v '${LOC}'soajs:'${LOC}'soajs'
-        docker run -d ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js '${IP_SUBNET}' '${SET_SOAJS_SRVIP}
+        docker run -d ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
     else
-        docker run -d ${ENV} ${VLM} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js '${IP_SUBNET}' '${SET_SOAJS_SRVIP}
+        docker run -d ${ENV} ${VLM} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
     fi
 }
 function program_is_installed(){
