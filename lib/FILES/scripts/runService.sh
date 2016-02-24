@@ -1,8 +1,8 @@
 #!/bin/bash
 
 service=$1
-IP_SUBNET=$2
-SET_SOAJS_SRVIP=$3
+IP_SUBNET=$3
+SET_SOAJS_SRVIP=$2
 function serviceSuccess()
 {
     echo "service config preparation done successfully"
@@ -27,6 +27,6 @@ function serviceFailure()
     echo "service config preparation failed"
 }
 
-node /opt/soajs/FILES/profiles/index.js &
+node /opt/soajs/FILES/deployer/profile.js &
 b=$!
 wait $b && serviceSuccess || serviceFailure

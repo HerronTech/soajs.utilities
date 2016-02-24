@@ -19,6 +19,7 @@ MASTER_DOMAIN='soajs.org'
 KEYSTORE_MACHINE="soajs-v-keystore"
 IP_SUBNET="10.0.0.0"
 SET_SOAJS_SRVIP="off"
+INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
 
 function createContainer(){
     local WHAT=${1}
@@ -143,10 +144,14 @@ function start(){
     echo $'\n--------------------------'
 
     ###################################
-    echo $'\n\n Add the following to your /etc/hosts file:'
-    echo $'\t '${MACHINEIP}' dashboard-api.'${MASTER_DOMAIN}
-    echo $'\t '${MACHINEIP}' dashboard.'${MASTER_DOMAIN}
-    echo $'\n Containers started, please login to the dashboard @ http://dashboard.'${MASTER_DOMAIN}
+    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n Containers started, please login to the dashboard @ http://dashboard.'${MASTER_DOMAIN}
+    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n Add the following to your /etc/hosts file:'
+    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${MACHINEIP}' dashboard-api.'${MASTER_DOMAIN}
+    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${MACHINEIP}' dashboard.'${MASTER_DOMAIN}
+    #echo $'\n\n Add the following to your /etc/hosts file:'
+    #echo $'\t '${MACHINEIP}' dashboard-api.'${MASTER_DOMAIN}
+    #echo $'\t '${MACHINEIP}' dashboard.'${MASTER_DOMAIN}
+    #echo $'\n Containers started, please login to the dashboard @ http://dashboard.'${MASTER_DOMAIN}
 }
 function buildFolder(){
     local SRC=${1}
@@ -307,14 +312,19 @@ function setupDashEnv(){
     cleanContainers ${machineName} "swarm"
     buildDashMongo ${machineName} ${machineDevName}
 
-    while true; do
-        read -p "Do you wish to build the containers?" yn
-        case $yn in
-            [Yy]* ) exec ${machineName}; echo $'\n .....Cloud setup DONE'; break;;
-            [Nn]* ) exit;;
-            * ) echo "Please answer yes or no.";;
-        esac
-    done
+    if [ ${DEPLOY_FROM} == "LOCAL" ]; then
+        while true; do
+            read -p "Do you wish to build the containers?" yn
+            case $yn in
+                [Yy]* ) exec ${machineName}; echo $'\n ..... DASH Cloud setup DONE'; break;;
+                [Nn]* ) exit;;
+                * ) echo "Please answer yes or no.";;
+            esac
+        done
+    else
+        exec ${machineName};
+        echo $'\n ..... DASH Cloud setup DONE';
+    fi
 }
 #### DASH CLOUD END ###
 
@@ -339,10 +349,12 @@ function setupDevEnv(){
     cleanContainers ${machineName} "swarm"
     buildDevMongo ${machineName}
 
-    echo $'\n\n Add the following to your /etc/hosts file:'
-    echo $'\t '${DEVMACHINEIP}' api.mydomain.com'
+    #echo $'\n\n Add the following to your /etc/hosts file:'
+    #echo $'\t '${DEVMACHINEIP}' api.mydomain.com'
 
-    echo $'\n .....Cloud setup DONE'
+    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' api.mydomain.com'
+
+    echo $'\n ..... DEV Cloud setup DONE'
 
 }
 #### DEV CLOUD END ###
@@ -408,4 +420,4 @@ pullNeededImages "soajs-dash"
 setupDashEnv "soajs-dash" "soajs-dev"
 setupDevEnv "soajs-dev"
 
-
+echo "$INSTRUCT_MSG"
