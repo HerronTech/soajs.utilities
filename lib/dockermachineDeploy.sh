@@ -24,7 +24,7 @@ INSTRUCT_MSG=$'\n\n-------------------------------------------------------------
 function createContainer(){
     local WHAT=${1}
     local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}''
-    local VLM='-v '${LOC}'soajs/FILES:/opt/soajs/FILES -v '${LOC}'soajs/open_source/services/'${WHAT}':/opt/soajs/node_modules/'${WHAT}''
+    local VLM='-v '${LOC}'soajs/open_source/services/'${WHAT}':/opt/soajs/node_modules/'${WHAT}''
 
     echo $'- Starting Controller Container '${WHAT}' ...'
 
@@ -135,7 +135,7 @@ function start(){
 
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' controller`
     echo $'\n6- Starting NGINX Container "nginx" ... '
-    docker run -d -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ -v ${LOC}soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
+    docker run -d -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
     echo $'\n--------------------------'
 
     ###################################
@@ -148,24 +148,17 @@ function start(){
     INSTRUCT_MSG=${INSTRUCT_MSG}$'\n Add the following to your /etc/hosts file:'
     INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${MACHINEIP}' dashboard-api.'${MASTER_DOMAIN}
     INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${MACHINEIP}' dashboard.'${MASTER_DOMAIN}
-    #echo $'\n\n Add the following to your /etc/hosts file:'
-    #echo $'\t '${MACHINEIP}' dashboard-api.'${MASTER_DOMAIN}
-    #echo $'\t '${MACHINEIP}' dashboard.'${MASTER_DOMAIN}
-    #echo $'\n Containers started, please login to the dashboard @ http://dashboard.'${MASTER_DOMAIN}
 }
 function buildFolder(){
     local SRC=${1}
     echo $'\nSRC dir is: '${SRC}
     rm -Rf ${WRK_DIR}'open_source'
-    rm -Rf ${WRK_DIR}'FILES'
     mkdir -p ${WRK_DIR}'open_source/services'
     mkdir -p ${WRK_DIR}'uploads'
     mkdir -p ${WRK_DIR}'certs'
     cp $HOME'/.docker/machine/certs/ca.pem' ${WRK_DIR}'certs/'
     cp $HOME'/.docker/machine/certs/key.pem' ${WRK_DIR}'certs/'
     cp $HOME'/.docker/machine/certs/cert.pem' ${WRK_DIR}'certs/'
-
-    cp -R './FILES' ${WRK_DIR}'FILES'
 
     pushd ${WRK_DIR}
 
@@ -348,9 +341,6 @@ function setupDevEnv(){
 
     cleanContainers ${machineName} "swarm"
     buildDevMongo ${machineName}
-
-    #echo $'\n\n Add the following to your /etc/hosts file:'
-    #echo $'\t '${DEVMACHINEIP}' api.mydomain.com'
 
     INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' api.mydomain.com'
 
