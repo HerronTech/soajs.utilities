@@ -11,19 +11,21 @@ DATA_CONTAINER='soajsData'
 IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
 MASTER_DOMAIN='soajs.org'
+IP_SUBNET="172.17.0.0"
+SET_SOAJS_SRVIP="off"
 
 function createContainer(){
     local WHAT=${1}
-    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/single.js -e SOAJS_SRV_AUTOREGISTERHOST=true'
-    local VLM='-v '${LOC}'soajs/FILES:/opt/soajs/FILES -v '${LOC}'soajs/open_source/services/'${WHAT}':/opt/soajs/node_modules/'${WHAT}''
+    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MONGOIP}''
+    local VLM='-v '${LOC}'soajs/open_source/services/'${WHAT}':/opt/soajs/node_modules/'${WHAT}''
 
     echo $'- Starting Controller Container '${WHAT}' ...'
 
     if [ ${WHAT} == "dashboard" ]; then
         local EXTRA='-e SOAJS_PROFILE_LOC=/opt/soajs/FILES/profiles/ -e SOAJS_ENV_WORKDIR='${LOC}' -v '${LOC}'soajs:'${LOC}'soajs -v /var/run/docker.sock:/var/run/docker.sock'
-        docker run -d --link ${DATA_CONTAINER}:dataProxy01 ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js'
+        docker run -d ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
     else
-        docker run -d --link ${DATA_CONTAINER}:dataProxy01 ${ENV} ${VLM} -i -t --name ${WHAT} ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js'
+        docker run -d ${ENV} ${VLM} -i -t --name ${WHAT} ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
     fi
 }
 
@@ -95,8 +97,9 @@ function start(){
     #NGINX container
     ###################################
     sleep 5
+    local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' controller`
     echo $'\n6- Starting NGINX Container "nginx" ... '
-    docker run -d --link controller:controllerProxy01 -p 80:80 -e "SOAJS_NX_NBCONTROLLER=1" -e "SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_NX_APIPORT=80" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ -v ${LOC}soajs/FILES:/opt/soajs/FILES --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
+    docker run -d -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
     echo $'\n--------------------------'
 
     ###################################
@@ -120,11 +123,6 @@ function buildFolder(){
     rm -Rf ${WRK_DIR}'FILES'
     mkdir -p ${WRK_DIR}'open_source/services'
     mkdir -p ${WRK_DIR}'uploads'
-
-    cp -R './FILES' ${WRK_DIR}'/FILES'
-    mv ${WRK_DIR}'/FILES/profiles/single.js' ${WRK_DIR}'/FILES/profiles/single-manual.js'
-    #mv ${WRK_DIR}'/FILES/profiles/single-docker.js' ${WRK_DIR}'/FILES/profiles/single.js'
-    sed -e "s/__SOAJS_DASH_IP__/${MONGOIP}/" ${WRK_DIR}'FILES/profiles/single-docker.js' > ${WRK_DIR}'FILES/profiles/single.js'
 
     pushd ${WRK_DIR}
 
