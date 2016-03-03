@@ -5,12 +5,8 @@
 # https://github.com/docker/machine/releases
 
 
+#no need for this env and param anymore, waiting to remove dependency from dashbaord
 [ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/Users/'
-#[ ${SOAJS_DEPLOY_LOCAL_SRC} ] && LOC=${SOAJS_DEPLOY_LOCAL_SRC} || LOC_LOCAL_SRC='/opt/soajs/node_modules/'
-
-#[ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='NPM'
-#WRK_DIR=${LOC}'soajs/'
-#SRC_DIR=${WRK_DIR}'src/node_modules/'
 
 GIT_BRANCH="develop"
 DATA_CONTAINER='soajsData'
@@ -31,7 +27,10 @@ function createContainer(){
     echo $'- Starting Controller Container '${REPO}' ...'
 
     if [ ${REPO} == "dashboard" ]; then
+
+        #no need for these env anymore, waiting to remove dependency from dashbaord
         local EXTRA='-e SOAJS_PROFILE_LOC=/opt/soajs/FILES/profiles/ -e SOAJS_ENV_WORKDIR='${LOC}''
+
         docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
     else
         docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}

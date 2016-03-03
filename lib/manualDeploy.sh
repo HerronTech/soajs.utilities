@@ -75,7 +75,7 @@ function setupNginx(){
 
 	export SOAJS_NX_LOC=${WRK_DIR}
 	export SOAJS_NX_OS=local
-	node ./FILES/nginx/index.js
+	node ./FILES/deployer/nginx.js
 	echo "DONE"
 }
 
