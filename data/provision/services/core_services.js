@@ -6,7 +6,13 @@ var core_services = [
 		"port": 4001,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "soajsorg/urac",
+		"src" : {
+			"type" : "github",
+			"owner" : "soajs",
+			"repo" : "soajs.urac",
+			"branch" : "master",
+			"main" : "/index.js"
+		},
 		"apis": [
 			{
 				"l": "Change Email",
@@ -130,7 +136,13 @@ var core_services = [
 		"port": 4002,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "soajsorg/oauth",
+		"src" : {
+			"type" : "github",
+			"owner" : "soajs",
+			"repo" : "soajs.oauth",
+			"branch" : "master",
+			"main" : "/index.js"
+		},
 		"apis": [
 			{
 				"l": "Create Token",
@@ -150,7 +162,13 @@ var core_services = [
 		"port": 4003,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "soajsorg/dashboard",
+		"src" : {
+			"type" : "github",
+			"owner" : "soajs",
+			"repo" : "soajs.dashboard",
+			"branch" : "master",
+			"main" : "/index.js"
+		},
 		"apis": [
 			{
 				"l": "List Environments",
@@ -529,7 +547,13 @@ var core_services = [
 		"port": 4010,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "soajsorg/example01",
+		"src" : {
+			"type" : "github",
+			"owner" : "soajs",
+			"repo" : "soajs.examples",
+			"branch" : "master",
+			"main" : "/example01/index.js"
+		},
 		"apis": [
 			{
 				"l": "Test Get",
@@ -560,7 +584,13 @@ var core_services = [
 		"port": 4011,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "soajsorg/example02",
+		"src" : {
+			"type" : "github",
+			"owner" : "soajs",
+			"repo" : "soajs.examples",
+			"branch" : "master",
+			"main" : "/example02/index.js"
+		},
 		"apis": [
 			{
 				'l': 'Build Name',
@@ -575,7 +605,13 @@ var core_services = [
 		"port": 4012,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "soajsorg/example03",
+		"src" : {
+			"type" : "github",
+			"owner" : "soajs",
+			"repo" : "soajs.examples",
+			"branch" : "master",
+			"main" : "/example03/index.js"
+		},
 		"apis": [
 			{
 				"l": "Test Get Api",
@@ -594,7 +630,13 @@ var core_services = [
 		"port": 4013,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "soajsorg/example04",
+		"src" : {
+			"type" : "github",
+			"owner" : "soajs",
+			"repo" : "soajs.examples",
+			"branch" : "master",
+			"main" : "/example04/index.js"
+		},
 		"apis": [
 			{
 				'l': 'Build Name',
@@ -618,7 +660,13 @@ var core_services = [
 		"awareness": false,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
-		"image": "soajsorg/gcs",
+		"src" : {
+			"type" : "github",
+			"owner" : "soajs",
+			"repo" : "soajs.gcs",
+			"branch" : "master",
+			"main" : "/index.js"
+		},
 		"gcV": 1,
 		"apis": [
 			{

@@ -6,11 +6,12 @@
 
 
 [ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/Users/'
-[ ${SOAJS_DEPLOY_LOCAL_SRC} ] && LOC=${SOAJS_DEPLOY_LOCAL_SRC} || LOC_LOCAL_SRC='/opt/soajs/node_modules/'
+#[ ${SOAJS_DEPLOY_LOCAL_SRC} ] && LOC=${SOAJS_DEPLOY_LOCAL_SRC} || LOC_LOCAL_SRC='/opt/soajs/node_modules/'
 
-[ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='NPM'
-WRK_DIR=${LOC}'soajs/'
-SRC_DIR=${WRK_DIR}'src/node_modules/'
+#[ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='NPM'
+#WRK_DIR=${LOC}'soajs/'
+#SRC_DIR=${WRK_DIR}'src/node_modules/'
+
 GIT_BRANCH="develop"
 DATA_CONTAINER='soajsData'
 IMAGE_PREFIX='soajsorg'
