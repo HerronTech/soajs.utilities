@@ -22,18 +22,17 @@ SET_SOAJS_SRVIP="off"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
 
 function createContainer(){
-    local REPO=${1}
-    local BRANCH=${2}
-    local OWNER="soajs"
-    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}' -e SOAJS_GIT_OWNER='${OWNER}' -e SOAJS_GIT_REPO='${REPO}' -e SOAJS_GIT_BRANCH='${BRANCH}''
+    local WHAT=${1}
+    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}''
+    local VLM='-v '${LOC}'soajs/open_source/services/'${WHAT}':/opt/soajs/node_modules/'${WHAT}''
 
-    echo $'- Starting Controller Container '${REPO}' ...'
+    echo $'- Starting Controller Container '${WHAT}' ...'
 
-    if [ ${REPO} == "dashboard" ]; then
-        local EXTRA='-e SOAJS_PROFILE_LOC=/opt/soajs/FILES/profiles/ -e SOAJS_ENV_WORKDIR='${LOC}''
-        docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+    if [ ${WHAT} == "dashboard" ]; then
+        local EXTRA='-e SOAJS_PROFILE_LOC=/opt/soajs/FILES/profiles/ -e SOAJS_ENV_WORKDIR='${LOC}' -v '${LOC}'soajs:'${LOC}'soajs'
+        docker run -d ${ENV} ${VLM} ${EXTRA} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}/'index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
     else
-        docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+        docker run -d ${ENV} ${VLM} -i -t --name ${WHAT} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c 'cd /opt/soajs/node_modules/'${WHAT}'/; npm install; /opt/soajs/FILES/scripts/runService.sh /opt/soajs/node_modules/'${WHAT}'/index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
     fi
 }
 function program_is_installed(){
@@ -87,7 +86,7 @@ function cleanContainers(){
 
     eval "$(docker-machine env ${machineName})"
     docker ps -a
-    echo $'\n Cleaning previous docker containers ...'
+    echo $'\n1- Cleaning previous docker containers ...'
     if [ "${type}" == "all" ]; then
         docker stop $(docker ps -a -q)
         sleep 1
@@ -109,28 +108,24 @@ function pullNeededImages(){
 
 #### DASH CLOUD
 function start(){
-    local machineName=${1}
-    eval "$(docker-machine env ${machineName})"
-    MACHINEIP=`docker-machine ip ${machineName}`
-
-    echo $'\n Starting SERVICES ...'
+    echo $'\n5- Starting SERVICES ...'
     ###################################
     #URAC container
     ###################################
-    createContainer "soajs.urac" "develop"
+    createContainer "urac"
     ###################################
     #DASHBOARD container
     ###################################
-    createContainer "soajs.dashboard" "feature/deployer"
+    createContainer "dashboard"
     ###################################
     #PROXY container
     ###################################
-    createContainer "soajs.prx" "develop"
+    createContainer "proxy"
     ###################################
     #CONTROLLER container
     ###################################
     sleep 5
-    createContainer "soajs.controller" "master"
+    createContainer "controller"
     echo $'\n--------------------------'
 
     ###################################
@@ -138,14 +133,13 @@ function start(){
     ###################################
     sleep 5
 
-    local BRANCH="feature/deployer"
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' controller`
-    echo $'\n Starting NGINX Container "nginx" ... '
-    docker run -d -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
+    echo $'\n6- Starting NGINX Container "nginx" ... '
+    docker run -d -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -v ${LOC}soajs/open_source/dashboard:/opt/soajs/dashboard/ --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
     echo $'\n--------------------------'
 
     ###################################
-    echo $'\n Containers created and deployed:'
+    echo $'\n7- Containers created and deployed:'
     docker ps
     echo $'\n--------------------------'
 
@@ -155,7 +149,132 @@ function start(){
     INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${MACHINEIP}' dashboard-api.'${MASTER_DOMAIN}
     INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${MACHINEIP}' dashboard.'${MASTER_DOMAIN}
 }
+function buildFolder(){
+    local SRC=${1}
+    echo $'\nSRC dir is: '${SRC}
+    rm -Rf ${WRK_DIR}'open_source'
+    mkdir -p ${WRK_DIR}'open_source/services'
+    mkdir -p ${WRK_DIR}'uploads'
+    mkdir -p ${WRK_DIR}'certs'
+    cp $HOME'/.docker/machine/certs/ca.pem' ${WRK_DIR}'certs/'
+    cp $HOME'/.docker/machine/certs/key.pem' ${WRK_DIR}'certs/'
+    cp $HOME'/.docker/machine/certs/cert.pem' ${WRK_DIR}'certs/'
 
+    pushd ${WRK_DIR}
+
+    cp -R ${SRC}'soajs.dashboard/ui' ${WRK_DIR}'open_source/dashboard'
+    cp -R ${SRC}'soajs.controller' ${WRK_DIR}'open_source/services/controller'
+    cp -R ${SRC}'soajs.dashboard' ${WRK_DIR}'open_source/services/dashboard'
+    cp -R ${SRC}'soajs.gcs' ${WRK_DIR}'open_source/services/gcs'
+    rm -Rf ${WRK_DIR}'open_source/services/dashboard/ui'
+    cp -R ${SRC}'soajs.urac' ${WRK_DIR}'open_source/services/urac'
+    cp -R ${SRC}'soajs.oauth' ${WRK_DIR}'open_source/services/oauth'
+    cp -R ${SRC}'soajs.prx' ${WRK_DIR}'open_source/services/proxy'
+    cp -R ${SRC}'soajs.examples/example01' ${WRK_DIR}'open_source/services/example01'
+    cp -R ${SRC}'soajs.examples/example02' ${WRK_DIR}'open_source/services/example02'
+    cp -R ${SRC}'soajs.examples/example03' ${WRK_DIR}'open_source/services/example03'
+    cp -R ${SRC}'soajs.examples/example04' ${WRK_DIR}'open_source/services/example04'
+
+    popd
+
+    start
+}
+function uracSuccess(){
+    if [ ${DEPLOY_FROM} == "NPM" ]; then
+        npm install soajs.oauth
+        rm -Rf ./soajs.oauth/node_modules/bcrypt
+        npm install soajs.gcs
+        npm install soajs.examples
+    elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        git clone git@github.com:soajs/soajs.oauth.git --branch ${GIT_BRANCH}
+        git clone git@github.com:soajs/soajs.gcs.git --branch ${GIT_BRANCH}
+        git clone git@github.com:soajs/soajs.examples.git --branch ${GIT_BRANCH}
+    else
+        exit -1
+    fi
+    popd
+    buildFolder ${SRC_DIR}
+}
+function uracFailure(){
+    echo $'\n ... unable to install urac '${DEPLOY_FROM}' package. exiting!'
+    exit -1
+}
+function dashSuccess(){
+    if [ ${DEPLOY_FROM} == "NPM" ]; then
+        npm install soajs.urac
+        rm -Rf ./soajs.urac/node_modules/bcrypt
+    elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        git clone git@github.com:soajs/soajs.urac.git --branch ${GIT_BRANCH}
+    else
+        exit -1
+    fi
+    b=$!
+    wait $b && uracSuccess || uracFailure
+}
+
+function dashFailure(){
+    echo $'\n ... unable to install dashboard '${DEPLOY_FROM}' package. exiting!'
+    exit -1
+}
+function controllerSuccess(){
+    if [ ${DEPLOY_FROM} == "NPM" ]; then
+        npm install soajs.dashboard
+        rm -Rf ./soajs.dashboard/node_modules/bcrypt
+    elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        git clone git@github.com:soajs/soajs.dashboard.git --branch ${GIT_BRANCH}
+    else
+        exit -1
+    fi
+    b=$!
+    wait $b && dashSuccess || dashFailure
+}
+function controllerFailure(){
+    echo $'\n ... unable to install controller '${DEPLOY_FROM}' package. exiting!'
+    exit -1
+}
+function soajsSuccess(){
+    if [ ${DEPLOY_FROM} == "NPM" ]; then
+        npm install soajs.controller
+    elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        git clone git@github.com:soajs/soajs.controller.git --branch ${GIT_BRANCH}
+    else
+        exit -1
+    fi
+    b=$!
+    wait $b && controllerSuccess || controllerFailure
+}
+function soajsFailure(){
+    echo $'\n ... unable to install soajs '${DEPLOY_FROM}' package. exiting!'
+    exit -1
+}
+function exec(){
+    local machineName=${1}
+    eval "$(docker-machine env ${machineName})"
+    MACHINEIP=`docker-machine ip ${machineName}`
+
+    if [ ${DEPLOY_FROM} == "NPM" ]; then
+        rm -Rf ${SRC_DIR}
+        mkdir -p ${SRC_DIR}
+        pushd ${SRC_DIR}
+        export NODE_ENV=production
+        npm install soajs
+        b=$!
+        wait $b && soajsSuccess || soajsFailure
+    elif [ ${DEPLOY_FROM} == "GIT" ]; then
+        rm -Rf ${SRC_DIR}
+        mkdir -p ${SRC_DIR}
+        pushd ${SRC_DIR}
+        git clone git@github.com:soajs/soajs.git --branch ${GIT_BRANCH}
+        b=$!
+        wait $b && soajsSuccess || soajsFailure
+    elif [ ${DEPLOY_FROM} == "LOCAL" ]; then
+        buildFolder ${LOC_LOCAL_SRC}
+    else
+        echo $'\nYou are trying to deploy from ['${DEPLOY_FROM}']!'
+        echo $'\n ... Deploy from must be one of the following [ NPM || GIT || LOCAL ]'
+        exit -1
+    fi
+}
 function buildDashMongo(){
     local machineName=${1}
     local machineDevName=${2}
@@ -165,14 +284,14 @@ function buildDashMongo(){
     docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
     local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
-    echo $'\n Starging Mongo Container "soajsData" ...'
+    echo $'\n2- Starging Mongo Container "soajsData" ...'
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} --net=soajsnet mongo mongod --smallfiles
     echo $'\n--------------------------'
     echo $'\nMongo ip is: '${MONGOIP}
 
     #import provisioned data to mongo
     sleep 5
-    echo $'\n Importing core provisioned data ...'
+    echo $'\n3- Importing core provisioned data ...'
     node index data import provision ${MONGOIP} DOCKERMACHINE ${DEVMACHINEIP}
     echo $'\n4- Importing URAC data...'
     node index data import urac ${MONGOIP}
@@ -186,14 +305,19 @@ function setupDashEnv(){
     cleanContainers ${machineName} "swarm"
     buildDashMongo ${machineName} ${machineDevName}
 
-    while true; do
-        read -p "Do you wish to build the containers?" yn
-        case $yn in
-            [Yy]* ) start ${machineName}; echo $'\n ..... DASH Cloud setup DONE'; break;;
-            [Nn]* ) exit;;
-            * ) echo "Please answer yes or no.";;
-        esac
-    done
+    if [ ${DEPLOY_FROM} == "LOCAL" ]; then
+        while true; do
+            read -p "Do you wish to build the containers?" yn
+            case $yn in
+                [Yy]* ) exec ${machineName}; echo $'\n ..... DASH Cloud setup DONE'; break;;
+                [Nn]* ) exit;;
+                * ) echo "Please answer yes or no.";;
+            esac
+        done
+    else
+        exec ${machineName};
+        echo $'\n ..... DASH Cloud setup DONE';
+    fi
 }
 #### DASH CLOUD END ###
 
@@ -204,7 +328,7 @@ function buildDevMongo(){
     docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
     local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
-    echo $'\n Starging Mongo Container "soajsData" '${machineName}' '${MONGOIP}' ...'
+    echo $'\n2- Starging Mongo Container "soajsData" '${machineName}' '${MONGOIP}' ...'
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}DEV --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
     echo $'\n--------------------------'
     echo $'\nMongo ip is: '${MONGOIP}
