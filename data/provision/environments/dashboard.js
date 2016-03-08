@@ -5,7 +5,7 @@ var dashboard = {
 	"domain": "soajs.org",
 	"locked": true,
 	"port": 80,
-	"profile": "/opt/soajs/FILES/profiles/single.js",
+	"profile": "/opt/soajs/FILES/profiles/profile.js",
 	"deployer": {
 		"type": "container",
 		"selected": "container.dockermachine.local",

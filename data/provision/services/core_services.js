@@ -10,7 +10,7 @@ var core_services = [
 			"type" : "github",
 			"owner" : "soajs",
 			"repo" : "soajs.urac",
-			"branch" : "master",
+			"branch" : "develop",
 			"main" : "/index.js"
 		},
 		"apis": [
@@ -166,7 +166,7 @@ var core_services = [
 			"type" : "github",
 			"owner" : "soajs",
 			"repo" : "soajs.dashboard",
-			"branch" : "master",
+			"branch" : "feature/deployer",
 			"main" : "/index.js"
 		},
 		"apis": [
