@@ -1,5 +1,16 @@
 var core_services = [
 	{
+		"name": "controller",
+		"port": 4000,
+		"src": {
+			"type": "github",
+			"owner": "soajs",
+			"repo": "soajs.controller",
+			"branch": "master",
+			"main": "/index.js"
+		}
+	},
+	{
 		"name": "urac",
 		"extKeyRequired": true,
 		"awareness": false,
