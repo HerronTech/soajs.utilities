@@ -46,15 +46,15 @@ var dsbrd = {
                                 "mail": { //urac mail options
 	                                "join": {
 		                                "subject": 'Welcome to SOAJS',
-		                                "path": "./mail/urac/join.tmpl"
+		                                "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/join.tmpl"
 	                                },
 	                                "forgotPassword": {
 		                                "subject": 'Reset Your Password at SOAJS',
-		                                "path": "./mail/urac/forgotPassword.tmpl"
+		                                "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/forgotPassword.tmpl"
 	                                },
 	                                "addUser": {
 		                                "subject": 'Account Created at SOAJS',
-		                                "path": "./mail/urac/addUser.tmpl"
+		                                "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/addUser.tmpl"
 	                                },
 	                                "changeUserStatus": {
 		                                "subject": "Account Status changed at SOAJS",
@@ -63,7 +63,7 @@ var dsbrd = {
 	                                },
 	                                "changeEmail": {
 		                                "subject": "Change Account Email at SOAJS",
-		                                "path": "./mail/urac/changeEmail.tmpl"
+		                                "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/changeEmail.tmpl"
 	                                }
                                 }
                             }
@@ -90,15 +90,15 @@ var dsbrd = {
 								"mail": { //urac mail options
 									"join": {
 										"subject": 'Welcome to SOAJS',
-										"path": "./mail/urac/join.tmpl"
+										"path": "/opt/soajs/node_modules/soajs.urac/mail/urac/join.tmpl"
 									},
 									"forgotPassword": {
 										"subject": 'Reset Your Password at SOAJS',
-										"path": "./mail/urac/forgotPassword.tmpl"
+										"path": "/opt/soajs/node_modules/soajs.urac/mail/urac/forgotPassword.tmpl"
 									},
 									"addUser": {
 										"subject": 'Account Created at SOAJS',
-										"path": "./mail/urac/addUser.tmpl"
+										"path": "/opt/soajs/node_modules/soajs.urac/mail/urac/addUser.tmpl"
 									},
 									"changeUserStatus": {
 										"subject": "Account Status changed at SOAJS",
@@ -107,7 +107,7 @@ var dsbrd = {
 									},
 									"changeEmail": {
 										"subject": "Change Account Email at SOAJS",
-										"path": "./mail/urac/changeEmail.tmpl"
+										"path": "/opt/soajs/node_modules/soajs.urac/mail/urac/changeEmail.tmpl"
 									}
 								}
 							}
@@ -155,15 +155,15 @@ var dsbrd = {
                                 "mail": { //urac mail options
                                     "join": {
                                         "subject": 'Welcome to SOAJS',
-                                        "path": "./mail/urac/join.tmpl"
+                                        "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/join.tmpl"
                                     },
                                     "forgotPassword": {
                                         "subject": 'Reset Your Password at SOAJS',
-                                        "path": "./mail/urac/forgotPassword.tmpl"
+                                        "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/forgotPassword.tmpl"
                                     },
                                     "addUser": {
                                         "subject": 'Account Created at SOAJS',
-                                        "path": "./mail/urac/addUser.tmpl"
+                                        "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/addUser.tmpl"
                                     },
                                     "changeUserStatus": {
                                         "subject": "Account Status changed at SOAJS",
@@ -172,7 +172,7 @@ var dsbrd = {
                                     },
                                     "changeEmail": {
                                         "subject": "Change Account Email at SOAJS",
-                                        "path": "./mail/urac/changeEmail.tmpl"
+                                        "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/changeEmail.tmpl"
                                     }
                                 }
                             }
@@ -199,15 +199,15 @@ var dsbrd = {
 		                        "mail": { //urac mail options
 			                        "join": {
 				                        "subject": 'Welcome to SOAJS',
-				                        "path": "./mail/urac/join.tmpl"
+				                        "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/join.tmpl"
 			                        },
 			                        "forgotPassword": {
 				                        "subject": 'Reset Your Password at SOAJS',
-				                        "path": "./mail/urac/forgotPassword.tmpl"
+				                        "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/forgotPassword.tmpl"
 			                        },
 			                        "addUser": {
 				                        "subject": 'Account Created at SOAJS',
-				                        "path": "./mail/urac/addUser.tmpl"
+				                        "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/addUser.tmpl"
 			                        },
 			                        "changeUserStatus": {
 				                        "subject": "Account Status changed at SOAJS",
@@ -216,7 +216,7 @@ var dsbrd = {
 			                        },
 			                        "changeEmail": {
 				                        "subject": "Change Account Email at SOAJS",
-				                        "path": "./mail/urac/changeEmail.tmpl"
+				                        "path": "/opt/soajs/node_modules/soajs.urac/mail/urac/changeEmail.tmpl"
 			                        }
 		                        }
 	                        }

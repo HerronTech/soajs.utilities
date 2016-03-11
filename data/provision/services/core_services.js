@@ -675,7 +675,7 @@ var core_services = [
 			"type" : "github",
 			"owner" : "soajs",
 			"repo" : "soajs.gcs",
-			"branch" : "master",
+			"branch" : "develop",
 			"main" : "/index.js"
 		},
 		"gcV": 1,
