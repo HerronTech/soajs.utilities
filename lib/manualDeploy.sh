@@ -200,15 +200,12 @@ function confirmDeployment(){
     fi
 
     rm -Rf ${WRK_DIR}
-    rm -Rf ${SOAJS_ENV_WORKDIR}"soajs/uploads"
 }
 function exec(){
-	export SOAJS_ENV_WORKDIR=${LOC}
 
     if [ ${DEPLOY_FROM} == "NPM" ]; then
         confirmDeployment
         mkdir -p ${WRK_DIR}
-        mkdir -p ${SOAJS_ENV_WORKDIR}"soajs/uploads"
         pushd ${WRK_DIR}
         export NODE_ENV=production
         npm install soajs
@@ -217,7 +214,6 @@ function exec(){
     elif [ ${DEPLOY_FROM} == "GIT" ]; then
         confirmDeployment
         mkdir -p ${WRK_DIR}
-        mkdir -p ${SOAJS_ENV_WORKDIR}"soajs/uploads"
         pushd ${WRK_DIR}
         export NODE_ENV=production
         git clone git@github.com:soajs/soajs.git --branch ${GIT_BRANCH}

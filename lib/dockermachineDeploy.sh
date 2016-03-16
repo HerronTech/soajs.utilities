@@ -29,7 +29,7 @@ function createContainer(){
     if [ ${REPO} == "dashboard" ]; then
 
         #no need for these env anymore, waiting to remove dependency from dashbaord
-        local EXTRA='-e SOAJS_PROFILE_LOC=/opt/soajs/FILES/profiles/ -e SOAJS_ENV_WORKDIR='${LOC}''
+        local EXTRA='-e SOAJS_PROFILE_LOC=/opt/soajs/FILES/profiles/'
 
         docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
     else
