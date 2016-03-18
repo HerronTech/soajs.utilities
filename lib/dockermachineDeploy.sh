@@ -10,7 +10,8 @@
 
 GIT_BRANCH="develop"
 DATA_CONTAINER='soajsData'
-IMAGE_PREFIX='soajsorg'
+#IMAGE_PREFIX='soajsorg'
+IMAGE_PREFIX='keithwbacon'
 NGINX_CONTAINER='nginx'
 MASTER_DOMAIN='soajs.org'
 KEYSTORE_MACHINE="soajs-v-keystore"
