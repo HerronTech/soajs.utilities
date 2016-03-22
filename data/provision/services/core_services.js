@@ -563,6 +563,31 @@ var core_services = [
 		}
 	},
 	{
+		"name": "proxy",
+		"port": 4009,
+		"requestTimeout": 30,
+		"requestTimeoutRenewal": 5,
+		"src": {
+			"type": "github",
+			"owner": "soajs",
+			"repo": "soajs.prx",
+			"branch": "master",
+			"main": "/index.js"
+		},
+		"versions": {
+			"1": {
+				"extKeyRequired": true,
+				"awareness": false,
+				"apis": [
+					{
+						"l":" Redirect",
+						"v": "/redirect"
+					}
+				]
+			}
+		}
+	},
+	{
 		"name": "example01",
 		"port": 4010,
 		"requestTimeout": 30,
