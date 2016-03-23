@@ -4,14 +4,9 @@
 #
 # https://github.com/docker/machine/releases
 
-
-#no need for this env and param anymore, waiting to remove dependency from dashbaord
-[ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/Users/'
-
 GIT_BRANCH="develop"
 DATA_CONTAINER='soajsData'
-#IMAGE_PREFIX='soajsorg'
-IMAGE_PREFIX='keithwbacon'
+IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
 MASTER_DOMAIN='soajs.org'
 KEYSTORE_MACHINE="soajs-v-keystore"
