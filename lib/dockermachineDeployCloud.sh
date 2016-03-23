@@ -297,12 +297,7 @@ function choices(){
       echo -n "What would you like to do? "
       read choice
       echo ""
-#      echo -n "Pull from NPM GIT or LOCAL? "
-#      read choicepull
-      echo ""
       echo "Choice: $choice"
-#      echo "Pull from: $choicepull"
-choicepull="NPM"
       echo ""
       echo -n "Are you sure? y or n "
       read answerinput
