@@ -5,12 +5,11 @@
 # https://github.com/docker/machine/releases
 
 
-#no need for this env and param anymore, waiting to remove dependency from dashbaord
-[ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/Users/'
+
 
 GIT_BRANCH="develop"
 DATA_CONTAINER='soajsData'
-IMAGE_PREFIX='keithwbacon'
+IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
 MASTER_DOMAIN='soajs.org'
 KEYSTORE_MACHINE="soajs-v-keystore"
@@ -96,8 +95,8 @@ function pullNeededImages(){
     local machineName=${1}
 
     eval "$(docker-machine env ${machineName})"
-    docker pull keithwbacon/soajs
-    docker pull keithwbacon/nginx
+    #docker pull soajsorg/soajs
+    #docker pull soajsorg/nginx
 }
 
 #### DASH CLOUD
@@ -267,8 +266,9 @@ function setupSwarmMaster(){
     docker network create --driver overlay soajsnet
     echo $'\n .....Container Network setup DONE'
 }
+
 function setupcloud(){
-    while [ "$answerinput" != "y" ]
+    while [ "$cloudchoice" != "y" ]
      do
       clear
       echo -n "Please type in your Rackspace username, followed by [ENTER]: "
@@ -281,21 +281,67 @@ function setupcloud(){
       echo "API key: $rkapikey"
       echo ""
       echo -n "Are the above correct? y or n: "
-      read answerinput
+      read cloudchoice
     done
 }
 
+function choices(){
+    while [ "$answerinput" != "y" ]
+     do
+      clear
+      echo "1. Install"
+      echo "2. Rebuild all containers?"
+      echo "3. Rebuild Dash only?"
+      echo "4. Rebuild Dev only?"
+      echo ""
+      echo -n "What would you like to do? "
+      read choice
+      echo ""
+#      echo -n "Pull from NPM GIT or LOCAL? "
+#      read choicepull
+      echo ""
+      echo "Choice: $choice"
+#      echo "Pull from: $choicepull"
+choicepull="NPM"
+      echo ""
+      echo -n "Are you sure? y or n "
+      read answerinput
+    done
+    DEPLOY_FROM=$choicepull
+}
+function gochoice(){
+
+    if [ ${choice} == "1" ]; then
+        setupcloud
+        setupComm
+        setupSwarmMaster "soajs-swarm-master"
+        createDockerMachine "soajs-dash"
+        createDockerMachine "soajs-dev"
+        pullNeededImages "soajs-dev"
+        pullNeededImages "soajs-dash"
+        setupDashEnv "soajs-dash" "soajs-dev"
+        setupDevEnv "soajs-dev"
+    elif [ ${choice} == "2" ]; then
+#        eval $(docker-machine env soajs-dash)
+#        pullNeededImages "soajs-dev"
+#        pullNeededImages "soajs-dash"
+        setupDashEnv "soajs-dash" "soajs-dev"
+        setupDevEnv "soajs-dev"
+    elif [ ${choice} == "3" ]; then
+        setupDashEnv "soajs-dash" "soajs-dev"
+    elif [ ${choice} == "4" ]; then
+        setupDevEnv "soajs-dev"        
+    else
+        clear
+        echo "Nothing executed."
+        echo ""
+    fi
+
+}
+
 setupcloud
-setupComm
-setupSwarmMaster "soajs-swarm-master"
-
-createDockerMachine "soajs-dash"
-createDockerMachine "soajs-dev"
-
-pullNeededImages "soajs-dev"
-pullNeededImages "soajs-dash"
-
-setupDashEnv "soajs-dash" "soajs-dev"
-setupDevEnv "soajs-dev"
+choices
+gochoice
 
 echo "$INSTRUCT_MSG"
+

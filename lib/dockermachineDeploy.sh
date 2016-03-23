@@ -260,17 +260,56 @@ function setupSwarmMaster(){
     echo $'\n .....Container Network setup DONE'
 }
 
+function choices(){
+    while [ "$answerinput" != "y" ]
+     do
+      clear
+      echo "1. Install"
+      echo "2. Rebuild all containers?"
+      echo "3. Rebuild Dash only?"
+      echo "4. Rebuild Dev only?"
+      echo ""
+      echo -n "What would you like to do? "
+      read choice
+      echo ""
+      echo ""
+      echo "Choice: $choice"
+      echo ""
+      echo -n "Are you sure? y or n "
+      read answerinput
+    done
+    DEPLOY_FROM=$choicepull
+}
+function gochoice(){
 
-setupComm
-setupSwarmMaster "soajs-swarm-master"
+    if [ ${choice} == "1" ]; then
+        setupComm
+        setupSwarmMaster "soajs-swarm-master"
+        createDockerMachine "soajs-dash"
+        createDockerMachine "soajs-dev"
+        pullNeededImages "soajs-dev"
+        pullNeededImages "soajs-dash"
+        setupDashEnv "soajs-dash" "soajs-dev"
+        setupDevEnv "soajs-dev"
+    elif [ ${choice} == "2" ]; then
+#        eval $(docker-machine env soajs-dash)
+#        pullNeededImages "soajs-dev"
+#        pullNeededImages "soajs-dash"
+        setupDashEnv "soajs-dash" "soajs-dev"
+        setupDevEnv "soajs-dev"
+    elif [ ${choice} == "3" ]; then
+        setupDashEnv "soajs-dash" "soajs-dev"
+    elif [ ${choice} == "4" ]; then
+        setupDevEnv "soajs-dev"        
+    else
+        clear
+        echo "Nothing executed."
+        echo ""
+    fi
 
-createDockerMachine "soajs-dash"
-createDockerMachine "soajs-dev"
+}
 
-pullNeededImages "soajs-dev"
-pullNeededImages "soajs-dash"
-
-setupDashEnv "soajs-dash" "soajs-dev"
-setupDevEnv "soajs-dev"
+choices
+gochoice
 
 echo "$INSTRUCT_MSG"
