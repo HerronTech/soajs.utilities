@@ -31,11 +31,30 @@ var soajs_account = {
             "name": "soajs/soajs.examples",
             "type": "multi",
             "configSHA": [
-                "cf00fc022194c705f085967b3a100482a71dba65",
-                "cf00fc022194c705f085967b3a100482a71dba65",
-                "cf00fc022194c705f085967b3a100482a71dba65",
-                "cf00fc022194c705f085967b3a100482a71dba65",
-                "cf00fc022194c705f085967b3a100482a71dba65"
+                {
+                    "path": "config.js",
+                    "configSHA": "cf00fc022194c705f085967b3a100482a71dba65"
+                },
+                {
+                    "path": "example01/config.js",
+                    "configSHA": "cf00fc022194c705f085967b3a100482a71dba65"
+                },
+                {
+                    "path": "example02/config.js",
+                    "configSHA": "cf00fc022194c705f085967b3a100482a71dba65"
+                },
+                {
+                    "path": "example03/config.js",
+                    "configSHA": "cf00fc022194c705f085967b3a100482a71dba65"
+                },
+                {
+                    "path": "example04/config.js",
+                    "configSHA": "cf00fc022194c705f085967b3a100482a71dba65"
+                },
+                {
+                    "path": "hello_world/config.js",
+                    "configSHA": "cf00fc022194c705f085967b3a100482a71dba65"
+                }
             ]
         },
         {
