@@ -155,7 +155,7 @@ records.push(gc);
 provDb.gc.insert(records);
 
 /*GITHUB APP*/
-var files = listFiles('./github');
+var files = listFiles('./gitAccounts');
 for (var i = 0; i < files.length; i++) {
 	load(files[i].name);
 }

@@ -3,11 +3,9 @@ var core_services = [
 		"name": "controller",
 		"port": 4000,
 		"src": {
-			"type": "github",
+			"provider": "github",
 			"owner": "soajs",
-			"repo": "soajs.controller",
-			"branch": "master",
-			"main": "/index.js"
+			"repo": "soajs.controller"
 		}
 	},
 	{
@@ -16,11 +14,9 @@ var core_services = [
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
 		"src" : {
-			"type" : "github",
+			"provider" : "github",
 			"owner" : "soajs",
-			"repo" : "soajs.urac",
-			"branch" : "develop",
-			"main" : "/index.js"
+			"repo" : "soajs.urac"
 		},
 		"versions": {
 			"1": {
@@ -150,11 +146,9 @@ var core_services = [
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
 		"src" : {
-			"type" : "github",
+			"provider" : "github",
 			"owner" : "soajs",
-			"repo" : "soajs.oauth",
-			"branch" : "master",
-			"main" : "/index.js"
+			"repo" : "soajs.oauth"
 		},
 		"versions": {
 			"1": {
@@ -179,11 +173,9 @@ var core_services = [
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
 		"src" : {
-			"type" : "github",
+			"provider" : "github",
 			"owner" : "soajs",
-			"repo" : "soajs.dashboard",
-			"branch" : "feature/deployer",
-			"main" : "/index.js"
+			"repo" : "soajs.dashboard"
 		},
 		"versions": {
 			"1": {
@@ -568,11 +560,9 @@ var core_services = [
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
 		"src": {
-			"type": "github",
+			"provider": "github",
 			"owner": "soajs",
-			"repo": "soajs.prx",
-			"branch": "master",
-			"main": "/index.js"
+			"repo": "soajs.prx"
 		},
 		"versions": {
 			"1": {
@@ -593,11 +583,10 @@ var core_services = [
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
 		"src" : {
-			"type" : "github",
+			"provider" : "github",
 			"owner" : "soajs",
 			"repo" : "soajs.examples",
-			"branch" : "master",
-			"main" : "/example01/index.js"
+			"main" : "/example01/."
 		},
 		"versions": {
 			"1": {
@@ -634,11 +623,10 @@ var core_services = [
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
 		"src" : {
-			"type" : "github",
+			"provider" : "github",
 			"owner" : "soajs",
 			"repo" : "soajs.examples",
-			"branch" : "master",
-			"main" : "/example02/index.js"
+			"main" : "/example02/."
 		},
 		"versions": {
 			"1": {
@@ -659,11 +647,10 @@ var core_services = [
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
 		"src" : {
-			"type" : "github",
+			"provider" : "github",
 			"owner" : "soajs",
 			"repo" : "soajs.examples",
-			"branch" : "master",
-			"main" : "/example03/index.js"
+			"main" : "/example03/."
 		},
 		"versions": {
 			"1": {
@@ -688,11 +675,10 @@ var core_services = [
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
 		"src" : {
-			"type" : "github",
+			"provider" : "github",
 			"owner" : "soajs",
 			"repo" : "soajs.examples",
-			"branch" : "master",
-			"main" : "/example04/index.js"
+			"main" : "/example04/."
 		},
 		"versions": {
 			"1": {
@@ -722,11 +708,9 @@ var core_services = [
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
 		"src" : {
-			"type" : "github",
+			"provider" : "github",
 			"owner" : "soajs",
-			"repo" : "soajs.gcs",
-			"branch" : "develop",
-			"main" : "/index.js"
+			"repo" : "soajs.gcs"
 		},
 		"gcV": 1,
 		"versions": {
