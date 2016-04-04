@@ -42,6 +42,7 @@ var dsbrdProduct = {
 							"/admin/addUser": {"access": ["administrator", "owner"]},
 							"/admin/changeUserStatus": {"access": ["administrator", "owner"]},
 							"/admin/editUser": {"access": ["administrator", "owner"]},
+							"/admin/editUserConfig": {"access": ["administrator", "owner"]},
 							"/admin/group/add": {"access": ["administrator", "owner"]},
 							"/admin/group/addUsers": {"access": ["administrator", "owner"]},
 							"/admin/group/delete": {"access": ["administrator", "owner"]},
