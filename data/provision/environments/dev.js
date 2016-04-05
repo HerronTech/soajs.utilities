@@ -2,8 +2,8 @@
 var dev = {
 	"code": "DEV",
 	"domain": "mydomain.com",
-	"port": 8080,
-	"profile": "/opt/soajs/FILES/profiles/single.js",
+	"port": 80,
+	"profile": "/opt/soajs/FILES/profiles/profile.js",
 	"description": "this is the DEV environment",
 	"deployer": {
 		"type": "container",

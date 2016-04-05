@@ -154,6 +154,17 @@ var records = [];
 records.push(gc);
 provDb.gc.insert(records);
 
+/*GIT ACCOUNTS*/
+var files = listFiles('./gitAccounts');
+for (var i = 0; i < files.length; i++) {
+	load(files[i].name);
+}
+
+provDb.git_accounts.drop();
+
+var records = [];
+records.push(soajs_account);
+provDb.git_accounts.insert(records);
 
 /* DBTN URAC */
 var ddb = db.getSiblingDB('DBTN_urac');
