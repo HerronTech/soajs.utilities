@@ -117,7 +117,7 @@ function start(){
     ###################################
     #DASHBOARD container
     ###################################
-    createContainer "soajs.dashboard" "feature/deployer"
+    createContainer "soajs.dashboard" "develop"
     ###################################
     #PROXY container
     ###################################
@@ -126,7 +126,7 @@ function start(){
     #CONTROLLER container
     ###################################
     sleep 5
-    createContainer "soajs.controller" "master"
+    createContainer "soajs.controller" "develop"
     echo $'\n--------------------------'
 
     ###################################
@@ -134,7 +134,7 @@ function start(){
     ###################################
     sleep 5
 
-    local BRANCH="feature/deployer"
+    local BRANCH="develop"
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' soajs.controller`
     echo $'\n Starting NGINX Container "nginx" ... '
     docker run -d -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
@@ -292,8 +292,10 @@ function addanotherserver(){
     while [ "$servernamechoice" != "y" ]
      do
       clear
-      echo -n "Please type in a name for a new server, followed by [ENTER]: "
+      echo -n "What would you like to call your new Environment? Example: stg or prod"
+      echo -n "Environment name: "
       read newmachinename
+      newmachinename="$(tr [A-Z] [a-z] <<< "$newmachinename")"
       echo ""
       echo "Servername: $newmachinename"
       echo ""
@@ -308,7 +310,8 @@ function choices(){
       clear
       echo "1. Install"
       echo "2. Rebuild all containers?"
-      echo "3. Add another Docker-machine?"
+      echo "3. Rebuild all containers but mongodb?"
+      echo "4. Create a new Environment?"
       echo ""
       echo -n "What would you like to do? "
       read choice
@@ -334,10 +337,13 @@ function gochoice(){
         setupDashEnv "soajs-dash" "soajs-dev"
         setupDevEnv "soajs-dev"
     elif [ ${choice} == "2" ]; then
+        setupDashEnv "soajs-dash" "soajs-dev"
+        setupDevEnv "soajs-dev"
+    elif [ ${choice} == "3" ]; then
         cleanContainers soajs-dash "mongo"
         start soajs-dash
         cleanContainers soajs-dev "mongo"
-    elif [ ${choice} == "3" ]; then
+    elif [ ${choice} == "4" ]; then
         addanotherserver
     else
         clear
