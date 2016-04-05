@@ -34,12 +34,12 @@ function program_is_installed(){
 function dockerPrerequisites(){
     DOCKERMACHINE=$(program_is_installed docker-machine)
     if [ ${DOCKERMACHINE} == 0 ]; then
-        echo $'\n ... Unable to find docker-machine on your machine. PLease install docker machine!'
+        echo $'\n ... Unable to find docker-machine on your machine. Please install docker machine!'
         exit -1
     fi
     DOCKER=$(program_is_installed docker)
     if [ ${DOCKER} == 0 ]; then
-        echo $'\n ... Unable to find docker on your machine. PLease install docker!'
+        echo $'\n ... Unable to find docker on your machine. Please install docker!'
         exit -1
     fi
 }
@@ -79,6 +79,10 @@ function cleanContainers(){
         docker stop $(docker ps -a -q)
         sleep 1
         docker rm $(docker ps -a -q)
+    elif [ "${type}" == "mongo" ]; then
+        docker stop $(docker ps -a | grep -v CONT | grep -v swarm | grep -v mongo | awk {'print $1'})
+        sleep 1
+        docker rm $(docker ps -a | grep -v CONT | grep -v swarm | grep -v mongo | awk {'print $1'})
     else
         docker stop $(docker ps -a | grep -v CONT | grep -v swarm | awk {'print $1'})
         sleep 1
@@ -259,15 +263,28 @@ function setupSwarmMaster(){
     docker network create --driver overlay soajsnet
     echo $'\n .....Container Network setup DONE'
 }
+function addanotherserver(){
+    while [ "$servernamechoice" != "y" ]
+     do
+      clear
+      echo -n "Please type in a name for a new server, followed by [ENTER]: "
+      read newmachinename
+      echo ""
+      echo "Servername: $newmachinename"
+      echo ""
+      echo -n "Is the above correct? y or n: "
+      read servernamechoice
+     done
+    createDockerMachine "soajs-$newmachinename"
 
+}
 function choices(){
     while [ "$answerinput" != "y" ]
      do
       clear
       echo "1. Install"
       echo "2. Rebuild all containers?"
-      echo "3. Rebuild Dash only?"
-      echo "4. Rebuild Dev only?"
+      echo "3. Add another Docker-machine?"
       echo ""
       echo -n "What would you like to do? "
       read choice
@@ -292,15 +309,11 @@ function gochoice(){
         setupDashEnv "soajs-dash" "soajs-dev"
         setupDevEnv "soajs-dev"
     elif [ ${choice} == "2" ]; then
-#        eval $(docker-machine env soajs-dash)
-#        pullNeededImages "soajs-dev"
-#        pullNeededImages "soajs-dash"
-        setupDashEnv "soajs-dash" "soajs-dev"
-        setupDevEnv "soajs-dev"
+        cleanContainers soajs-dash "mongo"
+        start soajs-dash
+        cleanContainers soajs-dev "mongo"
     elif [ ${choice} == "3" ]; then
-        setupDashEnv "soajs-dash" "soajs-dev"
-    elif [ ${choice} == "4" ]; then
-        setupDevEnv "soajs-dev"        
+        addanotherserver
     else
         clear
         echo "Nothing executed."

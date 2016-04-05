@@ -84,6 +84,10 @@ function cleanContainers(){
         docker stop $(docker ps -a -q)
         sleep 1
         docker rm $(docker ps -a -q)
+    elif [ "${type}" == "mongo" ]; then
+        docker stop $(docker ps -a | grep -v CONT | grep -v swarm | grep -v mongo | awk {'print $1'})
+        sleep 1
+        docker rm $(docker ps -a | grep -v CONT | grep -v swarm | grep -v mongo | awk {'print $1'})
     else
         docker stop $(docker ps -a | grep -v CONT | grep -v swarm | awk {'print $1'})
         sleep 1
@@ -284,18 +288,31 @@ function setupcloud(){
       read cloudchoice
     done
 }
-
+function addanotherserver(){
+    while [ "$servernamechoice" != "y" ]
+     do
+      clear
+      echo -n "Please type in a name for a new server, followed by [ENTER]: "
+      read newmachinename
+      echo ""
+      echo "Servername: $newmachinename"
+      echo ""
+      echo -n "Is the above correct? y or n: "
+      read servernamechoice
+     done
+    createDockerMachine "soajs-$newmachinename"
+}
 function choices(){
     while [ "$answerinput" != "y" ]
      do
       clear
       echo "1. Install"
       echo "2. Rebuild all containers?"
-      echo "3. Rebuild Dash only?"
-      echo "4. Rebuild Dev only?"
+      echo "3. Add another Docker-machine?"
       echo ""
       echo -n "What would you like to do? "
       read choice
+      echo ""
       echo ""
       echo "Choice: $choice"
       echo ""
@@ -317,15 +334,11 @@ function gochoice(){
         setupDashEnv "soajs-dash" "soajs-dev"
         setupDevEnv "soajs-dev"
     elif [ ${choice} == "2" ]; then
-#        eval $(docker-machine env soajs-dash)
-#        pullNeededImages "soajs-dev"
-#        pullNeededImages "soajs-dash"
-        setupDashEnv "soajs-dash" "soajs-dev"
-        setupDevEnv "soajs-dev"
+        cleanContainers soajs-dash "mongo"
+        start soajs-dash
+        cleanContainers soajs-dev "mongo"
     elif [ ${choice} == "3" ]; then
-        setupDashEnv "soajs-dash" "soajs-dev"
-    elif [ ${choice} == "4" ]; then
-        setupDevEnv "soajs-dev"        
+        addanotherserver
     else
         clear
         echo "Nothing executed."
