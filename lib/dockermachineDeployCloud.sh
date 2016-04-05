@@ -284,7 +284,20 @@ function setupcloud(){
       read cloudchoice
     done
 }
-
+function addanotherserver(){
+    while [ "$servernamechoice" != "y" ]
+     do
+      clear
+      echo -n "Please type in a name for a new server, followed by [ENTER]: "
+      read newmachinename
+      echo ""
+      echo "Servername: $newmachinename"
+      echo ""
+      echo -n "Is the above correct? y or n: "
+      read servernamechoice
+     done
+    createDockerMachine "soajs-$newmachinename"
+}
 function choices(){
     while [ "$answerinput" != "y" ]
      do
@@ -293,6 +306,7 @@ function choices(){
       echo "2. Rebuild all containers?"
       echo "3. Rebuild Dash only?"
       echo "4. Rebuild Dev only?"
+      echo "5. Add another Docker-machine?"
       echo ""
       echo -n "What would you like to do? "
       read choice
@@ -325,7 +339,9 @@ function gochoice(){
     elif [ ${choice} == "3" ]; then
         setupDashEnv "soajs-dash" "soajs-dev"
     elif [ ${choice} == "4" ]; then
-        setupDevEnv "soajs-dev"        
+        setupDevEnv "soajs-dev"
+    elif [ ${choice} == "5" ]; then
+        addanotherserver        
     else
         clear
         echo "Nothing executed."
