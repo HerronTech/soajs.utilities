@@ -13,6 +13,7 @@ KEYSTORE_MACHINE="soajs-v-keystore"
 IP_SUBNET="10.0.0.0"
 SET_SOAJS_SRVIP="off"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
+API_DOMAIN='api.mydomain.com'
 
 function createContainer(){
     local REPO=${1}
@@ -48,7 +49,7 @@ function createDockerMachine(){
     dockerPrerequisites
 
     if [ ${machineName} ]; then
-        echo $'\nabout to create a docker machine with the following name: '${machineName}
+        echo $'\nAbout to create a docker machine with the following name: '${machineName}
 
         local machineExist=`docker-machine inspect --format '{{ .Name }}' ${machineName}`
         if [ "${machineExist}" == "${machineName}" ]; then
@@ -74,7 +75,7 @@ function cleanContainers(){
 
     eval "$(docker-machine env ${machineName})"
     docker ps -a
-    echo $'\n Cleaning previous docker containers ...'
+    echo $'\nCleaning previous docker containers ...'
     if [ "${type}" == "all" ]; then
         docker stop $(docker ps -a -q)
         sleep 1
@@ -136,7 +137,7 @@ function start(){
     echo $'\n--------------------------'
 
     ###################################
-    echo $'\n Containers created and deployed:'
+    echo $'\nContainers created and deployed:'
     docker ps
     echo $'\n--------------------------'
 
@@ -156,14 +157,14 @@ function buildDashMongo(){
     docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
     local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
-    echo $'\n Starging Mongo Container "soajsData" ...'
+    echo $'\nStarging Mongo Container "soajsData" ...'
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} --net=soajsnet mongo mongod --smallfiles
     echo $'\n--------------------------'
     echo $'\nMongo ip is: '${MONGOIP}
 
     #import provisioned data to mongo
     sleep 5
-    echo $'\n Importing core provisioned data ...'
+    echo $'\nImporting core provisioned data ...'
     node index data import provision ${MONGOIP} DOCKERMACHINE ${DEVMACHINEIP}
     echo $'\n4- Importing URAC data...'
     node index data import urac ${MONGOIP}
@@ -195,21 +196,21 @@ function buildDevMongo(){
     docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
     local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
-    echo $'\n Starging Mongo Container "soajsData" '${machineName}' '${MONGOIP}' ...'
+    echo $'\nStarging Mongo Container "soajsData" '${machineName}' '${MONGOIP}' ...'
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}DEV --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
     echo $'\n--------------------------'
     echo $'\nMongo ip is: '${MONGOIP}
 }
 function setupDevEnv(){
     local machineName=${1}
-    echo $'\n Setting up cloud for: '${machineName}
+    echo $'\nSetting up cloud for: '${machineName}
 
     local DEVMACHINEIP=`docker-machine ip ${machineName}`
 
     cleanContainers ${machineName} "swarm"
     buildDevMongo ${machineName}
 
-    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' api.mydomain.com'
+    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}''
 
     echo $'\n ..... DEV Cloud setup DONE'
 
@@ -219,7 +220,7 @@ function setupDevEnv(){
 function setupComm(){
     dockerPrerequisites
 
-    echo $'\nabout to create a docker machine with the following name: '${KEYSTORE_MACHINE}
+    echo $'\nAbout to create a docker machine with the following name: '${KEYSTORE_MACHINE}
 
     local machineExist=`docker-machine inspect --format '{{ .Name }}' ${KEYSTORE_MACHINE}`
     if [ "${machineExist}" == "${KEYSTORE_MACHINE}" ]; then
@@ -239,7 +240,7 @@ function setupSwarmMaster(){
     local machineName=${1}
     dockerPrerequisites
 
-    echo $'\nabout to create a docker machine with the following name: '${machineName}
+    echo $'\nAbout to create a docker machine with the following name: '${machineName}
 
     local machineExist=`docker-machine inspect --format '{{ .Name }}' ${machineName}`
     if [ "${machineExist}" == "${machineName}" ]; then
