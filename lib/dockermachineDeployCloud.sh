@@ -9,7 +9,7 @@
 
 GIT_BRANCH="develop"
 DATA_CONTAINER='soajsData'
-IMAGE_PREFIX='soajsorg'
+IMAGE_PREFIX='keithwbacon'
 NGINX_CONTAINER='nginx'
 MASTER_DOMAIN='soajs.org'
 KEYSTORE_MACHINE="soajs-v-keystore"
@@ -292,17 +292,18 @@ function addanotherserver(){
     while [ "$servernamechoice" != "y" ]
      do
       clear
-      echo -n "What would you like to call your new Environment? Example: stg or prod"
+      echo "What would you like to call your new Environment? Example: stg or prod"
       echo -n "Environment name: "
       read newmachinename
       newmachinename="$(tr [A-Z] [a-z] <<< "$newmachinename")"
       echo ""
-      echo "Servername: $newmachinename"
+      echo "Environment name: $newmachinename"
       echo ""
       echo -n "Is the above correct? y or n: "
       read servernamechoice
      done
     createDockerMachine "soajs-$newmachinename"
+    setupDevEnv "soajs-$newmachinename"
 }
 function choices(){
     while [ "$answerinput" != "y" ]
