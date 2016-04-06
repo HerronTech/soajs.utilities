@@ -6,7 +6,7 @@
 
 GIT_BRANCH="develop"
 DATA_CONTAINER='soajsData'
-IMAGE_PREFIX='keithwbacon'
+IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
 MASTER_DOMAIN='soajs.org'
 KEYSTORE_MACHINE="soajs-v-keystore"
@@ -48,11 +48,11 @@ function createDockerMachine(){
     dockerPrerequisites
 
     if [ ${machineName} ]; then
-        echo $'\n about to create a docker machine with the following name: '${machineName}
+        echo $'\nabout to create a docker machine with the following name: '${machineName}
 
         local machineExist=`docker-machine inspect --format '{{ .Name }}' ${machineName}`
         if [ "${machineExist}" == "${machineName}" ]; then
-            echo $'\n docker machine: '${machineName}' already exist, trying to force restart'
+            echo $'\ndocker machine: '${machineName}' already exist, trying to force restart'
             docker-machine stop ${machineName}
             docker-machine start ${machineName}
             docker-machine regenerate-certs -f ${machineName}
@@ -219,11 +219,11 @@ function setupDevEnv(){
 function setupComm(){
     dockerPrerequisites
 
-    echo $'\n about to create a docker machine with the following name: '${KEYSTORE_MACHINE}
+    echo $'\nabout to create a docker machine with the following name: '${KEYSTORE_MACHINE}
 
     local machineExist=`docker-machine inspect --format '{{ .Name }}' ${KEYSTORE_MACHINE}`
     if [ "${machineExist}" == "${KEYSTORE_MACHINE}" ]; then
-        echo $'\n docker machine: '${KEYSTORE_MACHINE}' already exist, trying to force restart'
+        echo $'\ndocker machine: '${KEYSTORE_MACHINE}' already exist, trying to force restart'
         docker-machine stop ${KEYSTORE_MACHINE}
         docker-machine start ${KEYSTORE_MACHINE}
         docker-machine regenerate-certs -f ${KEYSTORE_MACHINE}
@@ -239,11 +239,11 @@ function setupSwarmMaster(){
     local machineName=${1}
     dockerPrerequisites
 
-    echo $'\n about to create a docker machine with the following name: '${machineName}
+    echo $'\nabout to create a docker machine with the following name: '${machineName}
 
     local machineExist=`docker-machine inspect --format '{{ .Name }}' ${machineName}`
     if [ "${machineExist}" == "${machineName}" ]; then
-        echo $'\n docker machine: '${machineName}' already exist, trying to force restart'
+        echo $'\ndocker machine: '${machineName}' already exist, trying to force restart'
         docker-machine stop ${machineName}
         docker-machine start ${machineName}
         docker-machine regenerate-certs -f ${machineName}
@@ -267,14 +267,15 @@ function addanotherserver(){
     while [ "$servernamechoice" != "y" ]
      do
       clear
-      echo "What would you like to call your new Environment? Example: stg or prod"
-      echo -n "Environment name: "
+      echo -n "What would you like to call your new Environment Machine (stg - cat - prod ...)"
+      echo $'\n'
+      echo -n "Environment Machine name: "
       read newmachinename
       newmachinename="$(tr [A-Z] [a-z] <<< "$newmachinename")"
       echo ""
-      echo "Environment name: $newmachinename"
+      echo "Machine name: $newmachinename"
       echo ""
-      echo -n "Is the above correct? y or n: "
+      echo -n "Is the above correct (y or n): "
       read servernamechoice
      done
     createDockerMachine "soajs-$newmachinename"
@@ -285,17 +286,17 @@ function choices(){
      do
       clear
       echo "1. Install"
-      echo "2. Rebuild all containers?"
-      echo "3. Rebuild all containers but mongodb?"
-      echo "4. Create a new Environment?"
+      echo "2. Rebuild all containers"
+      echo "3. Rebuild all containers but mongodb"
+      echo "4. Create a new Environment Machine"
       echo ""
-      echo -n "What would you like to do? "
+      echo -n "What would you like to do: "
       read choice
       echo ""
       echo ""
       echo "Choice: $choice"
       echo ""
-      echo -n "Are you sure? y or n "
+      echo -n "Are you sure (y or n): "
       read answerinput
     done
     DEPLOY_FROM=$choicepull
