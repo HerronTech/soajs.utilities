@@ -3,6 +3,8 @@ var dashboard = {
 	"_id": ObjectId('55128442e603d7e01ab1688c'),
 	"code": "DASHBOARD",
 	"domain": "soajs.org",
+	"sitePrefix": "dashboard",
+	"apiPrefix": "dashboard-api",
 	"locked": true,
 	"port": 80,
 	"profile": "/opt/soajs/FILES/profiles/profile.js",

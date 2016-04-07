@@ -2,6 +2,8 @@
 var dev = {
 	"code": "DEV",
 	"domain": "mydomain.com",
+	"sitePrefix": "dev",
+	"apiPrefix": "dev-api",
 	"port": 80,
 	"profile": "/opt/soajs/FILES/profiles/profile.js",
 	"description": "this is the DEV environment",
