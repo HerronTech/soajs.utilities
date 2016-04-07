@@ -179,7 +179,7 @@ function setupDashEnv(){
     buildDashMongo ${machineName} ${machineDevName}
 
     while true; do
-        read -p "Do you wish to build the containers?" yn
+        read -p "Do you wish to build the containers? " yn
         case $yn in
             [Yy]* ) start ${machineName}; echo $'\n ..... DASH Cloud setup DONE'; break;;
             [Nn]* ) exit;;
@@ -196,7 +196,7 @@ function buildDevMongo(){
     docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
     local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
 
-    echo $'\nStarging Mongo Container "soajsData" '${machineName}' '${MONGOIP}' ...'
+    echo $'\nStarting Mongo Container' ${DATA_CONTAINER}DEV' on '${machineName}' '${MONGOIP}' ...'
     docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}DEV --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
     echo $'\n--------------------------'
     echo $'\nMongo ip is: '${MONGOIP}
@@ -210,9 +210,9 @@ function setupDevEnv(){
     cleanContainers ${machineName} "swarm"
     buildDevMongo ${machineName}
 
-    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}''
+    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}
 
-    echo $'\n ..... DEV Cloud setup DONE'
+    echo $'\n ..... ' ${machineName} 'setup DONE'
 
 }
 #### DEV CLOUD END ###
@@ -264,6 +264,30 @@ function setupSwarmMaster(){
     docker network create --driver overlay soajsnet
     echo $'\n .....Container Network setup DONE'
 }
+function welcome(){
+    clear
+    echo "Welcome to the SOAJS docker-machine virtualbox Deployer."
+    echo ""
+}
+function whichdomain(){
+    local answerinput=""
+    while [ "$answerinput" != "y" ]
+     do
+      clear
+      echo "$API_DOMAIN is the default domain location."
+      echo ""
+      echo -n "Would what you like to use for this domain? Such as stg-api.mydomain.com or prod.xyz.com"
+      echo $'\n'
+      echo -n "Domain name: "
+      read domainchoice
+      echo ""
+      echo "Choice: $domainchoice"
+      echo ""
+      echo -n "Are you sure (y or n): "
+      read answerinput
+    done
+    API_DOMAIN=$domainchoice
+}
 function addanotherserver(){
     while [ "$servernamechoice" != "y" ]
      do
@@ -279,23 +303,26 @@ function addanotherserver(){
       echo -n "Is the above correct (y or n): "
       read servernamechoice
      done
+    whichdomain
     createDockerMachine "soajs-$newmachinename"
+    DATA_CONTAINER="$newmachinename-"
     setupDevEnv "soajs-$newmachinename"
 }
 function choices(){
+    local answerinput=""
     while [ "$answerinput" != "y" ]
      do
-      clear
+      echo ""
       echo "1. Install"
       echo "2. Rebuild all containers"
       echo "3. Rebuild all containers but mongodb"
       echo "4. Create a new Environment Machine"
       echo ""
       echo -n "What would you like to do: "
-      read choice
+      read gochoice
       echo ""
       echo ""
-      echo "Choice: $choice"
+      echo "Choice: $gochoice"
       echo ""
       echo -n "Are you sure (y or n): "
       read answerinput
@@ -304,7 +331,8 @@ function choices(){
 }
 function gochoice(){
 
-    if [ ${choice} == "1" ]; then
+    if [ ${gochoice} == "1" ]; then
+        whichdomain
         setupComm
         setupSwarmMaster "soajs-swarm-master"
         createDockerMachine "soajs-dash"
@@ -313,14 +341,14 @@ function gochoice(){
         pullNeededImages "soajs-dash"
         setupDashEnv "soajs-dash" "soajs-dev"
         setupDevEnv "soajs-dev"
-    elif [ ${choice} == "2" ]; then
+    elif [ ${gochoice} == "2" ]; then
         setupDashEnv "soajs-dash" "soajs-dev"
         setupDevEnv "soajs-dev"
-    elif [ ${choice} == "3" ]; then
+    elif [ ${gochoice} == "3" ]; then
         cleanContainers soajs-dash "mongo"
         start soajs-dash
         cleanContainers soajs-dev "mongo"
-    elif [ ${choice} == "4" ]; then
+    elif [ ${gochoice} == "4" ]; then
         addanotherserver
     else
         clear
@@ -329,7 +357,7 @@ function gochoice(){
     fi
 
 }
-
+welcome
 choices
 gochoice
 
