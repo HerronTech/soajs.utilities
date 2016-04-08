@@ -107,7 +107,7 @@ function start(){
     eval "$(docker-machine env ${machineName})"
     MACHINEIP=`docker-machine ip ${machineName}`
 
-    echo $'\n Starting SERVICES ...'
+    echo $'\nStarting SERVICES ...'
     ###################################
     #URAC container
     ###################################
@@ -134,7 +134,7 @@ function start(){
 
     local BRANCH="develop"
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' soajs.controller`
-    echo $'\n Starting NGINX Container "nginx" ... '
+    echo $'\nStarting NGINX Container "nginx" ... '
     docker run -d -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
     echo $'\n--------------------------'
 
@@ -212,7 +212,7 @@ function setupDevEnv(){
     cleanContainers ${machineName} "swarm"
     buildDevMongo ${machineName}
 
-    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}
+    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' dev-'${API_DOMAIN}
 
     echo $'\n ..... ' ${machineName} 'setup DONE'
 
