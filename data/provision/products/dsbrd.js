@@ -32,22 +32,7 @@ var dsbrdProduct = {
 							"/join": {},
 							"/join/validate": {},
 							"/resetPassword": {},
-							"/account/getUser": {"access": true},
-							"/account/changePassword": {"access": true},
-							"/account/editProfile": {"access": true},
-							"/account/changeEmail": {"access": true},
-							"/logout": {"access": true},
-							"/admin/getUser": {"access": ["administrator", "owner"]},
-							"/admin/listUsers": {"access": ["administrator", "owner"]},
-							"/admin/addUser": {"access": ["administrator", "owner"]},
-							"/admin/changeUserStatus": {"access": ["administrator", "owner"]},
-							"/admin/editUser": {"access": ["administrator", "owner"]},
-							"/admin/editUserConfig": {"access": ["administrator", "owner"]},
-							"/admin/group/add": {"access": ["administrator", "owner"]},
-							"/admin/group/addUsers": {"access": ["administrator", "owner"]},
-							"/admin/group/delete": {"access": ["administrator", "owner"]},
-							"/admin/group/edit": {"access": ["administrator", "owner"]},
-							"/admin/group/list": {"access": ["administrator", "owner"]}
+							"/logout": {"access": true}
 						}
 					}
 				}
@@ -72,18 +57,8 @@ var dsbrdProduct = {
 					}
 				},
 				"dev":{
-					"urac": {
-						"apis": {
-							"/logout": {
-								"access": true
-							}
-						},
-						"access": false,
-						"apisPermission": "restricted"
-					},
 					"gc_articles": {
-						"apis": {},
-						"access": true
+						"access": ["owner"]
 					}
 				}
 			},
@@ -95,33 +70,7 @@ var dsbrdProduct = {
 			"description": "This package offers both example03 and example04",
 			"acl": {
 				"dev": {
-					"urac": {
-						"apis": {
-							"/logout": {
-								"access": true
-							}
-						},
-						"access": false,
-						"apisPermission": "restricted"
-					},
 					"gc_articles": {
-						"apis": {
-							"/list": {
-								"access": true
-							},
-							"/update": {
-								"access": true
-							},
-							"/delete": {
-								"access": true
-							},
-							"/add": {
-								"access": true
-							},
-							"/get": {
-								"access": true
-							}
-						},
 						"access": true
 					}
 				},
