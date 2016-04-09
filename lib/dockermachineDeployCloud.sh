@@ -212,7 +212,7 @@ function setupDevEnv(){
     cleanContainers ${machineName} "swarm"
     buildDevMongo ${machineName}
 
-    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' dev-'${API_DOMAIN}
+    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}
 
     echo $'\n ..... ' ${machineName} 'setup DONE'
 
@@ -300,8 +300,14 @@ function whichdomain(){
       echo $'\n'
       echo -n "Domain name: "
       read domainchoice
-      echo ""
-      echo "Choice: $domainchoice"
+      if [ -z "$domainchoice" ]; then
+         domainchoice="api.mydomain.com"
+         echo ""
+         echo "default chosen: $domainchoice"
+      else
+        echo ""
+        echo "Choice: $domainchoice"
+      fi
       echo ""
       echo -n "Are you sure (y or n): "
       read answerinput
