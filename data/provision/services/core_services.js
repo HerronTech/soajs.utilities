@@ -10,6 +10,7 @@ var core_services = [
 	},
 	{
 		"name": "urac",
+		"group": "SOAJS Core Services",
 		"port": 4001,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
@@ -142,6 +143,7 @@ var core_services = [
 	},
 	{
 		"name": "dashboard",
+		"group": "SOAJS Core Services",
 		"port": 4003,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
@@ -529,6 +531,7 @@ var core_services = [
 	},
 	{
 		"name": "proxy",
+		"group": "SOAJS Core Services",
 		"port": 4009,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
@@ -553,6 +556,7 @@ var core_services = [
 	{
 		"gcId": "55a3c82b945e350f00a2ab7e",
 		"name": "gc_articles",
+		"group": "SOAJS Content Services",
 		"port": 4500,
 		"requestTimeout": 30,
 		"requestTimeoutRenewal": 5,
