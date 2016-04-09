@@ -712,7 +712,7 @@ var core_services = [
 			"owner" : "soajs",
 			"repo" : "soajs.gcs"
 		},
-		"gcV": 1,
+		"version": 1,
 		"versions": {
 			"1": {
 				"extKeyRequired": true,
