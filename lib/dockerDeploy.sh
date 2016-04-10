@@ -87,6 +87,10 @@ function start(){
     ###################################
     createContainer "soajs.dashboard" ${GIT_BRANCH}
     ###################################
+    #PROXY container
+    ###################################
+    createContainer "soajs.prx" ${GIT_BRANCH}
+    ###################################
     #CONTROLLER container
     ###################################
     sleep 5
