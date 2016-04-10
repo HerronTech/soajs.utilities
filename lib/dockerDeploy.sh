@@ -18,7 +18,7 @@ function createContainer(){
 
     echo $'- Starting Controller Container '${REPO}' ...'
 
-    if [ ${REPO} == "dashboard" ]; then
+    if [ ${REPO} == "soajs.dashboard" ]; then
 
         #no need for these env anymore, waiting to remove dependency from dashbaord
         local EXTRA='-v /var/run/docker.sock:/var/run/docker.sock'
