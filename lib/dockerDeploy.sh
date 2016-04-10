@@ -81,23 +81,23 @@ function start(){
     ###################################
     #URAC container
     ###################################
-    createContainer "soajs.urac" "develop"
+    createContainer "soajs.urac" ${GIT_BRANCH}
     ###################################
     #DASHBOARD container
     ###################################
-    createContainer "soajs.dashboard" "develop"
+    createContainer "soajs.dashboard" ${GIT_BRANCH}
     ###################################
     #CONTROLLER container
     ###################################
     sleep 5
-    createContainer "soajs.controller" "develop"
+    createContainer "soajs.controller" ${GIT_BRANCH}
     echo $'\n--------------------------'
 
     ###################################
     #NGINX container
     ###################################
     sleep 5
-    local BRANCH="develop"
+    local BRANCH=${GIT_BRANCH}
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' soajs.controller`
     echo $'\n6- Starting NGINX Container "nginx" ... '
     docker run -d -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
