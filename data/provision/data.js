@@ -1,6 +1,11 @@
 var provDb = db.getSiblingDB('core_provision');
 //provDb.dropDatabase();
 
+provDb.docker.drop();
+provDb.git_accounts.drop();
+provDb.staticContent.drop();
+provDb['fs.files'].drop();
+
 var files = listFiles('./extKeys');
 for (var i = 0; i < files.length; i++) {
     load(files[i].name);
