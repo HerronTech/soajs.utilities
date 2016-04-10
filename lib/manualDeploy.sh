@@ -66,11 +66,11 @@ function importData(){
 }
 
 function setupNginx(){
-	export SOAJS_NX_APIDOMAIN=dashboard-api.${MASTER_DOMAIN}
-	export SOAJS_NX_DASHDOMAIN=dashboard.${MASTER_DOMAIN}
-	export SOAJS_NX_APIPORT=80
-	export SOAJS_NX_HOSTIP=127.0.0.1
-	export SOAJS_NX_DASHBOARDROOT=${WRK_DIR}"/soajs.dashboard/ui"
+	export SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}
+	export SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}
+	export SOAJS_NX_CONTROLLER_NB=1
+	export SOAJS_NX_CONTROLLER_IP_1=127.0.0.1
+	export SOAJS_NX_SITE_PATH=${WRK_DIR}"/soajs.dashboard/ui"
 	mkdir -p ${WRK_DIR}"/nginx"
 
 	export SOAJS_NX_LOC=${WRK_DIR}
