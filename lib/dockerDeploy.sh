@@ -81,16 +81,16 @@ function start(){
     ###################################
     #URAC container
     ###################################
-    createContainer "urac" "develop"
+    createContainer "soajs.urac" "develop"
     ###################################
     #DASHBOARD container
     ###################################
-    createContainer "dashboard" "develop"
+    createContainer "soajs.dashboard" "develop"
     ###################################
     #CONTROLLER container
     ###################################
     sleep 5
-    createContainer "controller" "develop"
+    createContainer "soajs.controller" "develop"
     echo $'\n--------------------------'
 
     ###################################
