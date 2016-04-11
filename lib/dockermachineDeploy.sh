@@ -14,6 +14,7 @@ IP_SUBNET="10.0.0.0"
 SET_SOAJS_SRVIP="off"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
 API_DOMAIN='api.mydomain.com'
+ADDSERVER="false"
 
 function createContainer(){
     local REPO=${1}
@@ -195,11 +196,17 @@ function buildDevMongo(){
     local MONGOIP=`docker-machine ip ${machineName}`
     docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
     local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
-
-    echo $'\nStarting Mongo Container' ${DATA_CONTAINER}DEV' on '${machineName}' '${MONGOIP}' ...'
-    docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}DEV --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
-    echo $'\n--------------------------'
-    echo $'\nMongo ip is: '${MONGOIP}
+    if [ ${ADDSERVER} == "true" ]; then
+       echo $'\nStarting Mongo Container' ${DATA_CONTAINER}' on '${machineName}' '${MONGOIP}' ...'
+       docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
+       echo $'\n--------------------------'
+       echo $'\nMongo ip is: '${MONGOIP}
+    else
+       echo $'\nStarting Mongo Container' ${DATA_CONTAINER}DEV' on '${machineName}' '${MONGOIP}' ...'
+       docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}DEV --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
+       echo $'\n--------------------------'
+       echo $'\nMongo ip is: '${MONGOIP}
+    fi
 }
 function setupDevEnv(){
     local machineName=${1}
@@ -311,7 +318,8 @@ function addanotherserver(){
      done
     whichdomain
     createDockerMachine "soajs-$newmachinename"
-    DATA_CONTAINER="$newmachinename-"
+    DATA_CONTAINER="soajsData$newmachinename"
+    ADDSERVER="true"
     setupDevEnv "soajs-$newmachinename"
 }
 function choices(){
