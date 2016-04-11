@@ -44,6 +44,7 @@ function init(){
     ###################################
     echo $'Initializing and checking prerequisites ... '
     SOAJS_DATA_VLM='-v '${LOC}'soajs/data:/data -v '${LOC}'soajs/data/db:/data/db'
+    SOAJS_DATA_VLM_DEV='-v '${LOC}'soajs/dev/data:/data -v '${LOC}'soajs/dev/data/db:/data/db'
     DOCKER=$(program_is_installed docker)
     if [ ${DOCKER} == 0 ]; then
         echo $'\n ... Unable to find docker on your machine. PLease install docker!'
@@ -67,17 +68,25 @@ function importData(){
     #get mongo container IP address
     MONGOIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${DATA_CONTAINER}`
     echo $'\nMongo ip is: '${MONGOIP}
+
+    echo $'\n3- Starging Mongo Container "soajsDataDev" ...'
+    docker run -d ${SOAJS_DATA_VLM_DEV} --name "${DATA_CONTAINER}Dev" mongo mongod --smallfiles
+    echo $'\n--------------------------'
+    #get mongo container IP address
+    MONGOIPDEV=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${DATA_CONTAINER}Dev`
+    echo $'\nMongo Dev ip is: '${MONGOIPDEV}
+
     #import provisioned data to mongo
     sleep 5
-    echo $'\n3- Importing core provisioned data ...'
-    node index data import provision ${MONGOIP} DOCKER
-    echo $'\n4- Importing URAC data...'
+    echo $'\n4- Importing core provisioned data ...'
+    node index data import provision ${MONGOIP} DOCKER ${MONGOIPDEV}
+    echo $'\n5- Importing URAC data...'
     node index data import urac ${MONGOIP}
     echo $'\n--------------------------'
 }
 
 function start(){
-    echo $'\n5- Starting SERVICES ...'
+    echo $'\n6- Starting SERVICES ...'
     ###################################
     #URAC container
     ###################################
@@ -103,12 +112,12 @@ function start(){
     sleep 5
     local BRANCH=${GIT_BRANCH}
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' soajs.controller`
-    echo $'\n6- Starting NGINX Container "nginx" ... '
+    echo $'\n7- Starting NGINX Container "nginx" ... '
     docker run -d -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
     echo $'\n--------------------------'
 
     ###################################
-    echo $'\n7- Containers created and deployed:'
+    echo $'\n8- Containers created and deployed:'
     docker ps
     echo $'\n--------------------------'
 
