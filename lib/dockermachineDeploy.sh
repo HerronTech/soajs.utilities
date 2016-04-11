@@ -334,9 +334,7 @@ if [ -z "$array" ]; then
 else
   for i in "${array[@]}"
       do
-       if [ $i == "soajs-swarm-master" ]; then
-          echo ""
-       elif [ $i == "soajs-v-keystore" ]; then
+       if [ $i == "soajs-swarm-master" ] || [ $i == "soajs-v-keystore" ]; then
           echo ""
        elif [ $i == "soajs-dash" ]; then
           # Do not prompt soajs-dash for a domain
@@ -344,6 +342,7 @@ else
        else
         ADDSERVER="true"
         whichdomain $i
+        DATA_CONTAINER=$(echo "$i" | sed 's/soajs-//')
         setupDevEnv $i
         API_DOMAIN='api.mydomain.com'
        fi 
