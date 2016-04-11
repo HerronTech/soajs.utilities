@@ -36,7 +36,7 @@ if (internalDocker || internalMachine) {
 
 	if (internalDocker) {
 		dashboard.deployer.selected = "container.docker.socket";
-		dashboard.deployer.selected = "container.docker.socket";
+		dev.deployer.selected = "container.docker.socket";
 	}
 	if (internalMachine) {
 		dashboard.deployer.selected = "container.dockermachine.local";
