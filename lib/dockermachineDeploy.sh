@@ -206,7 +206,7 @@ function buildDevMongo(){
        echo $'\n--------------------------'
        echo $'\nMongo ip is: '${MONGOIP}
     else
-       echo $'\nStarting Mongo Container' ${DATA_CONTAINER}DEV' on '${machineName}' '${MONGOIP}' ...'
+       echo $'\nStarting Mongo Container' ${DATA_CONTAINER}Dev' on '${machineName}' '${MONGOIP}' ...'
        docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}DEV --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
        echo $'\n--------------------------'
        echo $'\nMongo ip is: '${MONGOIP}
@@ -347,7 +347,11 @@ else
         ADDSERVER="true"
         whichdomain $i
         removenametemp=$(echo "$i" | sed 's/soajs-//')
-        DATA_CONTAINER="soajsData$removenametemp"
+        if [ $removenametemp == "dev" ]; then
+           DATA_CONTAINER="soajsDataDev"
+        else
+           DATA_CONTAINER="soajsData$removenametemp"
+        fi   
         setupDevEnv $i
         API_DOMAIN='api.mydomain.com'
        fi 
