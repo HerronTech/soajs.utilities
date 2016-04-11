@@ -207,7 +207,7 @@ function buildDevMongo(){
        echo $'\nMongo ip is: '${MONGOIP}
     else
        echo $'\nStarting Mongo Container' ${DATA_CONTAINER}Dev' on '${machineName}' '${MONGOIP}' ...'
-       docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}DEV --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
+       docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}Dev --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
        echo $'\n--------------------------'
        echo $'\nMongo ip is: '${MONGOIP}
     fi
