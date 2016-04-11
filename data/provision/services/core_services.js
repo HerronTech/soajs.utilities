@@ -17,7 +17,10 @@ var core_services = [
 		"src" : {
 			"provider" : "github",
 			"owner" : "soajs",
-			"repo" : "soajs.urac"
+			"repo" : "soajs.urac",
+			"cmd": [
+				"/etc/init.d/postfix start"
+			]
 		},
 		"versions": {
 			"1": {
