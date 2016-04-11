@@ -277,10 +277,14 @@ function welcome(){
     echo ""
 }
 function whichdomain(){
+    local machineName=${1}
     local answerinput=""
     while [ "$answerinput" != "y" ]
      do
       clear
+      if [ $ADDSERVER == "true" ]; then 
+         echo -e "Machine name: ${machineName} \n"
+      fi
       echo "$API_DOMAIN is the default domain location."
       echo ""
       echo -n "Would what you like to use for this domain? Such as stg-api.mydomain.com or prod.xyz.com"
@@ -316,11 +320,35 @@ function addanotherserver(){
       echo -n "Is the above correct (y or n): "
       read servernamechoice
      done
-    whichdomain
+    ADDSERVER="true"
+    whichdomain "soajs-$newmachinename"
     createDockerMachine "soajs-$newmachinename"
     DATA_CONTAINER="soajsData$newmachinename"
-    ADDSERVER="true"
     setupDevEnv "soajs-$newmachinename"
+}
+function rebuildmachinecontainers(){
+array=($(docker-machine ls -q | grep soajs-))
+
+if [ -z "$array" ]; then
+   echo "No SOAJS-* machines found, docker ok?"
+else
+  for i in "${array[@]}"
+      do
+       if [ $i == "soajs-swarm-master" ]; then
+          echo ""
+       elif [ $i == "soajs-v-keystore" ]; then
+          echo ""
+       elif [ $i == "soajs-dash" ]; then
+          # Do not prompt soajs-dash for a domain
+          setupDashEnv "soajs-dash" "soajs-dev"
+       else
+        ADDSERVER="true"
+        whichdomain $i
+        setupDevEnv $i
+        API_DOMAIN='api.mydomain.com'
+       fi 
+      done
+fi
 }
 function choices(){
     local answerinput=""
@@ -356,8 +384,9 @@ function gochoice(){
         setupDashEnv "soajs-dash" "soajs-dev"
         setupDevEnv "soajs-dev"
     elif [ ${gochoice} == "2" ]; then
-        setupDashEnv "soajs-dash" "soajs-dev"
-        setupDevEnv "soajs-dev"
+         rebuildmachinecontainers
+#        setupDashEnv "soajs-dash" "soajs-dev"
+#        setupDevEnv "soajs-dev"
     elif [ ${gochoice} == "3" ]; then
         cleanContainers soajs-dash "mongo"
         start soajs-dash
