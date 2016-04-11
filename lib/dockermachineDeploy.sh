@@ -346,8 +346,8 @@ else
        else
         ADDSERVER="true"
         whichdomain $i
-        #DATA_CONTAINER=$(echo "$i" | sed 's/soajs-//')
-        DATA_CONTAINER="soajsData$i"
+        removenametemp=$(echo "$i" | sed 's/soajs-//')
+        DATA_CONTAINER="soajsData$removenametemp"
         setupDevEnv $i
         API_DOMAIN='api.mydomain.com'
        fi 
