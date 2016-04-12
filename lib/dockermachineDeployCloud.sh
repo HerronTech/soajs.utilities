@@ -347,6 +347,7 @@ function addanotherserver(){
     ADDSERVER="true"
     whichdomain "soajs-$newmachinename"
     createDockerMachine "soajs-$newmachinename"
+    pullNeededImages "soajs-$newmachinename"
     DATA_CONTAINER="soajsData$newmachinename"
     setupDevEnv "soajs-$newmachinename"
 }
