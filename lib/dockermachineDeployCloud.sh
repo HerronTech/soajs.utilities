@@ -371,6 +371,7 @@ else
           echo $'\n ..... ' ${i} 'setup DONE'
        fi
       done
+      echo "SOAJS-Dash has now been reset, your mongodb on other machines remained intact."
 fi
 }
 function rebuildmachinecontainers(){
