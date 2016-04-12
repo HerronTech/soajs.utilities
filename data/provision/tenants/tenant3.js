@@ -19,7 +19,14 @@ var tenant3 = {
 						{
 							"extKey": "7bc1e66d003a3b2acfce1557cbda7320ec45057be0505fd7e9dec19e9fe74c194b109a48568f53449c1cc607a3cb23d70de86831a2ac4b87f1c0c5d57d19702a74ac22a64531185af11f75967f9ba54cb930149ed8a1384f924be9baa4ed5b0b",
 							"device": null,
-							"geo": null
+							"geo": null,
+							"env": "DASHBOARD"
+						},
+						{
+							"extKey": "7bc1e66d003a3b2acfce1557cbda7320ec45057be0505fd7e9dec19e9fe74c194b109a48568f53449c1cc607a3cb23d70de86831a2ac4b87f1c0c5d57d19702a74ac22a64531185af11f75967f9ba54cb930149ed8a1384f924be9baa4ed5b0b",
+							"device": null,
+							"geo": null,
+							"env": "DEV"
 						}
 					],
 					"config": {
@@ -49,7 +56,14 @@ var tenant3 = {
 						{
 							"extKey": "7bc1e66d003a3b2acfce1557cbda732057c85fdf66f34045f51a6c65c62660ba42aba1e13a19a96bc3dd4c290c5490f8003959b38eac7fec2ddb79cf0eddd63dc640cc5dafb93ff19a573df1ff089b96fbddaae6f1d569b92afbd5ee3be47af0",
 							"device": null,
-							"geo": null
+							"geo": null,
+							"env": "DASHBOARD"
+						},
+						{
+							"extKey": "7bc1e66d003a3b2acfce1557cbda732057c85fdf66f34045f51a6c65c62660ba42aba1e13a19a96bc3dd4c290c5490f8003959b38eac7fec2ddb79cf0eddd63dc640cc5dafb93ff19a573df1ff089b96fbddaae6f1d569b92afbd5ee3be47af0",
+							"device": null,
+							"geo": null,
+							"env": "DEV"
 						}
 					],
 					"config": {
