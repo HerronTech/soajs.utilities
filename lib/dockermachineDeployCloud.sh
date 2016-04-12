@@ -14,6 +14,7 @@ IP_SUBNET="10.0.0.0"
 SET_SOAJS_SRVIP="off"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
 API_DOMAIN='api.mydomain.com'
+ADDSERVER="false"
 
 function createContainer(){
     local REPO=${1}
@@ -22,7 +23,11 @@ function createContainer(){
     local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}' -e SOAJS_GIT_OWNER='${OWNER}' -e SOAJS_GIT_REPO='${REPO}' -e SOAJS_GIT_BRANCH='${BRANCH}''
 
     echo $'- Starting Controller Container '${REPO}' ...'
-    docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+    if [ ${REPO} == "soajs.urac" ]; then
+       docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/etc/init.d/postfix start; /opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+    else
+       docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+    fi
 }
 function program_is_installed(){
   # set to 1 initially
@@ -197,11 +202,17 @@ function buildDevMongo(){
     local MONGOIP=`docker-machine ip ${machineName}`
     docker-machine ssh ${machineName} "sudo mkdir -p /data; sudo chgrp staff -R /data; sudo chmod 775 -R /data; exit"
     local SOAJS_DATA_VLM='-v /data:/data -v /data/db:/data/db'
-
-    echo $'\nStarting Mongo Container' ${DATA_CONTAINER}DEV' on '${machineName}' '${MONGOIP}' ...'
-    docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}DEV --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
-    echo $'\n--------------------------'
-    echo $'\nMongo ip is: '${MONGOIP}
+    if [ ${ADDSERVER} == "true" ]; then
+       echo $'\nStarting Mongo Container' ${DATA_CONTAINER}' on '${machineName}' '${MONGOIP}' ...'
+       docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
+       echo $'\n--------------------------'
+       echo $'\nMongo ip is: '${MONGOIP}
+    else
+       echo $'\nStarting Mongo Container' ${DATA_CONTAINER}Dev' on '${machineName}' '${MONGOIP}' ...'
+       docker run -d -p 27017:27017 ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER}Dev --net=soajsnet --env="constraint:node==${machineName}" mongo mongod --smallfiles
+       echo $'\n--------------------------'
+       echo $'\nMongo ip is: '${MONGOIP}
+    fi
 }
 function setupDevEnv(){
     local machineName=${1}
@@ -290,10 +301,14 @@ function setupcloud(){
     done
 }
 function whichdomain(){
+    local machineName=${1}
     local answerinput=""
     while [ "$answerinput" != "y" ]
      do
       clear
+      if [ $ADDSERVER == "true" ]; then 
+         echo -e "Machine name: ${machineName} \n"
+      fi
       echo "$API_DOMAIN is the default domain location."
       echo ""
       echo -n "Would what you like to use for this domain? Such as stg-api.mydomain.com or prod.xyz.com"
@@ -329,10 +344,62 @@ function addanotherserver(){
       echo -n "Is the above correct (y or n): "
       read servernamechoice
      done
-    whichdomain
+    ADDSERVER="true"
+    whichdomain "soajs-$newmachinename"
     createDockerMachine "soajs-$newmachinename"
-    DATA_CONTAINER="$newmachinename-"
+    DATA_CONTAINER="soajsData$newmachinename"
     setupDevEnv "soajs-$newmachinename"
+}
+function rebuildmachinecontainersbutmongo(){
+array=($(docker-machine ls -q | grep soajs-))
+
+if [ -z "$array" ]; then
+   echo "No SOAJS-* machines found, docker ok?"
+else
+  for i in "${array[@]}"
+      do
+       if [ $i == "soajs-swarm-master" ] || [ $i == "soajs-v-keystore" ]; then
+          echo ""
+       elif [ $i == "soajs-dash" ]; then
+          # rebuild all containers for dash only including mongo
+          setupDashEnv "soajs-dash" "soajs-dev"
+       else
+          echo $'\nSetting up cloud for: '${i}
+          local DEVMACHINEIP=`docker-machine ip ${i}`
+          cleanContainers ${i} "mongo"
+#         INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}
+          echo $'\n ..... ' ${i} 'setup DONE'
+       fi
+      done
+fi
+}
+function rebuildmachinecontainers(){
+array=($(docker-machine ls -q | grep soajs-))
+
+if [ -z "$array" ]; then
+   echo "No SOAJS-* machines found, docker ok?"
+else
+  for i in "${array[@]}"
+      do
+       if [ $i == "soajs-swarm-master" ] || [ $i == "soajs-v-keystore" ]; then
+          echo ""
+       elif [ $i == "soajs-dash" ]; then
+          # Do not prompt soajs-dash for a domain
+          setupDashEnv "soajs-dash" "soajs-dev"
+       else
+        ADDSERVER="true"
+        whichdomain $i
+        removenametemp=$(echo "$i" | sed 's/soajs-//')
+        if [ $removenametemp == "dev" ]; then
+           DATA_CONTAINER="soajsDataDev"
+        else
+           DATA_CONTAINER="soajsData$removenametemp"
+        fi   
+        setupDevEnv $i
+        API_DOMAIN='api.mydomain.com'
+       fi 
+      done
+fi
 }
 function choices(){
     local answerinput=""
@@ -369,12 +436,9 @@ function gochoice(){
         setupDashEnv "soajs-dash" "soajs-dev"
         setupDevEnv "soajs-dev"
     elif [ ${gochoice} == "2" ]; then
-        setupDashEnv "soajs-dash" "soajs-dev"
-        setupDevEnv "soajs-dev"
+        rebuildmachinecontainers
     elif [ ${gochoice} == "3" ]; then
-        cleanContainers soajs-dash "mongo"
-        start soajs-dash
-        cleanContainers soajs-dev "mongo"
+        rebuildmachinecontainersbutmongo
     elif [ ${gochoice} == "4" ]; then
         addanotherserver
     else
@@ -390,4 +454,3 @@ choices
 gochoice
 
 echo "$INSTRUCT_MSG"
-
