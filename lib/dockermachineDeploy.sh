@@ -330,6 +330,29 @@ function addanotherserver(){
     DATA_CONTAINER="soajsData$newmachinename"
     setupDevEnv "soajs-$newmachinename"
 }
+function rebuildmachinecontainersbutmongo(){
+array=($(docker-machine ls -q | grep soajs-))
+
+if [ -z "$array" ]; then
+   echo "No SOAJS-* machines found, docker ok?"
+else
+  for i in "${array[@]}"
+      do
+       if [ $i == "soajs-swarm-master" ] || [ $i == "soajs-v-keystore" ]; then
+          echo ""
+       elif [ $i == "soajs-dash" ]; then
+          # rebuild all containers for dash only including mongo
+          setupDashEnv "soajs-dash" "soajs-dev"
+       else
+          echo $'\nSetting up cloud for: '${i}
+          local DEVMACHINEIP=`docker-machine ip ${i}`
+          cleanContainers ${i} "mongo"
+#         INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}
+          echo $'\n ..... ' ${i} 'setup DONE'
+       fi
+      done
+fi
+}
 function rebuildmachinecontainers(){
 array=($(docker-machine ls -q | grep soajs-))
 
@@ -392,13 +415,9 @@ function gochoice(){
         setupDashEnv "soajs-dash" "soajs-dev"
         setupDevEnv "soajs-dev"
     elif [ ${gochoice} == "2" ]; then
-         rebuildmachinecontainers
-#        setupDashEnv "soajs-dash" "soajs-dev"
-#        setupDevEnv "soajs-dev"
+        rebuildmachinecontainers
     elif [ ${gochoice} == "3" ]; then
-        cleanContainers soajs-dash "mongo"
-        start soajs-dash
-        cleanContainers soajs-dev "mongo"
+        rebuildmachinecontainersbutmongo
     elif [ ${gochoice} == "4" ]; then
         addanotherserver
     else
