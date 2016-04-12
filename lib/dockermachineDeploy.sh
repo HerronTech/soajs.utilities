@@ -100,8 +100,8 @@ function pullNeededImages(){
     local machineName=${1}
 
     eval "$(docker-machine env ${machineName})"
-    #docker pull soajsorg/soajs
-    #docker pull soajsorg/nginx
+    docker pull soajsorg/soajs
+    docker pull soajsorg/nginx
 }
 
 #### DASH CLOUD
