@@ -4,7 +4,7 @@
 #
 # https://github.com/docker/machine/releases
 
-GIT_BRANCH="develop"
+GIT_BRANCH="master"
 DATA_CONTAINER='soajsData'
 IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
@@ -114,20 +114,20 @@ function start(){
     ###################################
     #URAC container
     ###################################
-    createContainer "soajs.urac" "develop"
+    createContainer "soajs.urac" "master"
     ###################################
     #DASHBOARD container
     ###################################
-    createContainer "soajs.dashboard" "develop"
+    createContainer "soajs.dashboard" "master"
     ###################################
     #PROXY container
     ###################################
-    createContainer "soajs.prx" "develop"
+    createContainer "soajs.prx" "master"
     ###################################
     #CONTROLLER container
     ###################################
     sleep 5
-    createContainer "soajs.controller" "develop"
+    createContainer "soajs.controller" "master"
     echo $'\n--------------------------'
 
     ###################################
@@ -135,7 +135,7 @@ function start(){
     ###################################
     sleep 5
 
-    local BRANCH="develop"
+    local BRANCH="master"
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' soajs.controller`
     echo $'\nStarting NGINX Container "nginx" ... '
     docker run -d -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'

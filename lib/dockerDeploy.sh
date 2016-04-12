@@ -2,7 +2,7 @@
 
 [ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/Users/'
 
-GIT_BRANCH="develop"
+GIT_BRANCH="master"
 DATA_CONTAINER='soajsData'
 IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'

@@ -4,7 +4,7 @@
 
 [ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='NPM'
 WRK_DIR=${LOC}'soajs/node_modules'
-GIT_BRANCH="develop"
+GIT_BRANCH="master"
 MASTER_DOMAIN="soajs.org"
 
 [ ${SOAJS_ENV} ] && export SOAJS_ENV=${SOAJS_ENV} || export SOAJS_ENV='dashboard'
