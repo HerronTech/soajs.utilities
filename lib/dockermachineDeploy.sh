@@ -291,7 +291,7 @@ function whichdomain(){
       fi
       echo "$API_DOMAIN is the default domain location."
       echo ""
-      echo -n "Would what you like to use for this domain? Such as stg-api.mydomain.com or prod.xyz.com"
+      echo -n "What would you like to use for this domain? Such as stg-api.mydomain.com or prod.xyz.com"
       echo $'\n'
       echo -n "Domain name: "
       read domainchoice
