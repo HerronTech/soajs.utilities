@@ -26,8 +26,13 @@ var dashboard = {
 				"cloud":{
 					"rackspace": {
 						"host": "docker.rackspace.com",
-						"port": 2376
-						//additional info goes here like instances, credentials or keys ....
+						"port": 2376,
+						"config":{
+							"HostConfig": {
+								"NetworkMode": "soajsnet"
+							},
+							"MachineName": "soajs-dash"
+						}
 					}
 				}
 			},

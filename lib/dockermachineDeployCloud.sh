@@ -38,8 +38,8 @@ function program_is_installed(){
   echo "$return_"
 }
 function dockerPrerequisites(){
-    DOCKERMACHINE=$(program_is_installed docker-machine)
-    if [ ${DOCKERMACHINE} == 0 ]; then
+    DOCKERMACHINECLOUD=$(program_is_installed docker-machine)
+    if [ ${DOCKERMACHINECLOUD} == 0 ]; then
         echo $'\n ... Unable to find docker-machine on your machine. Please install docker machine!'
         exit -1
     fi
@@ -172,7 +172,7 @@ function buildDashMongo(){
     #import provisioned data to mongo
     sleep 5
     echo $'\nImporting core provisioned data ...'
-    node index data import provision ${MONGOIP} DOCKERMACHINE ${DEVMACHINEIP}
+    node index data import provision ${MONGOIP} DOCKERMACHINECLOUD ${DEVMACHINEIP}
     echo $'\n4- Importing URAC data...'
     node index data import urac ${MONGOIP}
     echo $'\n--------------------------'

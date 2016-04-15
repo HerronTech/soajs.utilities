@@ -24,6 +24,7 @@ for (var i = 0; i < files.length; i++) {
 provDb.environment.drop();
 
 var internalMachine = this.machine || null;
+var cloudMachine = this.cloudmachine || null;
 var internalDocker = this.docker || null;
 var internalMongoIP = this.mongoIP || "127.0.0.1";
 var internalDevMongoIP = this.devMongoIP || "127.0.0.1";
@@ -43,6 +44,12 @@ if (internalDocker || internalMachine) {
 		dev.deployer.selected = "container.dockermachine.local";
 		dashboard.deployer.container.dockermachine.local.host = internalMongoIP;
 		dev.deployer.container.dockermachine.local.host = internalDevMongoIP;
+	}
+	if(cloudMachine){
+		dashboard.deployer.selected = "container.dockermachine.cloud.rackspace";
+		dev.deployer.selected = "container.dockermachine..cloud.rackspace";
+		dashboard.deployer.container.dockermachine.cloud.rackspace.host = internalMongoIP;
+		dev.deployer.container.dockermachine.cloud.rackspace.host = internalDevMongoIP;
 	}
 }
 else {
