@@ -13,7 +13,7 @@ KEYSTORE_MACHINE="soajs-v-keystore"
 IP_SUBNET="10.0.0.0"
 SET_SOAJS_SRVIP="off"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
-API_DOMAIN='api.mydomain.com'
+API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
 
 function createContainer(){
@@ -223,8 +223,11 @@ function setupDevEnv(){
     cleanContainers ${machineName} "swarm"
     buildDevMongo ${machineName}
 
-    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}
-
+    if [ ${ADDSERVER} == "true" ]; then
+		INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${machineName}
+	else
+        INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}
+	fi
     echo $'\n ..... ' ${machineName} 'setup DONE'
 
 }
