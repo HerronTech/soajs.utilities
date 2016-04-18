@@ -13,7 +13,7 @@ KEYSTORE_MACHINE="soajs-v-keystore"
 IP_SUBNET="10.0.0.0"
 SET_SOAJS_SRVIP="off"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
-API_DOMAIN='api.mydomain.com'
+API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
 
 function createContainer(){
@@ -223,8 +223,11 @@ function setupDevEnv(){
     cleanContainers ${machineName} "swarm"
     buildDevMongo ${machineName}
 
-    INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}
-
+    if [ ${ADDSERVER} == "true" ]; then
+		INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${machineName}
+	else
+        INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${API_DOMAIN}
+	fi
     echo $'\n ..... ' ${machineName} 'setup DONE'
 
 }
@@ -300,35 +303,6 @@ function setupcloud(){
       read cloudchoice
     done
 }
-function whichdomain(){
-    local machineName=${1}
-    local answerinput=""
-    while [ "$answerinput" != "y" ]
-     do
-      clear
-      if [ $ADDSERVER == "true" ]; then 
-         echo -e "Machine name: ${machineName} \n"
-      fi
-      echo "$API_DOMAIN is the default domain location."
-      echo ""
-      echo -n "What would you like to use for this domain? Such as stg-api.mydomain.com or prod.xyz.com"
-      echo $'\n'
-      echo -n "Domain name: "
-      read domainchoice
-      if [ -z "$domainchoice" ]; then
-         domainchoice="api.mydomain.com"
-         echo ""
-         echo "default chosen: $domainchoice"
-      else
-        echo ""
-        echo "Choice: $domainchoice"
-      fi
-      echo ""
-      echo -n "Are you sure (y or n): "
-      read answerinput
-    done
-    API_DOMAIN=$domainchoice
-}
 function addanotherserver(){
     while [ "$servernamechoice" != "y" ]
      do
@@ -345,7 +319,6 @@ function addanotherserver(){
       read servernamechoice
      done
     ADDSERVER="true"
-    whichdomain "soajs-$newmachinename"
     createDockerMachine "soajs-$newmachinename"
     pullNeededImages "soajs-$newmachinename"
     DATA_CONTAINER="soajsData$newmachinename"
@@ -390,7 +363,6 @@ else
           setupDashEnv "soajs-dash" "soajs-dev"
        else
         ADDSERVER="true"
-        whichdomain $i
         removenametemp=$(echo "$i" | sed 's/soajs-//')
         if [ $removenametemp == "dev" ]; then
            DATA_CONTAINER="soajsDataDev"
@@ -398,7 +370,6 @@ else
            DATA_CONTAINER="soajsData$removenametemp"
         fi   
         setupDevEnv $i
-        API_DOMAIN='api.mydomain.com'
        fi 
       done
 fi
@@ -428,7 +399,6 @@ function gochoice(){
 
     if [ ${gochoice} == "1" ]; then
         setupcloud
-        whichdomain
         setupComm
         setupSwarmMaster "soajs-swarm-master"
         createDockerMachine "soajs-dash"
