@@ -29,7 +29,7 @@ var internalDocker = this.docker || null;
 var internalMongoIP = this.mongoIP || "127.0.0.1";
 var internalDevMongoIP = this.devMongoIP || "127.0.0.1";
 var records = [];
-if (internalDocker || internalMachine) {
+if (internalDocker || internalMachine || cloudMachine) {
 	dashboard.deployer.type = "container";
 	dev.deployer.type = "container";
 	dashboard.dbs.clusters.dash_cluster.servers[0].host = internalMongoIP;
