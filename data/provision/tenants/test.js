@@ -50,6 +50,7 @@ var test = {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
+								"encryptPWDonAdd": true,
 								"link": {
 									"addUser": "http://dashboard.soajs.org/#/setNewPassword",
 									"changeEmail": "http://dashboard.soajs.org/#/changeEmail/validate",
@@ -94,6 +95,7 @@ var test = {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
+								"encryptPWDonAdd": true,
 								"link": {
 									"addUser": "http://dashboard.soajs.org/#/setNewPassword",
 									"changeEmail": "http://dashboard.soajs.org/#/changeEmail/validate",
@@ -162,14 +164,16 @@ var test = {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher							
-								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
+								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,
+								"encryptPWDonAdd": true
 							}
 						},
 						"dashboard":{
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
-								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
+								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,
+								"encryptPWDonAdd": true
 							}
 						}
 					}
@@ -202,15 +206,17 @@ var test = {
 						"dev":{
 							"urac": {
 								"hashIterations": 1024, //used by hasher
-								"seedLength": 32, //used by hasher							
-								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
+								"seedLength": 32, //used by hasher
+								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,
+								"encryptPWDonAdd": true
 							}
 						},
 						"dashboard":{
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
-								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
+								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,
+								"encryptPWDonAdd": true
 							}
 						}
 					}

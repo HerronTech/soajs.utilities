@@ -40,6 +40,7 @@ var tenant1 = {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
+								"encryptPWDonAdd": true,
 								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
 							},
 							"example03": {
@@ -98,6 +99,7 @@ var tenant1 = {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
+								"encryptPWDonAdd": true,
 								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
 							},
 							"example03": {
@@ -151,6 +153,7 @@ var tenant1 = {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
+								"encryptPWDonAdd": true,
 								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
 							},
 							"example03": {

@@ -48,6 +48,7 @@ var client = {
                                 },
                                 "tokenExpiryTTL": 2 * 24 * 3600 * 1000,// token expiry limit in seconds
                                 "validateJoin": true, //true if registration needs validation
+	                            "encryptPWDonAdd": true,
                                 "mail": { //urac mail options
                                     "join": {
                                         "subject": 'Welcome to SOAJS',
@@ -92,6 +93,7 @@ var client = {
 								},
 								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,// token expiry limit in seconds
 								"validateJoin": true, //true if registration needs validation
+								"encryptPWDonAdd": true,
 								"mail": { //urac mail options
 									"join": {
 										"subject": 'Welcome to SOAJS',
