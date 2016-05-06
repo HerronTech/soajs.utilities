@@ -36,7 +36,7 @@ var tenant3 = {
 								"seedLength": 32, //used by hasher
 								"link": {},
 								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,
-								"encryptPWDonAdd": true
+								
 							},
 							"example03": { "tenantName":"Client Three"}
 						},
@@ -46,7 +46,7 @@ var tenant3 = {
 								"seedLength": 32, //used by hasher
 								"link": {},
 								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,
-								"encryptPWDonAdd": true
+								
 							},
 							"example03": { "tenantName":"Client Three"}
 						}
@@ -75,7 +75,7 @@ var tenant3 = {
 								"seedLength": 32, //used by hasher
 								"link": {},
 								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,
-								"encryptPWDonAdd": true
+								
 							},
 							"example03": { "tenantName":"Client 3"}
 						},
@@ -85,7 +85,7 @@ var tenant3 = {
 								"seedLength": 32, //used by hasher
 								"link": {},
 								"tokenExpiryTTL": 2 * 24 * 3600 * 1000,
-								"encryptPWDonAdd": true
+								
 							},
 							"example03": { "tenantName":"Client 3"}
 						}

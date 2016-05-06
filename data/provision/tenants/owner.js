@@ -43,7 +43,6 @@ var dsbrd = {
                             "urac": {
                                 "hashIterations": 1024, //used by hasher
                                 "seedLength": 32, //used by hasher
-	                            "encryptPWDonAdd": true,
                                 "link": {
 	                                "addUser": "http://dashboard.soajs.org/#/setNewPassword",
 	                                "changeEmail": "http://dashboard.soajs.org/#/changeEmail/validate",
@@ -88,7 +87,6 @@ var dsbrd = {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
-								"encryptPWDonAdd": true,
 								"link": {
 									"addUser": "http://dashboard.soajs.org/#/setNewPassword",
 									"changeEmail": "http://dashboard.soajs.org/#/changeEmail/validate",
@@ -160,7 +158,6 @@ var dsbrd = {
                             "urac": {
                                 "hashIterations": 1024, //used by hasher
                                 "seedLength": 32, //used by hasher
-	                            "encryptPWDonAdd": true,
                                 "link": {
                                     "addUser": "http://dashboard.soajs.org/#/setNewPassword",
                                     "changeEmail": "http://dashboard.soajs.org/#/changeEmail/validate",
@@ -213,7 +210,6 @@ var dsbrd = {
 		                        },
 		                        "tokenExpiryTTL": 2 * 24 * 3600 * 1000,// token expiry limit in seconds
 		                        "validateJoin": true, //true if registration needs validation
-		                        "encryptPWDonAdd": true,
 		                        "mail": { //urac mail options
 			                        "join": {
 				                        "subject": 'Welcome to SOAJS',
