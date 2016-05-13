@@ -74,6 +74,17 @@ var dsbrdProduct = {
 				"dev":{
 					"gc_articles": {
 						"access": ["owner"]
+					},
+					"dashboard": {
+						"apis": {
+							"/cb/list": {
+								"access": [
+									"owner"
+								]
+							}
+						},
+						"access": false,
+						"apisPermission": "restricted"
 					}
 				}
 			},
