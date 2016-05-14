@@ -8,13 +8,22 @@ GIT_BRANCH="master"
 DATA_CONTAINER='soajsData'
 IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
-MASTER_DOMAIN='soajs.org'
 KEYSTORE_MACHINE="soajs-v-keystore"
+MASTER_MACHINE="soajs-swarm-master"
+DASH_MACHINE="soajs-dash"
+DEV_MACHINE="soajs-dev"
 IP_SUBNET="10.0.0.0"
 SET_SOAJS_SRVIP="off"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
 API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
+
+
+# Supported export variables
+if [ -z $MASTER_DOMAIN ]; then MASTER_DOMAIN='soajs.org'; fi
+if [ -z $SOAJS_DNS ]; then SOAJS_DNS="8.8.8.8"; fi
+if [ -z $SOAJS_NO_NGINX ]; then SOAJS_NO_NGINX=false; fi
+#
 
 function createContainer(){
     local REPO=${1}
@@ -24,10 +33,12 @@ function createContainer(){
 
     echo $'- Starting Controller Container '${REPO}' ...'
     if [ ${REPO} == "soajs.urac" ]; then
-		docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/etc/init.d/postfix start; /opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
-	else
-		docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
-	fi
+       docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/etc/init.d/postfix start; /opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+    elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=true ]; then
+       docker run -d ${ENV} -e ${SOAJS_NO_NGINX} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+  	else
+       docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+	  fi
 }
 function program_is_installed(){
   # set to 1 initially
@@ -230,7 +241,39 @@ function setupDevEnv(){
 
 }
 #### DEV CLOUD END ###
+function findswarmmmaster(){
+    local confirmmaster=""
+    while [ "$confirmmaster" != "y" ]
+     do
+      clear
+      echo "These Swarm Clusters found:"
+#      docker-machine ls | grep "keystore-" | sed -e 's/-/ /g' | awk '{ print $1 }'
+      docker-machine ls | grep "keystore" | sed -e 's/-/ /g' | awk '{ print $1 }'
 
+      echo ""
+      echo -n "What is the name of the Swarm cluster? "
+      read swarmname
+      checkswarmclustername=$(docker-machine ls | grep "keystore" | sed -e 's/-/ /g' | awk '{ print $1 }' | grep -q ${swarmname} ; echo $?)
+      if [ "${checkswarmclustername}" == "0" ]; then
+         echo ""
+         echo "Swarm cluster name: $swarmname"
+         echo ""
+         echo -n "Are you sure (y or n): "
+         read confirmmaster
+      fi
+    done
+
+#  This area is ready for June release
+    findkeystoremachine=$(docker-machine ls | grep ${swarmname} | grep keystore | awk '{ print $1 }')
+    findswarmmaster=$(docker-machine ls | grep ${swarmname} | grep "(master)" | awk '{ print $1 }')
+    swarmname="${swarmname}-"
+    KEYSTORE_MACHINE="$findkeystoremachine"
+    MASTER_MACHINE="$findswarmmaster"
+
+# These two lines are not needed for next June release
+    DASH_MACHINE="$swarmname$DASH_MACHINE"
+    DEV_MACHINE="$swarmname$DEV_MACHINE" 
+}
 function setupComm(){
     dockerPrerequisites
 
@@ -243,7 +286,7 @@ function setupComm(){
         docker-machine start ${KEYSTORE_MACHINE}
         docker-machine regenerate-certs -f ${KEYSTORE_MACHINE}
     else
-        docker-machine create -d virtualbox ${KEYSTORE_MACHINE}
+         docker-machine create -d virtualbox ${KEYSTORE_MACHINE}
     fi
 
     cleanContainers ${KEYSTORE_MACHINE}
@@ -284,39 +327,52 @@ function welcome(){
     echo ""
 }
 function addanotherserver(){
+    local servernamechoice=""
     while [ "$servernamechoice" != "y" ]
      do
-      clear
+      echo ""
       echo -n "What would you like to call your new Environment Machine (stg - cat - prod ...)"
       echo $'\n'
       echo -n "Environment Machine name: "
       read newmachinename
-      newmachinename="$(tr [A-Z] [a-z] <<< "$newmachinename")"
-      echo ""
-      echo "Machine name: $newmachinename"
-      echo ""
-      echo -n "Is the above correct (y or n): "
-      read servernamechoice
-     done
-    ADDSERVER="true"
-    createDockerMachine "soajs-$newmachinename"
-	pullNeededImages "soajs-$newmachinename"
-	DATA_CONTAINER="soajsData$newmachinename"
-	setupDevEnv "soajs-$newmachinename"
+      if [ -n "$newmachinename" ] && [[ $newmachinename =~ ^[a-zA-Z]{3,20}$ ]] ; then
+         newmachinenametest="${swarmname}soajs-${newmachinename}"
+         checknewmachinename=$(docker-machine ls | grep -q "${newmachinenametest}" ; echo $?)
+         if [ "$checknewmachinename" = "1" ] ; then
+            echo ""
+            echo "Machine name: $newmachinename"
+            echo ""
+            echo -n "Are you sure (y or n): "
+            read servernamechoice
+         else
+            echo ""
+            echo "Duplicate name found, choose another name"
+         fi
+       else
+         echo ""
+         echo "Please enter a new name using only letters and no spaces" 
+       fi
+      done
+  ADDSERVER="true"
+  DATA_CONTAINER="soajsData$newmachinename"
+  newmachinename="${swarmname}soajs-${newmachinename}"
+  createDockerMachine "$newmachinename"
+	pullNeededImages "$newmachinename"
+	setupDevEnv "$newmachinename"
 }
 function rebuildmachinecontainersbutmongo(){
-array=($(docker-machine ls -q | grep soajs-))
+array=($(docker-machine ls -q | grep "soajs-"))
 
 if [ -z "$array" ]; then
    echo "No SOAJS-* machines found, docker ok?"
 else
   for i in "${array[@]}"
       do
-       if [ $i == "soajs-swarm-master" ] || [ $i == "soajs-v-keystore" ]; then
+       if [ $i == "${MASTER_MACHINE}" ] || [ $i == "${KEYSTORE_MACHINE}" ]; then
           echo ""
-       elif [ $i == "soajs-dash" ]; then
+       elif [ $i == "${DASH_MACHINE}" ]; then
           # rebuild all containers for dash only including mongo
-          setupDashEnv "soajs-dash" "soajs-dev"
+          setupDashEnv "$DASH_MACHINE" "$DEV_MACHINE"
        else
           echo $'\nSetting up cloud for: '${i}
           local DEVMACHINEIP=`docker-machine ip ${i}`
@@ -329,21 +385,21 @@ else
 fi
 }
 function rebuildmachinecontainers(){
-array=($(docker-machine ls -q | grep soajs-))
+array=($(docker-machine ls -q | grep "${swarmcluster}-"))
 
 if [ -z "$array" ]; then
    echo "No SOAJS-* machines found, docker ok?"
 else
   for i in "${array[@]}"
       do
-       if [ $i == "soajs-swarm-master" ] || [ $i == "soajs-v-keystore" ]; then
+       if [ $i == "${MASTER_MACHINE}" ] || [ $i == "${KEYSTORE_MACHINE}" ]; then
           echo ""
-       elif [ $i == "soajs-dash" ]; then
+       elif [ $i == "${DASH_MACHINE}" ]; then
           # Do not prompt soajs-dash for a domain
-          setupDashEnv "soajs-dash" "soajs-dev"
+          setupDashEnv "$DASH_MACHINE" "$DEV_MACHINE"
        else
-        ADDSERVER="true"
-        removenametemp=$(echo "$i" | sed 's/soajs-//')
+         ADDSERVER="true"
+        removenametemp=$(echo "$i" | sed "s/soajs-//" | sed "s/$swarmname//")
         if [ $removenametemp == "dev" ]; then
            DATA_CONTAINER="soajsDataDev"
         else
@@ -353,6 +409,34 @@ else
        fi 
       done
 fi
+}
+function swarmnamechoice(){
+    local swarmnameconfirmation=""
+    while [ "$swarmnameconfirmation" != "y" ]
+     do
+      echo ""
+      echo -n "What would you like call this swarm using only letters and no spaces? "
+      read swarmname
+      if [ -n "$swarmname" ] && [[ $swarmname =~ ^[a-zA-Z]{3,20}$ ]] ; then
+         checkswarmclustername=$(docker-machine ls | grep "${swarmname}-" ; echo $?)
+         if [ "$checkswarmclustername" = "1" ] ; then
+            echo ""
+            echo "Swarm name: $swarmname"
+            echo ""
+            echo -n "Are you sure (y or n): "
+            read swarmnameconfirmation
+         else
+            echo "Duplicate name found, choose another name"
+         fi
+       else
+         echo "Please enter a new name using only letters" 
+       fi
+    done
+    swarmname="$swarmname-"
+    KEYSTORE_MACHINE="$swarmname$KEYSTORE_MACHINE"
+    MASTER_MACHINE="$swarmname$MASTER_MACHINE"
+    DASH_MACHINE="$swarmname$DASH_MACHINE"
+    DEV_MACHINE="$swarmname$DEV_MACHINE"
 }
 function choices(){
     local answerinput=""
@@ -378,19 +462,23 @@ function choices(){
 function gochoice(){
 
     if [ ${gochoice} == "1" ]; then
+        swarmnamechoice
         setupComm
-        setupSwarmMaster "soajs-swarm-master"
-        createDockerMachine "soajs-dash"
-        createDockerMachine "soajs-dev"
-        pullNeededImages "soajs-dev"
-        pullNeededImages "soajs-dash"
-        setupDashEnv "soajs-dash" "soajs-dev"
-        setupDevEnv "soajs-dev"
+        setupSwarmMaster "$MASTER_MACHINE"
+        createDockerMachine "$DASH_MACHINE"
+        createDockerMachine "$DEV_MACHINE"
+        pullNeededImages "$DEV_MACHINE"
+        pullNeededImages "$DASH_MACHINE"
+        setupDashEnv "$DASH_MACHINE" "$DEV_MACHINE"
+        setupDevEnv "$DEV_MACHINE"
     elif [ ${gochoice} == "2" ]; then
+        findswarmmmaster
         rebuildmachinecontainers
     elif [ ${gochoice} == "3" ]; then
+        findswarmmmaster
         rebuildmachinecontainersbutmongo
     elif [ ${gochoice} == "4" ]; then
+        findswarmmmaster
         addanotherserver
     else
         clear
