@@ -33,25 +33,11 @@ function createContainer(){
 
     echo $'- Starting Controller Container '${REPO}' ...'
     if [ ${REPO} == "soajs.urac" ]; then
-
-#OLD
-#      docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/etc/init.d/postfix start; /opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
-#NEW
-       docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; /opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
-
+        docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; /opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
     elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=true ]; then
-
-#OLD
-#      docker run -d ${ENV} -e ${SOAJS_NO_NGINX} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
-#NEW
-       docker run -d ${ENV} -e ${SOAJS_NO_NGINX} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
-
+        docker run -d ${ENV} -e ${SOAJS_NO_NGINX} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
     else
-#OLD
-#     docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
-#NEW
-      docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
-
+        docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
     fi
 }
 function program_is_installed(){

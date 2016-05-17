@@ -22,31 +22,20 @@ function createContainer(){
     local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MONGOIP}' -e SOAJS_GIT_OWNER='${OWNER}' -e SOAJS_GIT_REPO='${REPO}' -e SOAJS_GIT_BRANCH='${BRANCH}''
 
     echo $'- Starting Controller Container '${REPO}' ...'
-
-    if [ ${REPO} == "soajs.dashboard" ]; then
-
+    if [ ${REPO} == "soajs.urac" ]; then
+        docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
+    elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=true ]; then
         #no need for these env anymore, waiting to remove dependency from dashboard
         local EXTRA='-v /var/run/docker.sock:/var/run/docker.sock'
-
-#OLD    docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
-#
-#NEW
+        docker run -d ${ENV} ${EXTRA} -e ${SOAJS_NO_NGINX} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "/opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
+    elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=false ]; then
+        #no need for these env anymore, waiting to remove dependency from dashboard
+        local EXTRA='-v /var/run/docker.sock:/var/run/docker.sock'
         docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "/opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
-
-    elif [ ${REPO} == "soajs.urac" ]; then
-
-#OLD    docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c '/etc/init.d/postfix start; opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
-#
-#NEW
-        docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
-
     else
-#OLD    docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c 'opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
-#
-#NEW
-        docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
-
+        docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
     fi
+
 }
 
 function program_is_installed(){
