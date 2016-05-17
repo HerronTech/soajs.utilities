@@ -6,9 +6,14 @@ GIT_BRANCH="master"
 DATA_CONTAINER='soajsData'
 IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
-MASTER_DOMAIN='soajs.org'
 IP_SUBNET="172.17.0.0"
 SET_SOAJS_SRVIP="off"
+
+# Supported export variables
+if [ -z $MASTER_DOMAIN ]; then MASTER_DOMAIN='soajs.org'; fi
+if [ -z $SOAJS_DNS ]; then SOAJS_DNS="8.8.8.8"; fi
+if [ -z $SOAJS_NO_NGINX ]; then SOAJS_NO_NGINX=false; fi
+#
 
 function createContainer(){
     local REPO=${1}
@@ -20,14 +25,27 @@ function createContainer(){
 
     if [ ${REPO} == "soajs.dashboard" ]; then
 
-        #no need for these env anymore, waiting to remove dependency from dashbaord
+        #no need for these env anymore, waiting to remove dependency from dashboard
         local EXTRA='-v /var/run/docker.sock:/var/run/docker.sock'
 
-        docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+#OLD    docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c '/opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+#
+#NEW
+        docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "/opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
+
     elif [ ${REPO} == "soajs.urac" ]; then
-        docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c '/etc/init.d/postfix start; opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+
+#OLD    docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c '/etc/init.d/postfix start; opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+#
+#NEW
+        docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
+
     else
-        docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c 'opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+#OLD    docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c 'opt/soajs/FILES/scripts/runService.sh /index.js '${SET_SOAJS_SRVIP}' '${IP_SUBNET}
+#
+#NEW
+        docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "opt/soajs/FILES/deployer/soajsDeployer.sh -T service -X deploy -P ${SET_SOAJS_SRVIP} -S ${IP_SUBNET}"
+
     fi
 }
 
@@ -115,7 +133,11 @@ function start(){
     local BRANCH=${GIT_BRANCH}
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' soajs.controller`
     echo $'\n7- Starting NGINX Container "nginx" ... '
-    docker run -d -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
+#OLD    docker run -d -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c '/opt/soajs/FILES/scripts/runNginx.sh'
+#
+#NEW
+        docker run -d -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c "/opt/soajs/FILES/deployer/soajsDeployer.sh -T nginx -X deploy"
+
     echo $'\n--------------------------'
 
     ###################################
@@ -135,4 +157,3 @@ function start(){
 init
 importData
 start
-
