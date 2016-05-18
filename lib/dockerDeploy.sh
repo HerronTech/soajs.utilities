@@ -25,7 +25,7 @@ function createContainer(){
     elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=true ]; then
         #no need for these env anymore, waiting to remove dependency from dashboard
         local EXTRA='-v /var/run/docker.sock:/var/run/docker.sock'
-        docker run -d ${ENV} ${EXTRA} -e ${SOAJS_NO_NGINX} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
+        docker run -d ${ENV} ${EXTRA} -e SOAJS_NO_NGINX=${SOAJS_NO_NGINX} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
     elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=false ]; then
         #no need for these env anymore, waiting to remove dependency from dashboard
         local EXTRA='-v /var/run/docker.sock:/var/run/docker.sock'

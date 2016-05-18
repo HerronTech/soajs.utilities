@@ -33,7 +33,7 @@ function createContainer(){
     if [ ${REPO} == "soajs.urac" ]; then
         docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
     elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=true ]; then
-        docker run -d ${ENV} -e ${SOAJS_NO_NGINX} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
+        docker run -d ${ENV} -e SOAJS_NO_NGINX=${SOAJS_NO_NGINX} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
     else
         docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
     fi
