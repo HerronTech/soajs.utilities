@@ -355,7 +355,7 @@ function addanotherserver(){
       echo $'\n'
       echo -n "Environment Machine name: "
       read newmachinename
-      if [ -n "$newmachinename" ] && [[ $newmachinename =~ ^[a-zA-Z]{3,20}$ ]] ; then
+      if [ -n "$newmachinename" ] && [[ $newmachinename =~ ^[a-zA-Z]{2,20}$ ]] ; then
          newmachinenametest="${swarmname}soajs-${newmachinename}"
          checknewmachinename=$(docker-machine ls | grep -q "${newmachinenametest}" ; echo $?)
          if [ "$checknewmachinename" = "1" ] ; then
@@ -370,7 +370,7 @@ function addanotherserver(){
          fi
        else
          echo ""
-         echo "Please enter a new name using only letters and no spaces" 
+         echo "Please enter a new name using only letters and no spaces (minimum 2 letters)" 
        fi
       done
   ADDSERVER="true"
@@ -437,7 +437,7 @@ function swarmnamechoice(){
       echo ""
       echo -n "What would you like call this swarm using only letters and no spaces? "
       read swarmname
-      if [ -n "$swarmname" ] && [[ $swarmname =~ ^[a-zA-Z]{3,20}$ ]] ; then
+      if [ -n "$swarmname" ] && [[ $swarmname =~ ^[a-zA-Z]{2,20}$ ]] ; then
          checkswarmclustername=$(docker-machine ls | grep "${swarmname}-" ; echo $?)
          if [ "$checkswarmclustername" = "1" ] ; then
             echo ""
@@ -449,7 +449,7 @@ function swarmnamechoice(){
             echo "Duplicate name found, choose another name"
          fi
        else
-         echo "Please enter a new name using only letters" 
+         echo "Please enter a new name using only letters (minimum 2 letters)" 
        fi
     done
     swarmname="$swarmname-"
