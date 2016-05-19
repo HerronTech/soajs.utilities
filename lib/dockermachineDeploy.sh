@@ -19,7 +19,6 @@ ADDSERVER="false"
 
 # Supported export variables
 if [ -z $MASTER_DOMAIN ]; then MASTER_DOMAIN='soajs.org'; fi
-if [ -z $SOAJS_DNS ]; then SOAJS_DNS="8.8.8.8"; fi
 if [ -z $SOAJS_NO_NGINX ]; then SOAJS_NO_NGINX=false; fi
 #
 
@@ -27,7 +26,7 @@ function createContainer(){
     local REPO=${1}
     local BRANCH=${2}
     local OWNER="soajs"
-    local ENV='--dns='${SOAJS_DNS}' -e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}' -e SOAJS_GIT_OWNER='${OWNER}' -e SOAJS_GIT_REPO='${REPO}' -e SOAJS_GIT_BRANCH='${BRANCH}''
+    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}' -e SOAJS_GIT_OWNER='${OWNER}' -e SOAJS_GIT_REPO='${REPO}' -e SOAJS_GIT_BRANCH='${BRANCH}''
 
     echo $'- Starting Controller Container '${REPO}' ...'
     if [ ${REPO} == "soajs.urac" ]; then
