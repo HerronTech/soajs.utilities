@@ -15,6 +15,7 @@ DEV_MACHINE="soajs-dev"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
 API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
+minimumdockermachineversion="0.6.0"
 
 
 # Supported export variables
@@ -45,11 +46,21 @@ function program_is_installed(){
   # return value
   echo "$return_"
 }
+
+function versioncheck { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+
 function dockerPrerequisites(){
     DOCKERMACHINE=$(program_is_installed docker-machine)
     if [ ${DOCKERMACHINE} == 0 ]; then
         echo $'\n ... Unable to find docker-machine on your machine. Please install docker machine!'
         exit -1
+    else
+        dmversion=$(docker-machine --version | sed -e 's/,//g' | awk '{ print $3 }')
+        if [ $(versioncheck $dmversion) -lt $(versioncheck $minimumdockermachineversion) ]; then
+           echo ""
+           echo "Docker-machine 0.6.0 or higher is required.  Please upgrade here:  https://github.com/docker/machine/releases"
+           exit 1
+        fi
     fi
     DOCKER=$(program_is_installed docker)
     if [ ${DOCKER} == 0 ]; then
