@@ -159,7 +159,7 @@ function start(){
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' soajs.controller`
     echo $'\nStarting NGINX Container "nginx" ... '
 
-    docker run -d -p 443:443 -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"
+    docker run -d -p 443:443 -p 80:80 -e "SOAJS_GIT_REPO=${SOAJS_GIT_REPO}" -e "SOAJS_GIT_OWNER=${SOAJS_GIT_OWNER}" -e "SOAJS_GIT_BRANCH=${SOAJS_GIT_BRANCH}" -e "SOAJS_GIT_DASHBOARD_BRANCH=${BRANCH}" -e "SOAJS_GIT_TOKEN=${SOAJS_GIT_TOKEN}" -e "BRANCH=${BRANCH}" -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"
 
     echo $'\n--------------------------'
 
