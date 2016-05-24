@@ -8,14 +8,46 @@ GIT_BRANCH="master"
 DATA_CONTAINER='soajsData'
 IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
+MASTER_DOMAIN='soajs.ypcloud.io'
 KEYSTORE_MACHINE="soajs-v-keystore"
 MASTER_MACHINE="soajs-swarm-master"
 DASH_MACHINE="soajs-dash"
-DEV_MACHINE="soajs-dev"
+DEV_MACHINE="soajs-reco-dev"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
-API_DOMAIN='dev-api.mydomain.com'
+API_DOMAIN='dev-api.reco.soajs.ypcloud.io'
 ADDSERVER="false"
 minimumdockermachineversion="0.6.0"
+MACHINE_OPTS="--engine-opt bip=10.99.99.1/24"
+MACHINE_DRIVER="openstack"
+CONTAINER_OPS="--dns 172.19.10.10 --dns 172.19.10.4"
+
+## OpenStack environment
+# export OS_AUTH_URL=https://openstack:5000/v2.0
+# export OS_TENANT_NAME="test_tenant"
+# export OS_FLOATINGIP_POOL=floating_net
+# export OS_FLAVOR_NAME=m1.medium
+# export OS_IMAGE_NAME='Ubuntu 14.04 OpenStack Latest'
+# export OS_INSECURE=true
+# export OS_KEYPAIR_NAME=test_key
+# export OS_NETWORK_NAME=internal_net
+# export OS_PASSWORD=password
+# export OS_PRIVATE_KEY_FILE=~/.ssh/id_rsa
+# export OS_SECURITY_GROUPS=all
+# export OS_SSH_USER=ubuntu
+# export OS_TENANT_ID=123456789012345678901234
+# export OS_USERNAME=test_users
+
+## Custom domain installation
+# export SOAJS_GIT_OWNER=github_account_name
+# export SOAJS_GIT_REPO=github_repo
+# export SOAJS_GIT_BRANCH=git_branch_here_usually_develop
+## Note:  gitbranch needs to match our directory structure to overwrite ours during deployment
+# export SOAJS_GIT_TOKEN=123456789012345678901234
+## Github Token ID - need to generate a token on github.com in Personal access tokens section
+## Click on generate new token
+## Click on checkbox labeled repo
+## Token description can be anything - label
+## Click on generate token
 
 # Supported export variables
 if [ -z $MASTER_DOMAIN ]; then MASTER_DOMAIN='soajs.org'; fi
@@ -30,11 +62,11 @@ function createContainer(){
 
     echo $'- Starting Controller Container '${REPO}' ...'
     if [ ${REPO} == "soajs.urac" ]; then
-        docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
+        docker run -d ${ENV} -i -t --name ${REPO} ${CONTAINER_OPS} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
     elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=true ]; then
-        docker run -d ${ENV} -e SOAJS_NO_NGINX=${SOAJS_NO_NGINX} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
+        docker run -d ${ENV} -e SOAJS_NO_NGINX=${SOAJS_NO_NGINX} -i -t --name ${REPO} ${CONTAINER_OPS} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
     else
-        docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
+        docker run -d ${ENV} -i -t --name ${REPO} ${CONTAINER_OPS} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
     fi
 }
 function program_is_installed(){
@@ -81,13 +113,11 @@ function createDockerMachine(){
             docker-machine start ${machineName}
             docker-machine regenerate-certs -f ${machineName}
         else
-            docker-machine create -d rackspace \
+            docker-machine create -d ${MACHINE_DRIVER} \
              --swarm \--swarm-discovery="consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
              --engine-opt="cluster-store=consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
-             --engine-opt="cluster-advertise=eth1:2376" \
-             --rackspace-api-key $rkapikey \
-             --rackspace-username $rkusername \
-             --rackspace-region IAD ${machineName}
+             --engine-opt="cluster-advertise=eth0:2376" \
+             $MACHINE_OPTS ${machineName}
         fi
     else
         echo $'\n ... to create a docker machine, a name must be provided!'
@@ -160,6 +190,7 @@ function start(){
     echo $'\nStarting NGINX Container "nginx" ... '
 
     docker run -d -p 443:443 -p 80:80 -e "SOAJS_GIT_REPO=${SOAJS_GIT_REPO}" -e "SOAJS_GIT_OWNER=${SOAJS_GIT_OWNER}" -e "SOAJS_GIT_BRANCH=${SOAJS_GIT_BRANCH}" -e "SOAJS_GIT_DASHBOARD_BRANCH=${BRANCH}" -e "SOAJS_GIT_TOKEN=${SOAJS_GIT_TOKEN}" -e "BRANCH=${BRANCH}" -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"
+
 
     echo $'\n--------------------------'
 
@@ -283,7 +314,7 @@ function findswarmmmaster(){
 
 # These two lines are not needed for next June release
     DASH_MACHINE="$swarmname$DASH_MACHINE"
-    DEV_MACHINE="$swarmname$DEV_MACHINE" 
+    DEV_MACHINE="$swarmname$DEV_MACHINE"
 }
 function setupComm(){
     dockerPrerequisites
@@ -297,7 +328,7 @@ function setupComm(){
         docker-machine start ${KEYSTORE_MACHINE}
         docker-machine regenerate-certs -f ${KEYSTORE_MACHINE}
     else
-         docker-machine create --driver rackspace --rackspace-api-key $rkapikey --rackspace-username $rkusername --rackspace-region IAD ${KEYSTORE_MACHINE}
+        docker-machine create --driver $MACHINE_DRIVER $MACHINE_OPTS ${KEYSTORE_MACHINE}
     fi
 
     cleanContainers ${KEYSTORE_MACHINE}
@@ -318,14 +349,12 @@ function setupSwarmMaster(){
         docker-machine regenerate-certs -f ${machineName}
     else
         docker-machine create \
-         -d rackspace \
+         -d ${MACHINE_DRIVER} \
          --swarm --swarm-master \
          --swarm-discovery="consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
          --engine-opt="cluster-store=consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
-         --engine-opt="cluster-advertise=eth1:2376" \
-         --rackspace-api-key $rkapikey \
-         --rackspace-username $rkusername \
-         --rackspace-region IAD ${machineName}
+         --engine-opt="cluster-advertise=eth0:2376" \
+         $MACHINE_OPTS ${machineName}
     fi
 
     echo $'\n .....'${machineName}' setup DONE'
@@ -379,7 +408,7 @@ function addanotherserver(){
          fi
        else
          echo ""
-         echo "Please enter a new name using only letters and no spaces (minimum 2 letters)" 
+         echo "Please enter a new name using only letters and no spaces (minimum 2 letters)"
        fi
       done
   ADDSERVER="true"
@@ -433,9 +462,9 @@ else
            DATA_CONTAINER="soajsDataDev"
         else
            DATA_CONTAINER="soajsData$removenametemp"
-        fi   
+        fi
         setupDevEnv $i
-       fi 
+       fi
       done
 fi
 }
@@ -458,7 +487,7 @@ function swarmnamechoice(){
             echo "Duplicate name found, choose another name"
          fi
        else
-         echo "Please enter a new name using only letters (minimum 2 letters)" 
+         echo "Please enter a new name using only letters (minimum 2 letters)"
        fi
     done
     swarmname="$swarmname-"
@@ -491,7 +520,7 @@ function choices(){
 function gochoice(){
 
     if [ ${gochoice} == "1" ]; then
-        setupcloud
+        # setupcloud
         swarmnamechoice
         setupComm
         setupSwarmMaster "$MASTER_MACHINE"
@@ -518,7 +547,7 @@ function gochoice(){
 
 }
 welcome
-setupcloud
+# setupcloud
 choices
 gochoice
 
