@@ -30,7 +30,18 @@ function createContainer(){
     local OWNER="soajs"
 
     local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true'
-    ENV=${ENV}' -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}
+
+    if [ -n "${SOAJS_MONGO_OBJECTROCKET}" ] && [ "${SOAJS_MONGO_OBJECTROCKET}" == "true" ]; then
+        if [ -n "${SOAJS_MONGO_OBJECTROCKET_URL}" ]; then
+            ENV=${ENV}' -e SOAJS_MONGO_IP_1='${SOAJS_MONGO_OBJECTROCKET_URL}
+        fi
+        if [ -n "${SOAJS_MONGO_OBJECTROCKET_PORT}" ]; then
+            ENV=${ENV}' -e SOAJS_MONGO_PORT_1='${SOAJS_MONGO_OBJECTROCKET_PORT}
+        fi
+    else
+        ENV=${ENV}' -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}
+    fi
+
     ENV=${ENV}' -e SOAJS_GIT_OWNER='${OWNER}' -e SOAJS_GIT_REPO='${REPO}' -e SOAJS_GIT_BRANCH='${BRANCH}
 
     if [ -n "${SOAJS_MONGO_USERNAME}" ]; then
@@ -228,7 +239,12 @@ function setupDashEnv(){
     echo $'\n1- Setting up cloud for: '${machineName}
 
     cleanContainers ${machineName} "swarm"
-    buildDashMongo ${machineName} ${machineDevName}
+
+    if [ -n "${SOAJS_MONGO_OBJECTROCKET}" ] && [ "${SOAJS_MONGO_OBJECTROCKET}" == "true" ]; then
+        echo $'Object Rocket is turned on skipping provising mongo containers'
+    else
+        buildDashMongo ${machineName} ${machineDevName}
+    fi
 
     while true; do
         read -p "Do you wish to build the containers? " yn
@@ -266,7 +282,12 @@ function setupDevEnv(){
     local DEVMACHINEIP=`docker-machine ip ${machineName}`
 
     cleanContainers ${machineName} "swarm"
-    buildDevMongo ${machineName}
+
+    if [ -n "${SOAJS_MONGO_OBJECTROCKET}" ] && [ "${SOAJS_MONGO_OBJECTROCKET}" == "true" ]; then
+        echo $'Object Rocket is turned on skipping provising mongo containers'
+    else
+        buildDevMongo ${machineName}
+    fi
 
   if [ ${ADDSERVER} == "true" ]; then
     INSTRUCT_MSG=${INSTRUCT_MSG}$'\n\t '${DEVMACHINEIP}' '${machineName}
