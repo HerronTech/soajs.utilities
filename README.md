@@ -1,7 +1,9 @@
 # soajs.utilities
 [![NPM version](https://badge.fury.io/js/soajs.utilities.svg)](http://badge.fury.io/js/soajs.utilities)
 
-## DASHBOARD Nginx
+## Docker Machine Deploy
+
+### DASHBOARD Nginx
 Dashboard nginx deployment can be controlled with the below ENV variable for:
 * GITHUB
 
@@ -12,7 +14,6 @@ SOAJS_GIT_OWNER | This is the GIT account owner name |  |
 SOAJS_GIT_REPO | This is the GIT repo name |  | 
 SOAJS_GIT_BRANCH | This the GIT repo branch | [master] | 
 SOAJS_GIT_TOKEN | This is the GIT account token |  | 
-SOAJS_GIT_DASHBOARD_BRANCH | This is the GIT repo branch for soajs.dashboard | [ master] | 
 
 ## DASHBOARD Mongo profile
 Dashboard mongo profile for services can be controlled with the below ENV variable for:
