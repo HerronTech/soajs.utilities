@@ -18,22 +18,31 @@ ADDSERVER="false"
 minimumdockermachineversion="0.6.0"
 
 
-# Supported export variables
-if [ -z $MASTER_DOMAIN ]; then MASTER_DOMAIN='soajs.org'; fi
-if [ -z $SOAJS_NO_NGINX ]; then SOAJS_NO_NGINX=false; fi
-#
+MASTER_DOMAIN='soajs.org'
+if [ -n "${SOAJS_NX_MASTER_DOMAIN}" ]; then
+    MASTER_DOMAIN=${SOAJS_NX_MASTER_DOMAIN};
+fi
+
 
 function createContainer(){
     local REPO=${1}
     local BRANCH=${2}
     local OWNER="soajs"
-    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}' -e SOAJS_GIT_OWNER='${OWNER}' -e SOAJS_GIT_REPO='${REPO}' -e SOAJS_GIT_BRANCH='${BRANCH}''
+
+    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true'
+    ENV=${ENV}' -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MACHINEIP}
+    ENV=${ENV}' -e SOAJS_GIT_OWNER='${OWNER}' -e SOAJS_GIT_REPO='${REPO}' -e SOAJS_GIT_BRANCH='${BRANCH}
+
+    if [ -n "${SOAJS_MONGO_USERNAME}" ]; then
+        ENV=${ENV}' -e SOAJS_MONGO_USERNAME='${SOAJS_MONGO_USERNAME}
+    fi
+    if [ -n "${SOAJS_MONGO_PASSWORD}" ]; then
+        ENV=${ENV}' -e SOAJS_MONGO_PASSWORD='${SOAJS_MONGO_PASSWORD}
+    fi
 
     echo $'- Starting Controller Container '${REPO}' ...'
     if [ ${REPO} == "soajs.urac" ]; then
         docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
-    elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=true ]; then
-        docker run -d ${ENV} -e SOAJS_NO_NGINX=${SOAJS_NO_NGINX} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
     else
         docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
     fi
@@ -158,7 +167,24 @@ function start(){
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' soajs.controller`
     echo $'\nStarting NGINX Container "nginx" ... '
 
-    docker run -d -p 443:443 -p 80:80 -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"
+    local ENV='-e SOAJS_NX_CONTROLLER_IP_1='${CONTROLLERIP}' -e SOAJS_NX_CONTROLLER_NB=1'
+    ENV=${ENV}' -e SOAJS_NX_API_DOMAIN=dashboard-api.'${MASTER_DOMAIN}' -e SOAJS_NX_SITE_DOMAIN=dashboard.'${MASTER_DOMAIN}
+    ENV=${ENV}' -e SOAJS_GIT_DASHBOARD_BRANCH='${BRANCH}
+
+    if [ -n "${SOAJS_GIT_OWNER}" ]; then
+        ENV=${ENV}' -e SOAJS_GIT_OWNER='${SOAJS_GIT_OWNER}
+    fi
+    if [ -n "${SOAJS_GIT_REPO}" ]; then
+        ENV=${ENV}' -e SOAJS_GIT_REPO='${SOAJS_GIT_REPO}
+    fi
+    if [ -n "${SOAJS_GIT_BRANCH}" ]; then
+        ENV=${ENV}' -e SOAJS_GIT_BRANCH='${SOAJS_GIT_BRANCH}
+    fi
+    if [ -n "${SOAJS_GIT_TOKEN}" ]; then
+        ENV=${ENV}' -e SOAJS_GIT_TOKEN='${SOAJS_GIT_TOKEN}
+    fi
+
+    docker run -d -p 443:443 -p 80:80 ${ENV} --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"
 
     echo $'\n--------------------------'
 
