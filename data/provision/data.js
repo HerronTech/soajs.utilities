@@ -47,7 +47,7 @@ if (internalDocker || internalMachine || cloudMachine) {
 	}
 	if(cloudMachine){
 		dashboard.deployer.selected = "container.dockermachine.cloud.rackspace";
-		dev.deployer.selected = "container.dockermachine..cloud.rackspace";
+		dev.deployer.selected = "container.dockermachine.cloud.rackspace";
 		dashboard.deployer.container.dockermachine.cloud.rackspace.host = internalMongoIP;
 		dev.deployer.container.dockermachine.cloud.rackspace.host = internalDevMongoIP;
 	}
