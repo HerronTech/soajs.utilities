@@ -10,22 +10,22 @@ function readMongoInfo(){
     echo $'\n PLease enter MongoDB Host. Default [iad1-mongos0.objectrocket.com]:'
     read URL
     if [ -n "${URL}" ]; then
-        MONGO_URL = ${URL}
+        MONGO_URL=${URL}
     fi
     echo $'\n PLease enter MongoDB Port. Default [16067]:'
     read PORT
     if [ -n "${PORT}" ]; then
-        MONGO_PORT = ${PORT}
+        MONGO_PORT=${PORT}
     fi
     echo $'\n PLease enter MongoDB Username. Default [NULL]:'
     read UNAME
     if [ -n "${UNAME}" ]; then
-        MONGO_USERNAME = ${UNAME}
+        MONGO_USERNAME=${UNAME}
     fi
     echo $'\n PLease enter MongoDB Password. Default [NULL]:'
     read PWD
     if [ -n "${PWD}" ]; then
-        MONGO_PASSWORD = ${PWD}
+        MONGO_PASSWORD=${PWD}
     fi
 
     echo $'\n Your mongo info are:'
