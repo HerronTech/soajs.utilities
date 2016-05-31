@@ -1,7 +1,7 @@
 # soajs.utilities
 [![NPM version](https://badge.fury.io/js/soajs.utilities.svg)](http://badge.fury.io/js/soajs.utilities)
 
-## Docker Machine Deploy
+## Docker Machine Deploy (Local & cloud)
 
 ### DASHBOARD Nginx
 Dashboard nginx deployment can be controlled with the below ENV variable for:
