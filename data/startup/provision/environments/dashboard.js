@@ -59,6 +59,7 @@ var dashboard = {
 					"socketTimeoutMS": 0,
 					"maxPoolSize": 5,
 					"wtimeoutMS": 0,
+					"ssl": true,
 					"slaveOk": true
 				},
 				"extraParam": {
@@ -66,7 +67,6 @@ var dashboard = {
 						"native_parser": true
 					},
 					"server": {
-						"ssl": "prefer",
 						"auto_reconnect": true
 					}
 				}

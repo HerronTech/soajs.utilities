@@ -66,7 +66,6 @@ var dashboard = {
 						"native_parser": true
 					},
 					"server": {
-						"ssl": "prefer",
 						"auto_reconnect": true
 					}
 				}

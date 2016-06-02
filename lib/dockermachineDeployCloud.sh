@@ -50,6 +50,9 @@ function createContainer(){
     if [ -n "${SOAJS_MONGO_PASSWORD}" ]; then
         ENV=${ENV}' -e SOAJS_MONGO_PASSWORD='${SOAJS_MONGO_PASSWORD}
     fi
+    if [ -n "${SOAJS_MONGO_SSL}" ]; then
+        ENV=${ENV}' -e SOAJS_MONGO_SSL='${SOAJS_MONGO_SSL}
+    fi
 
     echo $'- Starting Controller Container '${REPO}' ...'
     if [ ${REPO} == "soajs.urac" ]; then
