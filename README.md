@@ -34,3 +34,4 @@ SOAJS_MONGO_OBJECTROCKET_URL | This is Object Rocket URL |  | iad1-mongos0.objec
 SOAJS_MONGO_OBJECTROCKET_PORT | This is the port for evert Mongo instance(s) |  | 16067
 SOAJS_MONGO_USERNAME | This is the username for credentials |  | 
 SOAJS_MONGO_PASSWORD | This is the password for credentials |  | 
+SOAJS_MONGO_SSL | This is to turn on SSL | [false] | 
