@@ -57,14 +57,14 @@ var dev = {
 					"socketTimeoutMS": 0,
 					"maxPoolSize": 5,
 					"wtimeoutMS": 0,
-					"slaveOk": true
+					"slaveOk": true,
+					"ssl": "prefer"
 				},
 				"extraParam": {
 					"db": {
 						"native_parser": true
 					},
 					"server": {
-						"ssl": "prefer",
 						"auto_reconnect": true
 					}
 				}
