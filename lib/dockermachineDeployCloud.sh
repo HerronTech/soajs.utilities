@@ -15,13 +15,17 @@ INSTRUCT_MSG=$'\n\n-------------------------------------------------------------
 API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
 minimumdockermachineversion="0.7.0"
+
+
 RACKSPACEFLAVORID="general1-2"
+if [ -n "${SOAJS_RACKSPACEFLAVORID}" ]; then
+    RACKSPACEFLAVORID=${SOAJS_RACKSPACEFLAVORID};
+fi
 
 MASTER_DOMAIN='soajs.org'
 if [ -n "${SOAJS_NX_MASTER_DOMAIN}" ]; then
     MASTER_DOMAIN=${SOAJS_NX_MASTER_DOMAIN};
 fi
-
 
 function createContainer(){
     local REPO=${1}

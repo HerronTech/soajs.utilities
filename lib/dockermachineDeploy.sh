@@ -15,9 +15,14 @@ INSTRUCT_MSG=$'\n\n-------------------------------------------------------------
 API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
 minimumdockermachineversion="0.7.0"
-VIRTUALBOXMEMORY="2048"
-VIRTUALBOXCPU="2"
 
+
+VIRTUALBOXMEMORY="1024"
+VIRTUALBOXCPU="1"
+if [ -n "${SOAJS_VIRTUALBOXMEMORY}" ] && [ -n "${SOAJS_VIRTUALBOXCPU}" ]; then
+    VIRTUALBOXMEMORY=${SOAJS_VIRTUALBOXMEMORY}
+    VIRTUALBOXCPU=${SOAJS_VIRTUALBOXCPU}
+fi
 
 MASTER_DOMAIN='soajs.org'
 if [ -n "${SOAJS_NX_MASTER_DOMAIN}" ]; then
