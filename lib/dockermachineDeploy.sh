@@ -15,6 +15,8 @@ INSTRUCT_MSG=$'\n\n-------------------------------------------------------------
 API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
 minimumdockermachineversion="0.7.0"
+VIRTUALBOXMEMORY="2048"
+VIRTUALBOXCPU="2"
 
 
 MASTER_DOMAIN='soajs.org'
@@ -109,6 +111,8 @@ function createDockerMachine(){
              --swarm \--swarm-discovery="consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
              --engine-opt="cluster-store=consul://$(docker-machine ip ${KEYSTORE_MACHINE}):8500" \
              --engine-opt="cluster-advertise=eth1:2376" \
+             --virtualbox-memory ${VIRTUALBOXMEMORY} \
+             --virtualbox-cpu-count ${VIRTUALBOXCPU} \
              ${machineName}
         fi
     else

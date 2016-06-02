@@ -15,7 +15,7 @@ INSTRUCT_MSG=$'\n\n-------------------------------------------------------------
 API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
 minimumdockermachineversion="0.7.0"
-
+RACKSPACEFLAVORID="general1-2"
 
 MASTER_DOMAIN='soajs.org'
 if [ -n "${SOAJS_NX_MASTER_DOMAIN}" ]; then
@@ -111,7 +111,9 @@ function createDockerMachine(){
              --engine-opt="cluster-advertise=eth1:2376" \
              --rackspace-api-key $rkapikey \
              --rackspace-username $rkusername \
-             --rackspace-region IAD ${machineName}
+             --rackspace-region IAD \
+             --rackspace-flavor-id $RACKSPACEFLAVORID \
+             ${machineName}
         fi
     else
         echo $'\n ... to create a docker machine, a name must be provided!'
