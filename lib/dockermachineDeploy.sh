@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Requirement: docker-machine 0.6.0+
+# Requirement: docker-machine 0.7.0+
 #
 # https://github.com/docker/machine/releases
 
@@ -14,7 +14,7 @@ DEV_MACHINE="soajs-dev"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
 API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
-minimumdockermachineversion="0.6.0"
+minimumdockermachineversion="0.7.0"
 
 
 MASTER_DOMAIN='soajs.org'
@@ -81,7 +81,7 @@ function dockerPrerequisites(){
         dmversion=$(docker-machine --version | sed -e 's/,//g' | awk '{ print $3 }')
         if [ $(versioncheck $dmversion) -lt $(versioncheck $minimumdockermachineversion) ]; then
            echo ""
-           echo "Docker-machine 0.6.0 or higher is required.  Please upgrade here:  https://github.com/docker/machine/releases"
+           echo "Docker-machine ${minimumdockermachineversion} or higher is required.  Please upgrade here:  https://github.com/docker/machine/releases"
            exit 1
         fi
     fi
