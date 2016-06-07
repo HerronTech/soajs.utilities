@@ -7,26 +7,46 @@ DATA_CONTAINER='soajsData'
 IMAGE_PREFIX='soajsorg'
 NGINX_CONTAINER='nginx'
 
-# Supported export variables
-if [ -z $MASTER_DOMAIN ]; then MASTER_DOMAIN='soajs.org'; fi
-if [ -z $SOAJS_NO_NGINX ]; then SOAJS_NO_NGINX=false; fi
-#
+MASTER_DOMAIN='soajs.org'
+if [ -n "${SOAJS_NX_MASTER_DOMAIN}" ]; then
+    MASTER_DOMAIN=${SOAJS_NX_MASTER_DOMAIN};
+fi
 
 function createContainer(){
     local REPO=${1}
     local BRANCH=${2}
     local OWNER="soajs"
-    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true -e SOAJS_MONGO_NB=1 -e SOAJS_MONGO_IP_1='${MONGOIP}' -e SOAJS_GIT_OWNER='${OWNER}' -e SOAJS_GIT_REPO='${REPO}' -e SOAJS_GIT_BRANCH='${BRANCH}''
+
+    local ENV='-e NODE_ENV=production -e SOAJS_ENV=dashboard -e SOAJS_PROFILE=/opt/soajs/FILES/profiles/profile.js -e SOAJS_SRV_AUTOREGISTERHOST=true'
+
+    ENV=${ENV}' -e SOAJS_MONGO_NB=1'
+    if [ -n "${SOAJS_MONGO_OBJECTROCKET}" ] && [ "${SOAJS_MONGO_OBJECTROCKET}" == "true" ]; then
+        if [ -n "${SOAJS_MONGO_OBJECTROCKET_URL}" ]; then
+            ENV=${ENV}' -e SOAJS_MONGO_IP_1='${SOAJS_MONGO_OBJECTROCKET_URL}
+        fi
+        if [ -n "${SOAJS_MONGO_OBJECTROCKET_PORT}" ]; then
+            ENV=${ENV}' -e SOAJS_MONGO_PORT_1='${SOAJS_MONGO_OBJECTROCKET_PORT}
+        fi
+    else
+        ENV=${ENV}' -e SOAJS_MONGO_IP_1='${MONGOIP}
+    fi
+
+    ENV=${ENV}' -e SOAJS_GIT_OWNER='${OWNER}' -e SOAJS_GIT_REPO='${REPO}' -e SOAJS_GIT_BRANCH='${BRANCH}
+
+    if [ -n "${SOAJS_MONGO_USERNAME}" ]; then
+        ENV=${ENV}' -e SOAJS_MONGO_USERNAME='${SOAJS_MONGO_USERNAME}
+    fi
+    if [ -n "${SOAJS_MONGO_PASSWORD}" ]; then
+        ENV=${ENV}' -e SOAJS_MONGO_PASSWORD='${SOAJS_MONGO_PASSWORD}
+    fi
+    if [ -n "${SOAJS_MONGO_SSL}" ]; then
+        ENV=${ENV}' -e SOAJS_MONGO_SSL='${SOAJS_MONGO_SSL}
+    fi
 
     echo $'- Starting Controller Container '${REPO}' ...'
     if [ ${REPO} == "soajs.urac" ]; then
         docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
-    elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=true ]; then
-        #no need for these env anymore, waiting to remove dependency from dashboard
-        local EXTRA='-v /var/run/docker.sock:/var/run/docker.sock'
-        docker run -d ${ENV} ${EXTRA} -e SOAJS_NO_NGINX=${SOAJS_NO_NGINX} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
-    elif [ ${REPO} == "soajs.dashboard" ] && [ SOAJS_NO_NGINX=false ]; then
-        #no need for these env anymore, waiting to remove dependency from dashboard
+    elif [ ${REPO} == "soajs.dashboard" ]; then
         local EXTRA='-v /var/run/docker.sock:/var/run/docker.sock'
         docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
     else
@@ -49,8 +69,6 @@ function init(){
     #SOAJSDATA container
     ###################################
     echo $'Initializing and checking prerequisites ... '
-    SOAJS_DATA_VLM='-v '${LOC}'soajs/data:/data -v '${LOC}'soajs/data/db:/data/db'
-    SOAJS_DATA_VLM_DEV='-v '${LOC}'soajs/dev/data:/data -v '${LOC}'soajs/dev/data/db:/data/db'
     DOCKER=$(program_is_installed docker)
     if [ ${DOCKER} == 0 ]; then
         echo $'\n ... Unable to find docker on your machine. PLease install docker!'
@@ -68,6 +86,8 @@ function importData(){
     ###################################
     # IMPORT DATA
     ###################################
+    SOAJS_DATA_VLM='-v '${LOC}'soajs/data:/data -v '${LOC}'soajs/data/db:/data/db'
+    SOAJS_DATA_VLM_DEV='-v '${LOC}'soajs/dev/data:/data -v '${LOC}'soajs/dev/data/db:/data/db'
     echo $'\n2- Starging Mongo Container "soajsData" ...'
     docker run -d ${SOAJS_DATA_VLM} --name ${DATA_CONTAINER} mongo mongod --smallfiles
     echo $'\n--------------------------'
@@ -120,7 +140,25 @@ function start(){
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' soajs.controller`
     echo $'\n7- Starting NGINX Container "nginx" ... '
 
-    docker run -d -e "SOAJS_NX_CONTROLLER_IP_1=${CONTROLLERIP}" -e "SOAJS_NX_CONTROLLER_NB=1" -e "SOAJS_NX_API_DOMAIN=dashboard-api.${MASTER_DOMAIN}" -e "SOAJS_NX_SITE_DOMAIN=dashboard.${MASTER_DOMAIN}" -e "SOAJS_GIT_DASHBOARD_BRANCH="${BRANCH} --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"
+    local ENV='-e SOAJS_NX_CONTROLLER_IP_1='${CONTROLLERIP}' -e SOAJS_NX_CONTROLLER_NB=1'
+    ENV=${ENV}' -e SOAJS_NX_API_DOMAIN=dashboard-api.'${MASTER_DOMAIN}' -e SOAJS_NX_SITE_DOMAIN=dashboard.'${MASTER_DOMAIN}
+    ENV=${ENV}' -e SOAJS_GIT_DASHBOARD_BRANCH='${BRANCH}
+
+    if [ -n "${SOAJS_GIT_OWNER}" ]; then
+        ENV=${ENV}' -e SOAJS_GIT_OWNER='${SOAJS_GIT_OWNER}
+    fi
+    if [ -n "${SOAJS_GIT_REPO}" ]; then
+        ENV=${ENV}' -e SOAJS_GIT_REPO='${SOAJS_GIT_REPO}
+    fi
+    if [ -n "${SOAJS_GIT_BRANCH}" ]; then
+        ENV=${ENV}' -e SOAJS_GIT_BRANCH='${SOAJS_GIT_BRANCH}
+    fi
+    if [ -n "${SOAJS_GIT_TOKEN}" ]; then
+        ENV=${ENV}' -e SOAJS_GIT_TOKEN='${SOAJS_GIT_TOKEN}
+    fi
+
+
+    docker run -d ${ENV} --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"
 
     echo $'\n--------------------------'
 
@@ -139,5 +177,11 @@ function start(){
 }
 
 init
-importData
+
+if [ -n "${SOAJS_MONGO_OBJECTROCKET}" ] && [ "${SOAJS_MONGO_OBJECTROCKET}" == "true" ]; then
+    echo $'Object Rocket is turned on skipping provisioning mongo containers'
+else
+    importData
+fi
+
 start
