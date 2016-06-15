@@ -49,11 +49,11 @@ readMongoInfo
 CMD1=${MONGO_URL}':'${MONGO_PORT}/'core_provision'
 CMD2=${MONGO_URL}':'${MONGO_PORT}/'DBTN_urac'
 
-if [-n ${MONGO_USERNAME} ]; then
+if [-n "${MONGO_USERNAME}" ]; then
 	CMD1=''${CMD1}' -u '${MONGO_USERNAME}
 	CMD2=''${CMD2}' -u '${MONGO_USERNAME}
 fi
-if [-n ${MONGO_PASSWORD} ]; then
+if [-n "${MONGO_PASSWORD}" ]; then
 	CMD1=''${CMD1}' -p '${MONGO_PASSWORD}
 	CMD2=''${CMD2}' -p '${MONGO_PASSWORD}
 fi
