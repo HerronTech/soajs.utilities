@@ -45,12 +45,12 @@ function createContainer(){
 
     echo $'- Starting Controller Container '${REPO}' ...'
     if [ ${REPO} == "soajs.urac" ]; then
-        docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
+        docker run -d ${ENV} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy -L"
     elif [ ${REPO} == "soajs.dashboard" ]; then
         local EXTRA='-v /var/run/docker.sock:/var/run/docker.sock'
-        docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
+        docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy -L"
     else
-        docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
+        docker run -d ${ENV} ${EXTRA} -i -t --name ${REPO} ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy -L"
     fi
 
 }
