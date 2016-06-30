@@ -157,8 +157,12 @@ function start(){
         ENV=${ENV}' -e SOAJS_GIT_TOKEN='${SOAJS_GIT_TOKEN}
     fi
 
+    local deployerExtra=""
+    if [ -n "${SOAJS_NX_SSL}" ] && [ "${SOAJS_NX_SSL}" == "true"  ]; then
+        deployerExtra=" -s"
+    fi
 
-    docker run -d ${ENV} --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"
+    docker run -d ${ENV} --name ${NGINX_CONTAINER} ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"${deployerExtra}
 
     echo $'\n--------------------------'
 
