@@ -165,7 +165,7 @@ function start(){
     ###################################
     #URAC container
     ###################################
-    createContainer "soajs.urac" "develop"
+    createContainer "soajs.urac" "master"
     ###################################
     #DASHBOARD container
     ###################################
@@ -186,7 +186,7 @@ function start(){
     ###################################
     sleep 5
 
-    local BRANCH="master"
+    local BRANCH="develop"
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' soajs.controller`
     echo $'\nStarting NGINX Container "nginx" ... '
 

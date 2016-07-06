@@ -66,9 +66,6 @@ var dev = {
                         "bufferMaxEntries": 0
                     },
                     "server": {
-                        "socketOptions": {
-                            "autoReconnect": false
-                        }
                     }
                 }
             }

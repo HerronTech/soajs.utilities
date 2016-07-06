@@ -67,9 +67,6 @@ var dashboard = {
                         "bufferMaxEntries": 0
                     },
                     "server": {
-                        "socketOptions": {
-                            "autoReconnect": false
-                        }
                     }
                 }
             }
