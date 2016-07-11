@@ -2,7 +2,7 @@
 
 [ ${SOAJS_DEPLOY_DIR} ] && LOC=${SOAJS_DEPLOY_DIR} || LOC='/opt/'
 
-[ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='NPM'
+[ ${1} ] && DEPLOY_FROM=${1} || DEPLOY_FROM='GIT'
 WRK_DIR=${LOC}'soajs/node_modules'
 GIT_BRANCH="master"
 MASTER_DOMAIN="soajs.org"
@@ -98,91 +98,34 @@ function startDashboard(){
     setupNginx
 }
 
-function uracSuccess(){
-    if [ ${DEPLOY_FROM} == "NPM" ]; then
-        npm install soajs.oauth
-        npm install soajs.gcs
-        npm install soajs.examples
-    elif [ ${DEPLOY_FROM} == "GIT" ]; then
-        cd ./soajs.urac
-        npm install
-        cd ../
-        git clone git@github.com:soajs/soajs.oauth.git --branch ${GIT_BRANCH}
-        cd ./soajs.oauth
-        npm install
-        cd ../
-        git clone git@github.com:soajs/soajs.gcs.git --branch ${GIT_BRANCH}
-        cd ./soajs.gcs
-        npm install
-        cd ../
-        git clone git@github.com:soajs/soajs.examples.git --branch ${GIT_BRANCH}
-        cd ./soajs.examples
-        npm install
-        cd ../
-    else
-        exit -1
-    fi
-    popd
+function gitDeployment(){
+    git clone git@github.com:soajs/soajs.controller.git --branch ${GIT_BRANCH}
+    cd ./soajs.controller
+    npm install
+    cd ../
+    git clone git@github.com:soajs/soajs.dashboard.git --branch ${GIT_BRANCH}
+    cd ./soajs.dashboard
+    npm install
+    cd ../
+    git clone git@github.com:soajs/soajs.urac.git --branch ${GIT_BRANCH}
+    cd ./soajs.urac
+    npm install
+    cd ../
+    git clone git@github.com:soajs/soajs.oauth.git --branch ${GIT_BRANCH}
+    cd ./soajs.oauth
+    npm install
+    cd ../
+    git clone git@github.com:soajs/soajs.gcs.git --branch ${GIT_BRANCH}
+    cd ./soajs.gcs
+    npm install
+    cd ../
+    git clone git@github.com:soajs/soajs.examples.git --branch ${GIT_BRANCH}
+    cd ./soajs.examples
+    npm install
+    cd ../
     startDashboard
 }
-function uracFailure(){
-    echo $'\n ... unable to install urac '${DEPLOY_FROM}' package. exiting!'
-    exit -1
-}
-function dashSuccess(){
-    if [ ${DEPLOY_FROM} == "NPM" ]; then
-        npm install soajs.urac
-    elif [ ${DEPLOY_FROM} == "GIT" ]; then
-        cd ./soajs.dashboard
-        npm install
-        cd ../
-        git clone git@github.com:soajs/soajs.urac.git --branch ${GIT_BRANCH}
-    else
-        exit -1
-    fi
-    b=$!
-    wait $b && uracSuccess || uracFailure
-}
-function dashFailure(){
-    echo $'\n ... unable to install dashboard '${DEPLOY_FROM}' package. exiting!'
-    exit -1
-}
-function controllerSuccess(){
-    if [ ${DEPLOY_FROM} == "NPM" ]; then
-        npm install soajs.dashboard
-    elif [ ${DEPLOY_FROM} == "GIT" ]; then
-        cd ./soajs.controller
-        npm install
-        cd ../
-        git clone git@github.com:soajs/soajs.dashboard.git --branch ${GIT_BRANCH}
-    else
-        exit -1
-    fi
-    b=$!
-    wait $b && dashSuccess || dashFailure
-}
-function controllerFailure(){
-    echo $'\n ... unable to install controller '${DEPLOY_FROM}' package. exiting!'
-    exit -1
-}
-function soajsSuccess(){
-    if [ ${DEPLOY_FROM} == "NPM" ]; then
-        npm install soajs.controller
-    elif [ ${DEPLOY_FROM} == "GIT" ]; then
-        cd ./soajs
-        npm install
-        cd ../
-        git clone git@github.com:soajs/soajs.controller.git --branch ${GIT_BRANCH}
-    else
-        exit -1
-    fi
-    b=$!
-    wait $b && controllerSuccess || controllerFailure
-}
-function soajsFailure(){
-    echo $'\n ... unable to install soajs '${DEPLOY_FROM}' package. exiting!'
-    exit -1
-}
+
 function confirmDeployment(){
 
     echo $'\nYou are about to install at this location [ '${WRK_DIR}' ]'
@@ -203,27 +146,17 @@ function confirmDeployment(){
 }
 function exec(){
 
-    if [ ${DEPLOY_FROM} == "NPM" ]; then
+    if [ ${DEPLOY_FROM} == "GIT" ]; then
         confirmDeployment
         mkdir -p ${WRK_DIR}
         pushd ${WRK_DIR}
         export NODE_ENV=production
-        npm install soajs
-        b=$!
-        wait $b && soajsSuccess || soajsFailure
-    elif [ ${DEPLOY_FROM} == "GIT" ]; then
-        confirmDeployment
-        mkdir -p ${WRK_DIR}
-        pushd ${WRK_DIR}
-        export NODE_ENV=production
-        git clone git@github.com:soajs/soajs.git --branch ${GIT_BRANCH}
-        b=$!
-        wait $b && soajsSuccess || soajsFailure
+        gitDeployment
     elif [ ${DEPLOY_FROM} == "LOCAL" ]; then
         startDashboard
     else
         echo $'\nYou are trying to deploy from ['${LOCAL}']!'
-        echo $'\n ... Deploy from must be one of the following [ NPM || GIT || LOCAL ]'
+        echo $'\n ... Deploy from must be one of the following [ GIT || LOCAL ]'
         exit -1
     fi
 }
