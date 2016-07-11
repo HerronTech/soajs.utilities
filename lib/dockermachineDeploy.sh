@@ -169,11 +169,11 @@ function start(){
     ###################################
     #DASHBOARD container
     ###################################
-    createContainer "soajs.dashboard" "develop"
+    createContainer "soajs.dashboard" "master"
     ###################################
     #PROXY container
     ###################################
-    createContainer "soajs.prx" "develop"
+    createContainer "soajs.prx" "master"
     ###################################
     #CONTROLLER container
     ###################################
@@ -186,7 +186,7 @@ function start(){
     ###################################
     sleep 5
 
-    local BRANCH="develop"
+    local BRANCH="master"
     local CONTROLLERIP=`docker inspect --format '{{ .NetworkSettings.Networks.soajsnet.IPAddress }}' soajs.controller`
     echo $'\nStarting NGINX Container "nginx" ... '
 
