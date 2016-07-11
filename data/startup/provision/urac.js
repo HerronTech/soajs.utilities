@@ -1,24 +1,30 @@
-/* DBTN URAC */
+/***************************************************************
+ *
+ * DASHBOARD URAC
+ *
+ ***************************************************************/
+
 var ddb = db.getSiblingDB('DBTN_urac');
+ddb.dropDatabase();
 
-/* users */
-var files = listFiles('./urac/users');
-for(var i = 0; i < files.length; i++) {
-	load(files[i].name);
-}
-
-ddb.users.drop();
-var records = [];
+/*
+ Users
+ */
+files = listFiles('./urac/users');
+files.forEach(function(oneFile){
+	load(oneFile.name);
+});
+records = [];
 records.push(owner);
 ddb.users.insert(records);
 
-/* add grps */
-var gfiles = listFiles('./urac/groups');
-for(var i = 0; i < gfiles.length; i++) {
-	load(gfiles[i].name);
-}
-
-ddb.groups.drop();
-var records = [];
+/*
+ Groups
+ */
+files = listFiles('./urac/groups');
+files.forEach(function(oneFile){
+	load(oneFile.name);
+});
+records = [];
 records.push(owner);
 ddb.groups.insert(records);

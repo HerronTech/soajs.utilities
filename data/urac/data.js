@@ -1,14 +1,19 @@
+/***************************************************************
+ *
+ * Custom Tenant URAC
+ *
+ ***************************************************************/
+
 var ddb = db.getSiblingDB('test_urac');
-//provDb.dropDatabase();
+ddb.dropDatabase();
 
-/* Tenants */
+/*
+ Users
+ */
 var files = listFiles('./users');
-for(var i = 0; i < files.length; i++) {
-	load(files[i].name);
-}
-
-ddb.users.drop();
-
+files.forEach(function(oneFile){
+	load(oneFile.name);
+});
 var records = [];
 records.push(user3);
 records.push(user2);
@@ -16,30 +21,19 @@ records.push(user1);
 ddb.users.insert(records);
 
 
-/* Indexes for users */
-ddb.users.ensureIndex({username: 1}, {unique: true});
-ddb.users.ensureIndex({email: 1}, {unique: true});
 
-
-/* new tenant db*/
 var ddbT = db.getSiblingDB('TNT1_urac');
-//provDb.dropDatabase();
+ddbT.dropDatabase();
 
-/* Tenants */
-var files = listFiles('./users');
-for(var i = 0; i < files.length; i++) {
-	load(files[i].name);
-}
-
-ddbT.users.drop();
-
-var records = [];
+/*
+ Users
+ */
+files = listFiles('./users');
+files.forEach(function(oneFile){
+	load(oneFile.name);
+});
+records = [];
 records.push(user1);
 records.push(user3);
 records.push(user2);
 ddbT.users.insert(records);
-
-
-/* Indexes for users */
-ddbT.users.ensureIndex({username: 1}, {unique: true});
-ddbT.users.ensureIndex({email: 1}, {unique: true});
