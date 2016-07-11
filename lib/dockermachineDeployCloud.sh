@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Requirement: docker-machine 0.6.0+
+# Requirement: docker-machine 0.7.0+
 #
 # https://github.com/docker/machine/releases
 
@@ -14,14 +14,18 @@ DEV_MACHINE="soajs-dev"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
 API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
-minimumdockermachineversion="0.6.0"
+minimumdockermachineversion="0.7.0"
 
+
+RACKSPACEFLAVORID="general1-2"
+if [ -n "${SOAJS_RACKSPACEFLAVORID}" ]; then
+    RACKSPACEFLAVORID=${SOAJS_RACKSPACEFLAVORID};
+fi
 
 MASTER_DOMAIN='soajs.org'
 if [ -n "${SOAJS_NX_MASTER_DOMAIN}" ]; then
     MASTER_DOMAIN=${SOAJS_NX_MASTER_DOMAIN};
 fi
-
 
 function createContainer(){
     local REPO=${1}
@@ -56,9 +60,9 @@ function createContainer(){
 
     echo $'- Starting Controller Container '${REPO}' ...'
     if [ ${REPO} == "soajs.urac" ]; then
-        docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
+        docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "/etc/init.d/postfix start; cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy -L"
     else
-        docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy"
+        docker run -d ${ENV} -i -t --name ${REPO} --net=soajsnet ${IMAGE_PREFIX}/soajs bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T service -X deploy -L"
     fi
 }
 function program_is_installed(){
@@ -81,7 +85,7 @@ function dockerPrerequisites(){
         dmversion=$(docker-machine --version | sed -e 's/,//g' | awk '{ print $3 }')
         if [ $(versioncheck $dmversion) -lt $(versioncheck $minimumdockermachineversion) ]; then
            echo ""
-           echo "Docker-machine 0.6.0 or higher is required.  Please upgrade here:  https://github.com/docker/machine/releases"
+           echo "Docker-machine ${minimumdockermachineversion} or higher is required.  Please upgrade here:  https://github.com/docker/machine/releases"
            exit 1
         fi
     fi
@@ -111,7 +115,9 @@ function createDockerMachine(){
              --engine-opt="cluster-advertise=eth1:2376" \
              --rackspace-api-key $rkapikey \
              --rackspace-username $rkusername \
-             --rackspace-region IAD ${machineName}
+             --rackspace-region IAD \
+             --rackspace-flavor-id $RACKSPACEFLAVORID \
+             ${machineName}
         fi
     else
         echo $'\n ... to create a docker machine, a name must be provided!'
@@ -200,7 +206,12 @@ function start(){
         ENV=${ENV}' -e SOAJS_GIT_TOKEN='${SOAJS_GIT_TOKEN}
     fi
 
-    docker run -d -p 443:443 -p 80:80 ${ENV} --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"
+    local deployerExtra=""
+    if [ -n "${SOAJS_NX_SSL}" ] && [ "${SOAJS_NX_SSL}" == "true"  ]; then
+        deployerExtra=" -s"
+    fi
+
+    docker run -d -p 443:443 -p 80:80 ${ENV} --name ${NGINX_CONTAINER} --net=soajsnet ${IMAGE_PREFIX}/nginx bash -c "cd /opt/soajs/FILES/deployer/; ./soajsDeployer.sh -T nginx -X deploy"${deployerExtra}
 
     echo $'\n--------------------------'
 

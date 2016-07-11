@@ -64,10 +64,10 @@ var dashboard = {
                 },
                 "extraParam": {
                     "db": {
-                        "native_parser": true
+                        "native_parser": true,
+                        "bufferMaxEntries": 0
                     },
                     "server": {
-                        "auto_reconnect": true
                     }
                 }
             }

@@ -20,6 +20,7 @@ SOAJS_GIT_TOKEN | This is the GIT account token |  |
 ENV Variable | Description | Default | Example
 --- | ----- | :---: | ---
 SOAJS_NX_MASTER_DOMAIN | This is the master domain for dashboard | [soajs.org] | yourdomain.com
+SOAJS_NX_SSL | To turn on SSL support | [false] | 
 
 
 ## DASHBOARD Mongo profile
