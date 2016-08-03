@@ -30,12 +30,16 @@ ddb.users.ensureIndex({username: 1, 'tenant.id': 1});
 ddb.users.ensureIndex({status: 1});
 ddb.users.ensureIndex({locked: 1});
 ddb.users.ensureIndex({'tenant.id': 1});
+ddb.users.ensureIndex({_id: 1, status: 1});
+ddb.users.ensureIndex({_id: 1, locked: 1});
+
 
 //groups
-ddb.groups.ensureIndex({code: 1, 'tenant.id': 1});
+ddb.groups.ensureIndex({'tenant.id': 1, code: 1});
 ddb.groups.ensureIndex({code: 1});
 ddb.groups.ensureIndex({'tenant.id': 1});
 ddb.groups.ensureIndex({locked: 1});
+ddb.groups.ensureIndex({code: 1, tenant: 1});
 
 //tokens
 ddb.tokens.ensureIndex({token: 1}, { unique: true});
@@ -68,12 +72,15 @@ ddbT.users.ensureIndex({username: 1, 'tenant.id': 1});
 ddbT.users.ensureIndex({status: 1});
 ddbT.users.ensureIndex({locked: 1});
 ddbT.users.ensureIndex({'tenant.id': 1});
+ddbT.users.ensureIndex({_id: 1, status: 1});
+ddbT.users.ensureIndex({_id: 1, locked: 1});
 
 //groups
-ddbT.groups.ensureIndex({code: 1, 'tenant.id': 1});
+ddbT.groups.ensureIndex({'tenant.id': 1, code: 1});
 ddbT.groups.ensureIndex({code: 1});
 ddbT.groups.ensureIndex({'tenant.id': 1});
 ddbT.groups.ensureIndex({locked: 1});
+ddbT.groups.ensureIndex({code: 1, tenant: 1});
 
 //tokens
 ddbT.tokens.ensureIndex({token: 1}, { unique: true});
