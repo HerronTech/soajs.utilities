@@ -11,6 +11,8 @@ KEYSTORE_MACHINE="soajs-v-keystore"
 MASTER_MACHINE="soajs-swarm-master"
 DASH_MACHINE="soajs-dash"
 DEV_MACHINE="soajs-dev"
+OVERLAY_SUBNET="172.16.0.0/16"
+BRIDGE_SUBNET="172.30.0.0/16"
 INSTRUCT_MSG=$'\n\n-------------------------------------------------------------------------------------------'
 API_DOMAIN='dev-api.mydomain.com'
 ADDSERVER="false"
@@ -345,7 +347,7 @@ function findswarmmmaster(){
 
 # These two lines are not needed for next June release
     DASH_MACHINE="$swarmname$DASH_MACHINE"
-    DEV_MACHINE="$swarmname$DEV_MACHINE" 
+    DEV_MACHINE="$swarmname$DEV_MACHINE"
 }
 function setupComm(){
     dockerPrerequisites
@@ -393,7 +395,8 @@ function setupSwarmMaster(){
     echo $'\n .....'${machineName}' setup DONE'
 
     eval "$(docker-machine env --swarm ${machineName})"
-    docker network create --driver overlay soajsnet
+    docker network create --driver bridge --opt com.docker.network.bridge.enable_icc=false --subnet=${BRIDGE_SUBNET} docker_gwbridge
+    docker network create --driver overlay --subnet=${OVERLAY_SUBNET}  soajsnet
     echo $'\n .....Container Network setup DONE'
 }
 function welcome(){
@@ -441,7 +444,7 @@ function addanotherserver(){
          fi
        else
          echo ""
-         echo "Please enter a new name using only letters and no spaces (minimum 2 letters)" 
+         echo "Please enter a new name using only letters and no spaces (minimum 2 letters)"
        fi
       done
   ADDSERVER="true"
@@ -495,9 +498,9 @@ else
            DATA_CONTAINER="soajsDataDev"
         else
            DATA_CONTAINER="soajsData$removenametemp"
-        fi   
+        fi
         setupDevEnv $i
-       fi 
+       fi
       done
 fi
 }
@@ -520,7 +523,7 @@ function swarmnamechoice(){
             echo "Duplicate name found, choose another name"
          fi
        else
-         echo "Please enter a new name using only letters (minimum 2 letters)" 
+         echo "Please enter a new name using only letters (minimum 2 letters)"
        fi
     done
     swarmname="$swarmname-"
