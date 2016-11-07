@@ -1,7 +1,7 @@
 'use strict';
 
 //password = 654321
-var user3 = {
+var user6 = {
 	"_id": ObjectId("54ee1bf91856706c2363930a"),
 	"username": "user3",
 	"password": '$2a$04$IYQThNn52hRm/DfZdanbkO/iTL5ytuoGBy6hQJX03ZcqDSA0KFFNq',
@@ -13,8 +13,8 @@ var user3 = {
 	"profile": {},
 	"groups": ['gold', 'silver', 'customer'],
 	"tenant":{
-		"id": "54ee2150b7a669fc22b7f6b9",
-		"code": "TNT1"
+		"id": "10d2cb5fc04ce51e06000001",
+		"code": "test"
 	},
 	"config": {
 		"packages": {

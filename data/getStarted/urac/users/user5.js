@@ -1,5 +1,5 @@
 //password = 123456
-var user2 = {
+var user5 = {
 	"_id": ObjectId("54ee46e7a8643c4d10a61ba3"),
 	"username": "user2",
 	"password": '$2a$04$yn9yaxQysIeH2VCixdovJ.TLuOEjFjS5D2Otd7sO7uMkzi9bXX1tq',
@@ -11,8 +11,8 @@ var user2 = {
 	"profile": {},
 	"groups": ['silver'],
 	"tenant":{
-		"id": "54ee2150b7a669fc22b7f6b9",
-		"code": "TNT1"
+		"id": "10d2cb5fc04ce51e06000001",
+		"code": "test"
 	},
 	"config": {
 		"packages": {

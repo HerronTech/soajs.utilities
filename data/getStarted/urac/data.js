@@ -15,9 +15,9 @@ files.forEach(function(oneFile){
 	load(oneFile.name);
 });
 var records = [];
-records.push(user3);
-records.push(user2);
-records.push(user1);
+records.push(user4);
+records.push(user5);
+records.push(user6);
 ddb.users.insert(records);
 
 //users
@@ -58,8 +58,8 @@ files.forEach(function(oneFile){
 });
 records = [];
 records.push(user1);
-records.push(user3);
 records.push(user2);
+records.push(user3);
 ddbT.users.insert(records);
 
 //users
