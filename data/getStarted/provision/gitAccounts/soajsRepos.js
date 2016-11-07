@@ -17,15 +17,7 @@ var soajs_account = {
 			"type": "service"
 		},
 		{
-			"name": "soajs/soajs.prx",
-			"type": "service"
-		},
-		{
 			"name": "soajs/soajs.urac",
-			"type": "service"
-		},
-		{
-			"name": "soajs/soajs.gcs",
 			"type": "service"
 		}
 	]

@@ -87,16 +87,6 @@ records.push(testProduct);
 provDb.products.insert(records);
 
 /*
- Services
- */
-files = listFiles('./services');
-files.forEach(function(oneFile){
-	load(oneFile.name);
-});
-records = core_services;
-provDb.services.insert(records);
-
-/*
  Tenants
  */
 files = listFiles('./tenants');
@@ -105,23 +95,11 @@ files.forEach(function(oneFile){
 });
 records = [];
 records.push(dsbrd);
-records.push(client);
 records.push(tenant1);
 records.push(tenant2);
 records.push(tenant3);
 records.push(test);
 provDb.tenants.insert(records);
-
-/*
- GCS
- */
-files = listFiles('./gc');
-files.forEach(function(oneFile){
-	load(oneFile.name);
-});
-records = [];
-records.push(gc);
-provDb.gc.insert(records);
 
 /*
  Git Accounts
@@ -152,12 +130,7 @@ files.forEach(function(oneFile){
 	load(oneFile.name);
 });
 records = [];
-records.push(admin);
 records.push(owner);
-records.push(adminT1);
-records.push(adminT2);
-records.push(adminT3);
-records.push(testAdmin);
 ddb.users.insert(records);
 
 /*
@@ -169,11 +142,6 @@ files.forEach(function(oneFile){
 });
 records = [];
 records.push(owner);
-records.push(administrator);
-records.push(administratorT1);
-records.push(administratorT2);
-records.push(administratorT3);
-records.push(testAdministrator);
 ddb.groups.insert(records);
 
 //users
