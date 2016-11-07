@@ -34,43 +34,23 @@ dashboard.deployer.type = "manual";
 dev.deployer.type = "manual";
 if (internalDocker || internalMachine || cloudMachine) {
 	dashboard.deployer.type = "container";
-	dev.deployer.type = "container";
 	dashboard.dbs.clusters.dash_cluster.servers[0].host = internalMongoIP;
-	dev.dbs.clusters.dev_cluster.servers[0].host = internalDevMongoIP;
 
 	if (internalDocker) {
 		dashboard.deployer.selected = "container.docker.socket";
-		dev.deployer.selected = "container.docker.socket";
 	}
 	if (internalMachine) {
 		dashboard.deployer.selected = "container.dockermachine.local";
-		dev.deployer.selected = "container.dockermachine.local";
 		dashboard.deployer.container.dockermachine.local.host = internalMongoIP;
-		dev.deployer.container.dockermachine.local.host = internalDevMongoIP;
 	}
 	if (cloudMachine) {
 		dashboard.deployer.selected = "container.dockermachine.cloud.rackspace";
-		dev.deployer.selected = "container.dockermachine.cloud.rackspace";
 		dashboard.deployer.container.dockermachine.cloud.rackspace.host = internalMongoIP;
-		dev.deployer.container.dockermachine.cloud.rackspace.host = internalDevMongoIP;
 	}
 }
 
-records.push(dev);
 records.push(dashboard);
 provDb.environment.insert(records);
-
-/*
-    oauth urac
- */
-files = listFiles('./oauth_urac');
-files.forEach(function(oneFile){
-	load(oneFile.name);
-});
-records = [];
-records.push(oauthuser);
-records.push(oauth_user_tenant1);
-provDb.oauth_urac.insert(records);
 
 /*
  Products
@@ -81,20 +61,7 @@ files.forEach(function(oneFile){
 });
 records = [];
 records.push(dsbrdProduct);
-records.push(client);
-records.push(product1);
-records.push(testProduct);
 provDb.products.insert(records);
-
-/*
- Services
- */
-files = listFiles('./services');
-files.forEach(function(oneFile){
-	load(oneFile.name);
-});
-records = core_services;
-provDb.services.insert(records);
 
 /*
  Tenants
@@ -105,23 +72,7 @@ files.forEach(function(oneFile){
 });
 records = [];
 records.push(dsbrd);
-records.push(client);
-records.push(tenant1);
-records.push(tenant2);
-records.push(tenant3);
-records.push(test);
 provDb.tenants.insert(records);
-
-/*
- GCS
- */
-files = listFiles('./gc');
-files.forEach(function(oneFile){
-	load(oneFile.name);
-});
-records = [];
-records.push(gc);
-provDb.gc.insert(records);
 
 /*
  Git Accounts
@@ -152,12 +103,7 @@ files.forEach(function(oneFile){
 	load(oneFile.name);
 });
 records = [];
-records.push(admin);
 records.push(owner);
-records.push(adminT1);
-records.push(adminT2);
-records.push(adminT3);
-records.push(testAdmin);
 ddb.users.insert(records);
 
 /*
@@ -169,11 +115,6 @@ files.forEach(function(oneFile){
 });
 records = [];
 records.push(owner);
-records.push(administrator);
-records.push(administratorT1);
-records.push(administratorT2);
-records.push(administratorT3);
-records.push(testAdministrator);
 ddb.groups.insert(records);
 
 //users
