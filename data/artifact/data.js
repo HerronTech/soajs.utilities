@@ -3,87 +3,80 @@
 * DASHBOARD CORE_PROVISION
 *
 ***************************************************************/
-
-var provDb = db.getSiblingDB('core_provision');
-provDb.dropDatabase();
+var mongo = db.getSiblingDB('core_provision');
+mongo.dropDatabase();
 
 /*
  DASHBOARD EXT KEYS
  */
-var files = listFiles('./extKeys');
+var files = listFiles('./provision/extKeys');
 files.forEach(function(oneFile){
 	load(oneFile.name);
 });
 var records = extKeys;
-provDb.dashboard_extKeys.insert(records);
+mongo.dashboard_extKeys.insert(records);
 
 /*
  Environments
  */
-files = listFiles('./environments');
+files = listFiles('./provision/environments');
 files.forEach(function(oneFile){
 	load(oneFile.name);
 });
-var internalMachine = this.machine || null;
-var cloudMachine = this.cloudmachine || null;
-var internalDocker = this.docker || null;
-var internalMongoIP = this.mongoIP || "127.0.0.1";
-var internalDevMongoIP = this.devMongoIP || "127.0.0.1";
+
 records = [];
-dashboard.deployer.type = "manual";
-dev.deployer.type = "manual";
-if (internalDocker || internalMachine || cloudMachine) {
-	dashboard.deployer.type = "container";
-	dashboard.dbs.clusters.dash_cluster.servers[0].host = internalMongoIP;
-
-	if (internalDocker) {
-		dashboard.deployer.selected = "container.docker.socket";
-	}
-	if (internalMachine) {
-		dashboard.deployer.selected = "container.dockermachine.local";
-		dashboard.deployer.container.dockermachine.local.host = internalMongoIP;
-	}
-	if (cloudMachine) {
-		dashboard.deployer.selected = "container.dockermachine.cloud.rackspace";
-		dashboard.deployer.container.dockermachine.cloud.rackspace.host = internalMongoIP;
-	}
-}
-
 records.push(dashboard);
-provDb.environment.insert(records);
+mongo.environment.insert(records);
+var updateDocument = {
+	"dbs.clusters.dash_cluster.servers" : [
+		{
+			"host": this.mongoIp,
+			"port": this.mongoPort
+		}
+	]
+};
+
+if(this.mongoUser && this.mongoUser !== "" && this.mongoPwd && this.mongoPwd !== "" && this.mongoAuth && this.mongoAuth !== ""){
+	updateDocument['dbs.clusters.dash_cluster.credentials'] = {
+		username: this.mongoUser,
+		password: this.mongoPwd
+	};
+	updateDocument['dbs.clusters.dash_cluster.URLParam.authSource']= this.mongoAuth;
+}
+mongo.environment.update({"code": "DASHBOARD"}, {$set: updateDocument });
 
 /*
  Products
  */
-files = listFiles('./products');
+files = listFiles('./provision/products');
 files.forEach(function(oneFile){
 	load(oneFile.name);
 });
 records = [];
 records.push(dsbrdProduct);
-provDb.products.insert(records);
+mongo.products.insert(records);
 
 /*
  Tenants
  */
-files = listFiles('./tenants');
+files = listFiles('./provision/tenants');
 files.forEach(function(oneFile){
 	load(oneFile.name);
 });
 records = [];
 records.push(dsbrd);
-provDb.tenants.insert(records);
+mongo.tenants.insert(records);
 
 /*
  Git Accounts
  */
-files = listFiles('./gitAccounts');
+files = listFiles('./provision/gitAccounts');
 files.forEach(function(oneFile){
 	load(oneFile.name);
 });
 records = [];
 records.push(soajs_account);
-provDb.git_accounts.insert(records);
+mongo.git_accounts.insert(records);
 
 
 /***************************************************************
@@ -98,7 +91,7 @@ ddb.dropDatabase();
 /*
  Users
  */
-files = listFiles('./urac/users');
+files = listFiles('./provision/urac/users');
 files.forEach(function(oneFile){
 	load(oneFile.name);
 });
@@ -109,7 +102,7 @@ ddb.users.insert(records);
 /*
  Groups
  */
-files = listFiles('./urac/groups');
+files = listFiles('./provision/urac/groups');
 files.forEach(function(oneFile){
 	load(oneFile.name);
 });

@@ -15,7 +15,13 @@
   "engines": {
     "node": "*"
   },
+  "devDependencies": {
+    "async": "*",
+    "shelljs": "*",
+    "stdio": "*",
+    "child_process": "*"
+  },
   "dependencies": {
-    "shelljs": "*"
+    "soajs": "*"
   }
 }
