@@ -9,35 +9,14 @@ var dev = {
     "description": "this is the DEV environment",
     "deployer": {
         "type": "container",
-        "selected": "container.dockermachine.local",
+        "selected": "container.docker.local",
         "container": {
-            "dockermachine": {
-                "local": {
-                    "host": "192.168.99.101",
-                    "port": 2376,
-                    "config": {
-                        "HostConfig": {
-                            "NetworkMode": "soajsnet"
-                        },
-                        "MachineName": "soajs-dev"
-                    }
-                },
-                "cloud": {
-                    "rackspace": {
-                        "host": "docker.rackspace.com",
-                        "port": 2376,
-                        "config": {
-                            "HostConfig": {
-                                "NetworkMode": "soajsnet"
-                            },
-                            "MachineName": "soajs-dev"
-                        }
-                    }
-                }
-            },
             "docker": {
-                "socket": {
+                "local": {
                     "socketPath": "/var/run/docker.sock"
+                },
+                "remote": {
+                    "nodes": []
                 }
             }
         }

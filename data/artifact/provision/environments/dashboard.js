@@ -10,35 +10,14 @@ var dashboard = {
     "profile": "/opt/soajs/FILES/profiles/profile.js",
     "deployer": {
         "type": "container",
-        "selected": "container.dockermachine.local",
+        "selected": "container.docker.local",
         "container": {
-            "dockermachine": {
-                "local": {
-                    "host": "192.168.99.101",
-                    "port": 2376,
-                    "config": {
-                        "HostConfig": {
-                            "NetworkMode": "soajsnet"
-                        },
-                        "MachineName": "soajs-dash"
-                    }
-                },
-                "cloud": {
-                    "rackspace": {
-                        "host": "docker.rackspace.com",
-                        "port": 2376,
-                        "config": {
-                            "HostConfig": {
-                                "NetworkMode": "soajsnet"
-                            },
-                            "MachineName": "soajs-dash"
-                        }
-                    }
-                }
-            },
             "docker": {
-                "socket": {
+                "local": {
                     "socketPath": "/var/run/docker.sock"
+                },
+                "remote": {
+                    "nodes": []
                 }
             }
         }
