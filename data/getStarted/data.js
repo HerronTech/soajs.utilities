@@ -4,7 +4,7 @@
  *
  ***************************************************************/
 
-var provDb = db.getSiblingDB('core_provision');
+var provDb = db.getSiblingDB('getStarted_core_provision');
 provDb.dropDatabase();
 
 /*
@@ -123,7 +123,7 @@ provDb.git_accounts.insert(records);
  *
  ***************************************************************/
 
-var ddb = db.getSiblingDB('DBTN_urac');
+var ddb = db.getSiblingDB('getStarted_DBTN_urac');
 ddb.dropDatabase();
 
 /*

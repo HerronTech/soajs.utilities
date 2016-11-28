@@ -51,7 +51,7 @@ var dashboard = {
             }
         },
         "config": {
-            "prefix": "",
+            "prefix": "jsconf_",
             "session": {
                 "cluster": "dash_cluster",
                 "name": "core_session",

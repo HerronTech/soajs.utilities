@@ -49,7 +49,7 @@ var dev = {
             }
         },
         "config": {
-            "prefix": "",
+            "prefix": "getStarted_",
             "session": {
                 "cluster": "dev_cluster",
                 "name": "core_session",

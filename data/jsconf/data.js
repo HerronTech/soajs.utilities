@@ -1,4 +1,4 @@
-var provDb = db.getSiblingDB('core_provision');
+var provDb = db.getSiblingDB('jsconf_core_provision');
 provDb.dropDatabase();
 
 /*
