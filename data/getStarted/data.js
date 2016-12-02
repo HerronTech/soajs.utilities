@@ -3,8 +3,8 @@
  * DASHBOARD CORE_PROVISION
  *
  ***************************************************************/
-
-var provDb = db.getSiblingDB('getStarted_core_provision');
+var prefix = "getStarted_";
+var provDb = db.getSiblingDB(this.prefix + 'core_provision');
 provDb.dropDatabase();
 
 /*
@@ -103,6 +103,7 @@ records.push(dsbrd);
 records.push(tenant1);
 records.push(tenant2);
 records.push(tenant3);
+records.push(test);
 provDb.tenants.insert(records);
 
 /*
@@ -123,7 +124,7 @@ provDb.git_accounts.insert(records);
  *
  ***************************************************************/
 
-var ddb = db.getSiblingDB('getStarted_DBTN_urac');
+var ddb = db.getSiblingDB(this.prefix + 'DBTN_urac');
 ddb.dropDatabase();
 
 /*
@@ -176,7 +177,7 @@ ddb.tokens.ensureIndex({token: 1, service: 1, status: 1});
  *
  ***************************************************************/
 
-var ddb = db.getSiblingDB('test_urac');
+var ddb = db.getSiblingDB(this.prefix + 'test_urac');
 ddb.dropDatabase();
 
 /*
@@ -218,7 +219,7 @@ ddb.tokens.ensureIndex({token: 1}, { unique: true});
 ddb.tokens.ensureIndex({userId: 1, service: 1, status: 1});
 ddb.tokens.ensureIndex({token: 1, service: 1, status: 1});
 
-var ddbT = db.getSiblingDB('TNT1_urac');
+var ddbT = db.getSiblingDB(this.prefix + 'TNT1_urac');
 ddbT.dropDatabase();
 
 /*

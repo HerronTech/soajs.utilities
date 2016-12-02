@@ -11,7 +11,7 @@ var config = {
     "authSource": "",
     "host": "127.0.0.1",
     "port": 27017,
-    "file": "",
+    "file": ""
 };
 
 var lib = {
@@ -82,12 +82,13 @@ var lib = {
                 var execString = "cd " + config.file + " && mongo --host " + config.host + ":" + config.port;
                 if(config.authSource && config.username && config.password)
                     execString += " -u " + config.username + " -p " + config.password + " --authenticationDatabase " + config.authSource;
-                execString += " data-tmp.js"
+                execString += " data-tmp.js";
 
                 exec(execString, function(err, res){
                     if (err) {
                         return cb(err);
                     }
+                    cb();
                 });
             });
         //});
@@ -100,7 +101,7 @@ var ops = stdio.getopt({
     "host" : {key: "h", args: 1, description: "Host (Default 127.0.0.1)", mandatory: false},
     "password": {key: "w", args: 1, description: "Github Password (Default null)", mandatory: false},
     "port": {key: "p", args: 1, description: "Port number (Default 27017)", mandatory: false},
-    "username": {key: "u", args: 1, description: "Database Username (Default null)", mandatory: false},
+    "username": {key: "u", args: 1, description: "Database Username (Default null)", mandatory: false}
 });
 
 lib.fillVariables(config, ops, function(err, result){
@@ -115,8 +116,9 @@ lib.fillVariables(config, ops, function(err, result){
                 if(error){
                     throw new Error(error);
                 }
-                else
-                    console.log("Data import is Successfully Done");
+                else {
+	                console.log("Data import is Successfully Done");
+                }
             });
         });
     }

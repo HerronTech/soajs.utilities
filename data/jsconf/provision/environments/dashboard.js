@@ -7,7 +7,7 @@ var dashboard = {
     "apiPrefix": "dashboard-api",
     "locked": true,
     "port": 80,
-    "profile": "/opt/soajs/FILES/profiles/profile.js",
+    "profile": "/opt/soajs/node_modules/soajs.utilities/data/jsconf/profile.js",
     "deployer": {
         "type": "container",
         "selected": "container.docker.local",

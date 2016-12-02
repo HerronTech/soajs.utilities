@@ -5,7 +5,7 @@ var dev = {
     "sitePrefix": "dev",
     "apiPrefix": "dev-api",
     "port": 80,
-    "profile": "/opt/soajs/FILES/profiles/profile.js",
+    "profile": "/opt/soajs/node_modules/soajs.utilities/data/getStarted/profile.js",
     "description": "this is the DEV environment",
     "deployer": {
         "type": "container",

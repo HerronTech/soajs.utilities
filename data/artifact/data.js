@@ -26,6 +26,7 @@ files.forEach(function(oneFile){
 
 records = [];
 records.push(dashboard);
+records.push(dev);
 mongo.environment.insert(records);
 var updateDocument = {
 	"dbs.clusters.dash_cluster.servers" : [
