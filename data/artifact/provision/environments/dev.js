@@ -63,15 +63,15 @@ var dev = {
 		
 		"databases": {
 			"urac": {
-				"cluster": "dash_cluster",
+				"cluster": "dev_cluster",
 				"tenantSpecific": true
 			},
 			"myContacts": {
-				"cluster": "dash_cluster",
+				"cluster": "dev_cluster",
 				"tenantSpecific": false
 			},
 			"mtContacts": {
-				"cluster": "dash_cluster",
+				"cluster": "dev_cluster",
 				"tenantSpecific": true
 			},
 		}
