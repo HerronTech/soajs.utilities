@@ -22,6 +22,7 @@
     "child_process": "*"
   },
   "dependencies": {
+    "stdio": "*",
     "soajs": "*"
   }
 }
