@@ -3,7 +3,7 @@
 * DASHBOARD CORE_PROVISION
 *
 ***************************************************************/
-var mongo = db.getSiblingDB('core_provision');
+var mongo = db.getSiblingDB('artifact_core_provision');
 mongo.dropDatabase();
 
 /*
@@ -26,6 +26,7 @@ files.forEach(function(oneFile){
 
 records = [];
 records.push(dashboard);
+records.push(dev);
 mongo.environment.insert(records);
 var updateDocument = {
 	"dbs.clusters.dash_cluster.servers" : [
@@ -85,7 +86,7 @@ mongo.git_accounts.insert(records);
  *
  ***************************************************************/
 
-var ddb = db.getSiblingDB('DBTN_urac');
+var ddb = db.getSiblingDB('artifact_DBTN_urac');
 ddb.dropDatabase();
 
 /*
