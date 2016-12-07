@@ -81,8 +81,8 @@ var lib = {
 			writeStream.end();
 				
 			//wait 500 ms to ensure file write.end is done
-			var out = fs.openSync(__dirname + "/" + ops.file +  "-" + ops.prefix + "-out.log", "w");
-			var err = fs.openSync(__dirname + "/" + ops.file +  "-" + ops.prefix + "-err.log", "w");
+			var out = fs.openSync(__dirname + "/" + ops.file +  "-" + ( ops.prefix || "" ) + "-out.log", "w");
+			var err = fs.openSync(__dirname + "/" + ops.file +  "-" + ( ops.prefix || "" ) + "-err.log", "w");
 			
 			setTimeout(function () {
 				var child = spawn("node", ["dataTmp.js"], {
