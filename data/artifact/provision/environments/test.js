@@ -1,31 +1,21 @@
 'use strict';
-var dev = {
+var test = {
 	
-	"code": "DEV",
+	"code": "TEST",
 	"domain": "mydomain.com",
-	"sitePrefix": "dev",
-	"apiPrefix": "dev-api",
+	"sitePrefix": "test",
+	"apiPrefix": "test-api",
 	"port": 80,
-	"profile": "/opt/soajs/node_modules/soajs.utilities/data/artifact/profile.js",
-	"description": "this is the DEV environment",
+	"profile": __dirname + "/soajs.utilities/data/artifact/profile.js",
+	"description": "this is the TEST environment",
 	"deployer": {
-		"type": "container",
-		"selected": "container.docker.local",
-		"container": {
-			"docker": {
-				"local": {
-					"socketPath": "/var/run/docker.sock"
-				},
-				"remote": {
-					"nodes": []
-				}
-			}
-		}
+		"type": "manual",
+		"selected": "manual"
 	},
 	
 	"dbs": {
 		"clusters": {
-			"dev_cluster": {
+			"test_cluster": {
 				"servers": [
 					{
 						"host": "127.0.0.1",
@@ -52,7 +42,7 @@ var dev = {
 		"config": {
 			"prefix": "artifact_",
 			"session": {
-				"cluster": "dev_cluster",
+				"cluster": "test_cluster",
 				"name": "core_session",
 				'store': {},
 				"collection": "sessions",
@@ -63,15 +53,15 @@ var dev = {
 		
 		"databases": {
 			"urac": {
-				"cluster": "dev_cluster",
+				"cluster": "test_cluster",
 				"tenantSpecific": true
 			},
 			"myContacts": {
-				"cluster": "dev_cluster",
+				"cluster": "test_cluster",
 				"tenantSpecific": false
 			},
 			"mtContacts": {
-				"cluster": "dev_cluster",
+				"cluster": "test_cluster",
 				"tenantSpecific": true
 			},
 		}
@@ -136,3 +126,5 @@ var dev = {
 		}
 	}
 };
+
+module.exports = test;

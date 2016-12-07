@@ -3,132 +3,75 @@
 * DASHBOARD CORE_PROVISION
 *
 ***************************************************************/
-var mongo = db.getSiblingDB('artifact_core_provision');
-mongo.dropDatabase();
-
-/*
- DASHBOARD EXT KEYS
- */
-var files = listFiles('./provision/extKeys');
-files.forEach(function(oneFile){
-	load(oneFile.name);
-});
-var records = extKeys;
-mongo.dashboard_extKeys.insert(records);
+var soajs = require("soajs");
+var mongo = new soajs.mongo(dbconfig);
 
 /*
  Environments
  */
-files = listFiles('./provision/environments');
-files.forEach(function(oneFile){
-	load(oneFile.name);
-});
+//todo:
+/*
+	abel ma ta3mil insert,
+	
+	check iza fi dashboard environment.
+	
+	if yes, load the record and clone the following variables to the test environment then insert it:
+	- profile
+    - deployer
+    - dbs.clusters.test_cluster = dashboard.dbs.clusters.dash_cluster
+	- dbs.config.prefix
+	- services.config.cookie.secret
+	- services.config.session.secret
+ */
+var test_env = require("./provision/environments/test");
 
-records = [];
-records.push(dashboard);
-records.push(dev);
-mongo.environment.insert(records);
-var updateDocument = {
-	"dbs.clusters.dash_cluster.servers" : [
-		{
-			"host": this.mongoIp,
-			"port": this.mongoPort
+mongo.findOne("environment", {"code": "DASHBOARD"}, function (err, result){
+	if(err){
+		console.log(err);
+		process.exit();
+	}
+	if(result){
+		test_env.profile = result.profile;
+		test_env.deployer = result.deployer;
+		test_env.dbs.clusters.test_cluster = result.dbs.clusters.dash_cluster;
+		test_env.dbs.config.prefix = result.dbs.config.prefix;
+		test_env.services.config.cookie.secret = result.config.cookie.secret;
+		test_env.services.config.session.secret = result.config.session.secret;
+		
+		mongo.update("environment", {}, test_env, {upsert:true},{}, function(err){
+			if (err){
+				console.log(err);
+				process.exit();
+			}
+			else {
+				console.log("dashboard environment detected, test environment updated with with following config from dashboard environment before inserting: profile, deployer, " +
+					"dbs.clusters.dash_cluster, dbs.config.prefix, services.config.cookie.secret, and services.config.session.secret");
+			}
+		});
+	}
+	else {
+		mongo.update("environment",{}, test_env, {upsert:true},{}, function(err){
+			if (err){
+			console.log(err);
+			process.exit();
 		}
-	]
-};
-
-if(this.mongoUser && this.mongoUser !== "" && this.mongoPwd && this.mongoPwd !== "" && this.mongoAuth && this.mongoAuth !== ""){
-	updateDocument['dbs.clusters.dash_cluster.credentials'] = {
-		username: this.mongoUser,
-		password: this.mongoPwd
-	};
-	updateDocument['dbs.clusters.dash_cluster.URLParam.authSource']= this.mongoAuth;
-}
-mongo.environment.update({"code": "DASHBOARD"}, {$set: updateDocument });
-
-/*
- Products
- */
-files = listFiles('./provision/products');
-files.forEach(function(oneFile){
-	load(oneFile.name);
+		else {
+			console.log("test environment inserted");
+		}
+	});
+	}
 });
-records = [];
-records.push(dsbrdProduct);
-mongo.products.insert(records);
-
-/*
- Tenants
- */
-files = listFiles('./provision/tenants');
-files.forEach(function(oneFile){
-	load(oneFile.name);
-});
-records = [];
-records.push(dsbrd);
-mongo.tenants.insert(records);
 
 /*
  Git Accounts
  */
-files = listFiles('./provision/gitAccounts');
-files.forEach(function(oneFile){
-	load(oneFile.name);
+var records = require('./provision/gitAccounts/soajsRepos');
+mongo.update("git_accounts", records,{}, {upsert:true},{},function(err){
+	if (err){
+		console.log(err);
+		process.exit();
+	}
+	else {
+		console.log("git accounts inserted");
+	}
 });
-records = [];
-records.push(soajs_account);
-mongo.git_accounts.insert(records);
-
-
-/***************************************************************
- *
- * DASHBOARD URAC
- *
- ***************************************************************/
-
-var ddb = db.getSiblingDB('artifact_DBTN_urac');
-ddb.dropDatabase();
-
-/*
- Users
- */
-files = listFiles('./provision/urac/users');
-files.forEach(function(oneFile){
-	load(oneFile.name);
-});
-records = [];
-records.push(owner);
-ddb.users.insert(records);
-
-/*
- Groups
- */
-files = listFiles('./provision/urac/groups');
-files.forEach(function(oneFile){
-	load(oneFile.name);
-});
-records = [];
-records.push(owner);
-ddb.groups.insert(records);
-
-//users
-ddb.users.ensureIndex({username: 1}, { unique: true });
-ddb.users.ensureIndex({email: 1}, { unique: true });
-ddb.users.ensureIndex({username: 1, status: 1});
-ddb.users.ensureIndex({email: 1, status: 1});
-ddb.users.ensureIndex({groups: 1, 'tenant.id': 1});
-ddb.users.ensureIndex({username: 1, 'tenant.id': 1});
-ddb.users.ensureIndex({status: 1});
-ddb.users.ensureIndex({locked: 1});
-ddb.users.ensureIndex({'tenant.id': 1});
-
-//groups
-ddb.groups.ensureIndex({code: 1, 'tenant.id': 1});
-ddb.groups.ensureIndex({code: 1});
-ddb.groups.ensureIndex({'tenant.id': 1});
-ddb.groups.ensureIndex({locked: 1});
-
-//tokens
-ddb.tokens.ensureIndex({token: 1}, { unique: true});
-ddb.tokens.ensureIndex({userId: 1, service: 1, status: 1});
-ddb.tokens.ensureIndex({token: 1, service: 1, status: 1});
