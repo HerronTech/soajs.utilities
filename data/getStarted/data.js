@@ -7,7 +7,7 @@ var soajs = require("soajs");
 var async = require("async");
 var mongo = new soajs.mongo(dbconfig);
 
-var addEnv = function (cb) {
+function addEnv(cb) {
 	var test_env = require('./provision/environments/test.js');
 	
 	mongo.findOne("environment", {"code": "DASHBOARD"}, function (err, result) {
@@ -19,8 +19,8 @@ var addEnv = function (cb) {
 			test_env.deployer = result.deployer;
 			test_env.dbs.clusters.test_cluster = result.dbs.clusters.dash_cluster;
 			test_env.dbs.config.prefix = dbconfig.prefix;
-			test_env.services.config.cookie.secret = result.config.cookie.secret;
-			test_env.services.config.session.secret = result.config.session.secret;
+			test_env.services.config.cookie.secret = result.services.config.cookie.secret;
+			test_env.services.config.session.secret = result.services.config.session.secret;
 			delete test_env.code;
 			mongo.update("environment", {"code": "TEST"}, {$set: test_env}, {
 				upsert: true,
@@ -30,6 +30,7 @@ var addEnv = function (cb) {
 		}
 		else {
 			test_env.dbs.config.prefix = dbconfig.prefix;
+			test_env.profile = __dirname + test_env.profile;
 			delete test_env.code;
 			mongo.update("environment", {"code": "TEST"}, {$set: test_env}, {
 				upsert: true,
@@ -38,143 +39,101 @@ var addEnv = function (cb) {
 			}, cb);
 		}
 	});
-};
+}
 
-var addOauth = function (cb) {
+function addOauth(cb) {
 	var oauth = require('./provision/oauth_urac/oauth_user_tenant1');
 	var oauth2 = require('./provision/oauth_urac/oauthuser');
+	var records = [oauth, oauth2];
 	
-	oauth._id = new mongo.ObjectId(oauth._id);
-	oauth2._id = new mongo.ObjectId(oauth2._id);
-	
-	oauth.tId = new mongo.ObjectId(oauth.tId);
-	oauth2.tId = new mongo.ObjectId(oauth2.tId);
-	
-	records = [];
-	records.push(oauth);
-	records.push(oauth2);
-	mongo.update("oauth_urac", {"userId": "oauthuser_tenant1"}, {$set: records[0]}, {
-		upsert: true,
-		multi: false,
-		safe: true
-	}, function (err, res) {
-		if (err) {
-			return cb(err);
-		}
-		
-		mongo.update("oauth_urac", {"userId": "oauthuser"}, {$set: records[1]}, {
+	async.each(records, function(oneUser, mcb){
+		oneUser._id = new mongo.ObjectId(oneUser._id);
+		oneUser.tId = new mongo.ObjectId(oneUser.tId);
+		mongo.update("oauth_urac", {"userId": oneUser.userId}, {$set: oneUser}, {
 			upsert: true,
 			multi: false,
 			safe: true
-		}, cb)
-	});
-};
+		}, mcb);
+	}, cb);
+}
 
-var addProduct = function (cb) {
+function addProduct(cb) {
 	var product1 = require('./provision/products/product1');
 	var testProduct = require('./provision/products/testProduct');
+	var records = [product1, testProduct];
 	
-	product1._id = new mongo.ObjectId(product1._id);
-	testProduct._id = new mongo.ObjectId(testProduct._id);
-	
-	records = [];
-	records.push(product1);
-	records.push(testProduct);
-	mongo.update("products", {"code": "PROD1"}, {$set: records[0]}, {
-		upsert: true,
-		multi: false,
-		safe: true
-	}, function (err, res) {
-		if (err) {
-			return cb(err);
-		}
-		
-		mongo.update("products", {"code": "TRPOD"}, {$set: records[1]}, {upsert: true, multi: false, safe: true}, cb)
-	});
-};
+	async.each(records, function(oneProduct, mcb){
+		oneProduct._id = new mongo.ObjectId(oneProduct._id);
+		mongo.update("products", {"code": oneProduct.code}, {$set: oneProduct}, {
+			upsert: true,
+			multi: false,
+			safe: true
+		}, mcb);
+	}, cb);
+}
 
-var addTenants = function (cb) {
+function addTenants(cb) {
 	var tenant1 = require('./provision/tenants/tenant1');
 	var tenant2 = require('./provision/tenants/tenant2');
 	var tenant3 = require('./provision/tenants/tenant3');
 	var test = require('./provision/tenants/test');
+	var records = [tenant1, tenant2, tenant3, test];
 	
-	tenant1._id = new mongo.ObjectId(tenant1._id);
-	tenant2._id = new mongo.ObjectId(tenant2._id);
-	tenant3._id = new mongo.ObjectId(tenant3._id);
-	test._id = new mongo.ObjectId(test._id);
-	
-	tenant1.applications.forEach(function (oneApp) {
-		oneApp.appId = new mongo.ObjectId(oneApp.appId.toString());
-	});
-	
-	tenant2.applications.forEach(function (oneApp) {
-		oneApp.appId = new mongo.ObjectId(oneApp.appId.toString());
-	});
-	
-	tenant3.applications.forEach(function (oneApp) {
-		oneApp.appId = new mongo.ObjectId(oneApp.appId.toString());
-	});
-	
-	test.applications.forEach(function (oneApp) {
-		oneApp.appId = new mongo.ObjectId(oneApp.appId.toString());
-	});
-	
-	var records = [];
-	records.push(tenant1);
-	records.push(tenant2);
-	records.push(tenant3);
-	records.push(test);
-	
-	mongo.update("tenants", {"code": "TNT1"}, {$set: records[0]}, {
-		upsert: true,
-		multi: false,
-		safe: true
-	}, function (err1, res1) {
-		if (err1) {
-			return cb(err1);
-		}
+	async.each(records, function(oneTenant, mcb){
+		oneTenant._id = new mongo.ObjectId(oneTenant._id);
+		oneTenant.applications.forEach(function (oneApp) {
+			oneApp.appId = new mongo.ObjectId(oneApp.appId.toString());
+		});
 		
-		mongo.update("tenants", {"code": "TNT2"}, {$set: records[1]}, {
+		mongo.update("tenants", {"code": oneTenant.code }, {$set: oneTenant}, {
 			upsert: true,
 			multi: false,
 			safe: true
-		}, function (err2, res2) {
-			if (err2) {
-				return cb(err2);
-			}
-			mongo.update("tenants", {"code": "TNT3"}, {$set: records[2]}, {
-				upsert: true,
-				multi: false,
-				safe: true
-			}, function (err3, res3) {
-				if (err3) {
-					return cb(err3)
-				}
-				mongo.update("tenants", {"code": "test"}, {$set: records[3]}, {
-					upsert: true,
-					multi: false,
-					safe: true
-				}, cb)
-			});
-		});
-	});
-};
+		}, mcb);
+	}, cb);
+}
 
-var addGit = function (cb) {
+function addGit(cb) {
 	var git = require('./provision/gitAccounts/soajsRepos');
-	mongo.update("git_accounts", {"code": "TEST"}, {$set: git}, {upsert: true, multi: false, safe: true}, cb);
-};
+	var condition = {
+		"owner": git.owner,
+		"provider": git.provider,
+		"type": git.type,
+		"access": git.access
+	};
+	mongo.findOne("git_accounts", condition, function(error, record){
+		if(error){
+			return cb(error);
+		}
+		if(!record){
+			mongo.insert('git_accounts', git, cb);
+		}
+		else{
+			var list = [];
+			git.repos.forEach(function(oneGitRepo){
+				
+				var found = false;
+				for(var i =0; i < record.repos.length; i++){
+					if(oneGitRepo.type === record.repos[i].type && oneGitRepo.name === record.repos[i].name){
+						found = true;
+						break;
+					}
+				}
+				if(!found){
+					record.repos.push(oneGitRepo);
+				}
+				
+			});
+			mongo.save('git_accounts', record, cb);
+		}
+	});
+}
 
-var addUsers = function (opts, cb) {
+function addUsers(opts, cb) {
 	var mongo = opts.mongo;
 	var user4 = require(opts.users.user1);
 	var user5 = require(opts.users.user2);
 	var user6 = require(opts.users.user3);
-	
-	user4._id = new mongo.ObjectId(user4._id);
-	user5._id = new mongo.ObjectId(user5._id);
-	user6._id = new mongo.ObjectId(user6._id);
 	
 	var records = [user4, user5, user6];
 	var indexes = [
@@ -326,6 +285,7 @@ var addUsers = function (opts, cb) {
 	
 	
 	function updateUser(record, mcb) {
+		record._id = new mongo.ObjectId(record._id);
 		mongo.update("users", {"username": record.username}, {$set: record}, {
 			upsert: true,
 			multi: false,
@@ -341,75 +301,51 @@ var addUsers = function (opts, cb) {
 			mongo.ensureIndex(oneObj.coll, oneObj.index, mcb);
 		}
 	}
-};
+}
 
-addEnv(function (error) {
-	if (error) {
+async.series([addEnv, addOauth, addProduct, addTenants, addGit], function(error){
+	if(error){
 		throw error;
 	}
 	
-	addOauth(function (error) {
+	mongo.closeDb();
+	var dbconfig2 = dbconfig;
+	dbconfig2.name = 'test_urac';
+	mongo = new soajs.mongo(dbconfig2);
+	
+	var opts = {
+		"mongo": mongo,
+		"users": {
+			"user1": "./urac/users/user4",
+			"user2": "./urac/users/user5",
+			"user3": "./urac/users/user6"
+		}
+	};
+	
+	addUsers(opts, function (error) {
 		if (error) {
 			throw error;
 		}
+		mongo.closeDb();
 		
-		addProduct(function (error) {
+		dbconfig.name = 'TNT1_urac';
+		mongo = new soajs.mongo(dbconfig);
+		
+		var opts = {
+			"mongo": mongo,
+			"users": {
+				"user1": "./urac/users/user1",
+				"user2": "./urac/users/user2",
+				"user3": "./urac/users/user3"
+			}
+		};
+		addUsers(opts, function (error) {
 			if (error) {
 				throw error;
 			}
-			
-			addTenants(function (error) {
-				if (error) {
-					throw error;
-				}
-				
-				addGit(function (error) {
-					if (error) {
-						throw error;
-					}
-					
-					mongo.closeDb();
-					var dbconfig2 = dbconfig;
-					dbconfig2.name = 'test_urac';
-					mongo = new soajs.mongo(dbconfig2);
-					
-					var opts = {
-						"mongo": mongo,
-						"users": {
-							"user1": "./urac/users/user4",
-							"user2": "./urac/users/user5",
-							"user3": "./urac/users/user6"
-						}
-					};
-					
-					addUsers(opts, function (error) {
-						if (error) {
-							throw error;
-						}
-						mongo.closeDb();
-						var dbconfig3 = dbconfig;
-						dbconfig3.name = 'TNT1_urac';
-						mongo = new soajs.mongo(dbconfig3);
-						
-						var opts = {
-							"mongo": mongo,
-							"users": {
-								"user1": "./urac/users/user1",
-								"user2": "./urac/users/user2",
-								"user3": "./urac/users/user3"
-							}
-						};
-						addUsers(opts, function (error) {
-							if (error) {
-								throw error;
-							}
-							
-							console.log("done");
-							process.exit();
-						});
-					});
-				});
-			});
+			mongo.closeDb();
+			console.log("done");
+			process.exit();
 		});
 	});
 });

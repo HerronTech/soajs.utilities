@@ -5,7 +5,7 @@ var test = {
     "sitePrefix": "test",
     "apiPrefix": "test-api",
     "port": 80,
-    "profile": __dirname + "/soajs.utilities/data/getStarted/profile.js",
+    "profile": "/profile.js",
     "description": "this is the test environment",
     "deployer": {
 	    "type": "manual",

@@ -12,11 +12,7 @@ var soajs_account = {
 			"type": "service"
 		},
 		{
-			"name": "soajs/soajs.dashboard",
-			"type": "service"
-		},
-		{
-			"name": "soajs/soajs.urac",
+			"name": "soajs/soajs.artifact",
 			"type": "service"
 		}
 	]
