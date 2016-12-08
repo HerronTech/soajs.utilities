@@ -1,0 +1,73 @@
+{
+	"id": "64252dd1-156f-123a-a718-00eeb72f0b8e",
+	"name": "artifact",
+	"description": "",
+	"order": [
+		"5398eec8-0756-6d78-3bda-b34c06c56704",
+		"228c5179-6988-d10b-3cd4-ed86dfd304fd",
+		"7e49cf4e-c642-2b6c-ef91-368dc7b78902"
+	],
+	"folders": [],
+	"timestamp": 1480707386216,
+	"owner": "944378",
+	"public": false,
+	"requests": [
+		{
+			"id": "228c5179-6988-d10b-3cd4-ed86dfd304fd",
+			"headers": "",
+			"url": "http://test-api.mydomain.com/artifact/contact/5841bc7378b64eea309b52dc",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1481213087687,
+			"name": "get one contact",
+			"description": "Generated from a curl request: \ncurl -X GET \\\"http://dev-api.mydomain.com/soajs.artifact/contact/5841bc7378b64eea309b52dc\\\"",
+			"collectionId": "64252dd1-156f-123a-a718-00eeb72f0b8e",
+			"responses": []
+		},
+		{
+			"id": "5398eec8-0756-6d78-3bda-b34c06c56704",
+			"headers": "",
+			"url": "http://test-api.mydomain.com/artifact/contacts",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1481213082309,
+			"name": "get all contacts",
+			"description": "Generated from a curl request: \ncurl -X GET \\\"http://dev-api.mydomain.com/soajs.artifact/contacts\\\"",
+			"collectionId": "64252dd1-156f-123a-a718-00eeb72f0b8e",
+			"responses": []
+		},
+		{
+			"id": "7e49cf4e-c642-2b6c-ef91-368dc7b78902",
+			"headers": "",
+			"url": "http://test-api.mydomain.com/artifact/contact/5841bc7378b64eea309b52dc",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1481213095484,
+			"name": "delete one contact",
+			"description": "Generated from a curl request: \ncurl -X DELETE \\\"http://dev-api.mydomain.com/soajs.artifact/contact/5841bc7378b64eea309b52dc\\\"",
+			"collectionId": "64252dd1-156f-123a-a718-00eeb72f0b8e",
+			"responses": []
+		}
+	]
+}
