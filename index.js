@@ -67,7 +67,7 @@ var lib = {
 			if (error) {
 				return cb(error);
 			}
-			var dbconfig = require("/opt/soajs/node_modules/soajs.utilities/data/artifact/profile.js");
+			var dbconfig = require("/opt/soajs/node_modules/soajs.utilities/data/" + ops.file + "/profile.js");
 			
 			if (ops.prefix) {
 				dbconfig.prefix = ops.prefix

@@ -1,31 +1,19 @@
 'use strict';
-var dashboard = {
-    "_id": ObjectId('55128442e603d7e01ab1688c'),
-    "code": "DASHBOARD",
-    "domain": "soajs.org",
-    "sitePrefix": "dashboard",
-    "apiPrefix": "dashboard-api",
-    "locked": true,
+var test = {
+    "code": "TEST",
+    "domain": "mydomain.com",
+    "sitePrefix": "test",
+    "apiPrefix": "test-api",
     "port": 80,
-    "profile": "/opt/soajs/node_modules/soajs.utilities/data/getStarted/profile.js",
+    "profile": __dirname + "/soajs.utilities/data/jsconf/profile.js",
+    "description": "this is the TEST environment",
     "deployer": {
-        "type": "container",
-        "selected": "container.docker.local",
-        "container": {
-            "docker": {
-                "local": {
-                    "socketPath": "/var/run/docker.sock"
-                },
-                "remote": {
-                    "nodes": []
-                }
-            }
-        }
+	    "type": "manual",
+	    "selected": "manual"
     },
-    "description": "this is the Dashboard environment",
     "dbs": {
         "clusters": {
-            "dash_cluster": {
+            "test_cluster": {
                 "servers": [
                     {
                         "host": "127.0.0.1",
@@ -51,9 +39,9 @@ var dashboard = {
             }
         },
         "config": {
-            "prefix": "getStarted_",
+            "prefix": "jsconf_",
             "session": {
-                "cluster": "dash_cluster",
+                "cluster": "test_cluster",
                 "name": "core_session",
                 'store': {},
                 "collection": "sessions",
@@ -63,7 +51,15 @@ var dashboard = {
         },
         "databases": {
             "urac": {
-                "cluster": "dash_cluster",
+                "cluster": "test_cluster",
+                "tenantSpecific": true
+            },
+            "myDatabase": {
+                "cluster": "test_cluster",
+                "tenantSpecific": false
+            },
+            "users": {
+                "cluster": "test_cluster",
                 "tenantSpecific": true
             }
         }
@@ -80,7 +76,7 @@ var dashboard = {
                 "healthCheckInterval": 1000 * 5, // 5 seconds
                 "autoRelaodRegistry": 1000 * 60 * 60, // 1 hr
                 "maxLogCount": 5,
-                "autoRegisterService": true
+                "autoRegisterService": true //register at the controller or not
             },
             "agent": {
                 "topologyDir": "/opt/soajs/"
@@ -108,8 +104,14 @@ var dashboard = {
                 "grants": ['password', 'refresh_token'],
                 "debug": false
             },
-            "ports": {"controller": 4000, "maintenanceInc": 1000, "randomInc": 100},
-            "cookie": {"secret": "this is a secret sentence"},
+            "ports": {
+                "controller": 4000,
+                "maintenanceInc": 1000,
+                "randomInc": 100
+            },
+            "cookie": {
+                "secret": "this is a secret sentence"
+            },
             "session": {
                 "name": "soajsID",
                 "secret": "this is antoine hage app server",
@@ -117,7 +119,7 @@ var dashboard = {
                     "path": '/',
                     "httpOnly": true,
                     "secure": false,
-                    //"domain": "soajs.com",
+                    //"domain": "myDomain.com",
                     "maxAge": null
                 },
                 "resave": false,
@@ -128,3 +130,5 @@ var dashboard = {
         }
     }
 };
+
+module.exports = test;

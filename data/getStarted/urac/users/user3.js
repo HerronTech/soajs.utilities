@@ -2,7 +2,7 @@
 
 //password = 654321
 var user3 = {
-	"_id": ObjectId("54ee1bf91856706c2363930a"),
+	"_id": "54ee1bf91856706c2363930a",
 	"username": "user3",
 	"password": '$2a$04$IYQThNn52hRm/DfZdanbkO/iTL5ytuoGBy6hQJX03ZcqDSA0KFFNq',
 	"firstName": "user",
@@ -50,3 +50,5 @@ var user3 = {
 		}
 	}
 };
+
+module.exports = user3;

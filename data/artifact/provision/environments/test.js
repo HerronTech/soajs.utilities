@@ -1,6 +1,5 @@
 'use strict';
 var test = {
-	
 	"code": "TEST",
 	"domain": "mydomain.com",
 	"sitePrefix": "test",
@@ -12,7 +11,6 @@ var test = {
 		"type": "manual",
 		"selected": "manual"
 	},
-	
 	"dbs": {
 		"clusters": {
 			"test_cluster": {

@@ -1,29 +1,19 @@
 'use strict';
-var dev = {
-    "code": "DEV",
+var test = {
+    "code": "TEST",
     "domain": "mydomain.com",
-    "sitePrefix": "dev",
-    "apiPrefix": "dev-api",
+    "sitePrefix": "test",
+    "apiPrefix": "test-api",
     "port": 80,
-    "profile": "/opt/soajs/node_modules/soajs.utilities/data/getStarted/profile.js",
-    "description": "this is the DEV environment",
+    "profile": __dirname + "/soajs.utilities/data/getStarted/profile.js",
+    "description": "this is the test environment",
     "deployer": {
-        "type": "container",
-        "selected": "container.docker.local",
-        "container": {
-            "docker": {
-                "local": {
-                    "socketPath": "/var/run/docker.sock"
-                },
-                "remote": {
-                    "nodes": []
-                }
-            }
-        }
+	    "type": "manual",
+	    "selected": "manual"
     },
     "dbs": {
         "clusters": {
-            "dev_cluster": {
+            "test_cluster": {
                 "servers": [
                     {
                         "host": "127.0.0.1",
@@ -43,15 +33,14 @@ var dev = {
                         "native_parser": true,
                         "bufferMaxEntries": 0
                     },
-                    "server": {
-                    }
+                    "server": {}
                 }
             }
         },
         "config": {
             "prefix": "getStarted_",
             "session": {
-                "cluster": "dev_cluster",
+                "cluster": "test_cluster",
                 "name": "core_session",
                 'store': {},
                 "collection": "sessions",
@@ -61,7 +50,7 @@ var dev = {
         },
         "databases": {
             "urac": {
-                "cluster": "dev_cluster",
+                "cluster": "test_cluster",
                 "tenantSpecific": true
             }
         }
@@ -132,3 +121,5 @@ var dev = {
         }
     }
 };
+
+module.exports = test;

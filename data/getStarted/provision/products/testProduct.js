@@ -1,7 +1,7 @@
 'use strict';
 
 var testProduct = {
-    "_id": ObjectId("50d2cb5fc04ce51e06000001"),
+	"_id": "50d2cb5fc04ce51e06000001",
     "code" : "TPROD",
     "name" : "Test Product",
     "description" : "This is another test product for examples.",
@@ -27,3 +27,5 @@ var testProduct = {
         }
     ]
 };
+
+module.exports = testProduct;

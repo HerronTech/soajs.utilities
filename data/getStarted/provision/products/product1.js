@@ -1,5 +1,5 @@
 var product1 = {
-	"_id": ObjectId('54ee234db7a669fc22b7f6ba'),
+	"_id": '54ee234db7a669fc22b7f6ba',
 	"code": "PROD1",
 	"name": "Product one",
 	"description": "This is a test Product for examples",
@@ -79,3 +79,5 @@ var product1 = {
 		}
 	]
 };
+
+module.exports = product1;
