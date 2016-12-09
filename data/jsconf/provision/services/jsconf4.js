@@ -2,11 +2,11 @@ var jsconf4 = {
 	"_id": '584a70e959f84bf55fe0de38',
 	"name": "jsconf4",
 	"group": "JSConf",
-	"src":{
-		"provider":"github",
-		"owner":"soajs",
-		"repo":"soajs.jsconf",
-		"main":"/services/s4/."
+	"src": {
+		"provider": "github",
+		"owner": "soajs",
+		"repo": "soajs.jsconf",
+		"main": "/services/s4/."
 	},
 	"port": 4114,
 	"requestTimeout": 30,

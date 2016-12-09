@@ -12,14 +12,14 @@ var user6 = {
 	"status": "active",
 	"profile": {},
 	"groups": ['gold', 'silver', 'customer'],
-	"tenant":{
+	"tenant": {
 		"id": "10d2cb5fc04ce51e06000001",
 		"code": "test"
 	},
 	"config": {
 		"packages": {
-			"PROD1_PCK1": {  
-				"acl": { 
+			"PROD1_PCK1": {
+				"acl": {
 					"urac": {},
 					"example03": {},
 					"example04": {}
@@ -28,7 +28,7 @@ var user6 = {
 		},
 		"keys": {
 			"19c03e42c750467c3f8481fbe26f2fef": { // app 1
-				"config": { 				
+				"config": {
 					"example03": {
 						"tenantName": "Tenant name specific to user three"
 					},
@@ -36,12 +36,12 @@ var user6 = {
 						"tenantName": "Tenant name specific to user three"
 					}
 				},
-				"acl": { 
+				"acl": {
 					"urac": {},
 					"example04": {},
 					"example03": {
-						"apisPermission": "restricted",					
-						"apis": {						
+						"apisPermission": "restricted",
+						"apis": {
 							"/buildName": {}
 						}
 					}

@@ -7,24 +7,24 @@ var soajs = require("soajs");
 var async = require("async");
 var mongo = new soajs.mongo(dbconfig);
 
-function addService(cb){
+function addService(cb) {
 	var example01 = require('./provision/services/example01');
 	var example02 = require('./provision/services/example02');
 	var example03 = require('./provision/services/example03');
 	var example04 = require('./provision/services/example04');
 	var helloworld = require('./provision/services/helloworld');
-
+	
 	
 	var records = [example01, example02, example03, example04, helloworld];
 	
-	async.each(records, function(oneRecord,mcb){
+	async.each(records, function (oneRecord, mcb) {
 		oneRecord._id = new mongo.ObjectId(oneRecord._id);
 		
 		var condition = {
 			"name": oneRecord.name
 		};
 		delete oneRecord.name;
-		mongo.update("services", condition, {"$set": oneRecord }, {upsert:true, multi:false, safe:true}, mcb);
+		mongo.update("services", condition, {"$set": oneRecord}, {upsert: true, multi: false, safe: true}, mcb);
 	}, cb);
 }
 
@@ -67,7 +67,7 @@ function addOauth(cb) {
 	var oauth2 = require('./provision/oauth_urac/oauthuser');
 	var records = [oauth, oauth2];
 	
-	async.each(records, function(oneUser, mcb){
+	async.each(records, function (oneUser, mcb) {
 		oneUser._id = new mongo.ObjectId(oneUser._id);
 		oneUser.tId = new mongo.ObjectId(oneUser.tId);
 		mongo.update("oauth_urac", {"userId": oneUser.userId}, {$set: oneUser}, {
@@ -83,7 +83,7 @@ function addProduct(cb) {
 	var testProduct = require('./provision/products/testProduct');
 	var records = [product1, testProduct];
 	
-	async.each(records, function(oneProduct, mcb){
+	async.each(records, function (oneProduct, mcb) {
 		oneProduct._id = new mongo.ObjectId(oneProduct._id);
 		mongo.update("products", {"code": oneProduct.code}, {$set: oneProduct}, {
 			upsert: true,
@@ -100,13 +100,17 @@ function addTenants(cb) {
 	var test = require('./provision/tenants/test');
 	var records = [tenant1, tenant2, tenant3, test];
 	
-	async.each(records, function(oneTenant, mcb){
+	async.each(records, function (oneTenant, mcb) {
 		oneTenant._id = new mongo.ObjectId(oneTenant._id);
 		oneTenant.applications.forEach(function (oneApp) {
 			oneApp.appId = new mongo.ObjectId(oneApp.appId.toString());
 		});
 		
-		mongo.update("tenants", {"code": oneTenant.code }, {$set: oneTenant}, {upsert: true, multi: false, safe: true}, mcb);
+		mongo.update("tenants", {"code": oneTenant.code}, {$set: oneTenant}, {
+			upsert: true,
+			multi: false,
+			safe: true
+		}, mcb);
 	}, cb);
 }
 
@@ -118,25 +122,25 @@ function addGit(cb) {
 		"type": git.type,
 		"access": git.access
 	};
-	mongo.findOne("git_accounts", condition, function(error, record){
-		if(error){
+	mongo.findOne("git_accounts", condition, function (error, record) {
+		if (error) {
 			return cb(error);
 		}
-		if(!record){
+		if (!record) {
 			mongo.insert('git_accounts', git, cb);
 		}
-		else{
+		else {
 			var list = [];
-			git.repos.forEach(function(oneGitRepo){
+			git.repos.forEach(function (oneGitRepo) {
 				
 				var found = false;
-				for(var i =0; i < record.repos.length; i++){
-					if(oneGitRepo.type === record.repos[i].type && oneGitRepo.name === record.repos[i].name){
+				for (var i = 0; i < record.repos.length; i++) {
+					if (oneGitRepo.type === record.repos[i].type && oneGitRepo.name === record.repos[i].name) {
 						found = true;
 						break;
 					}
 				}
-				if(!found){
+				if (!found) {
 					record.repos.push(oneGitRepo);
 				}
 				
@@ -320,8 +324,8 @@ function addUsers(opts, cb) {
 	}
 }
 
-async.series([addService, addEnv, addOauth, addProduct, addTenants, addGit], function(error){
-	if(error){
+async.series([addService, addEnv, addOauth, addProduct, addTenants, addGit], function (error) {
+	if (error) {
 		throw error;
 	}
 	

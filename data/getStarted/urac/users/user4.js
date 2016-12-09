@@ -12,12 +12,11 @@ var user4 = {
 	"status": "active",
 	"profile": {},
 	"groups": ['gold'],
-	"tenant":{
+	"tenant": {
 		"id": "10d2cb5fc04ce51e06000001",
 		"code": "test"
 	},
-	"config": {		
-	}
+	"config": {}
 };
 
 module.exports = user4;

@@ -2,17 +2,17 @@ var soajs = require("soajs");
 var mongo = new soajs.mongo(dbconfig);
 
 /*
-Services
+ Services
  */
-function addService(cb){
+function addService(cb) {
 	var service = require('./provision/services/services');
 	service._id = new mongo.ObjectId(service._id);
-
+	
 	var condition = {
 		"name": service.name
 	};
 	delete service.name;
-	mongo.update("services", condition, {"$set": service }, {upsert:true, multi:false, safe:true}, cb);
+	mongo.update("services", condition, {"$set": service}, {upsert: true, multi: false, safe: true}, cb);
 }
 /*
  Git Accounts
@@ -25,25 +25,25 @@ function addGit(cb) {
 		"type": git.type,
 		"access": git.access
 	};
-	mongo.findOne("git_accounts", condition, function(error, record){
-		if(error){
+	mongo.findOne("git_accounts", condition, function (error, record) {
+		if (error) {
 			return cb(error);
 		}
-		if(!record){
+		if (!record) {
 			mongo.insert('git_accounts', git, cb);
 		}
-		else{
+		else {
 			var list = [];
-			git.repos.forEach(function(oneGitRepo){
+			git.repos.forEach(function (oneGitRepo) {
 				
 				var found = false;
-				for(var i =0; i < record.repos.length; i++){
-					if(oneGitRepo.type === record.repos[i].type && oneGitRepo.name === record.repos[i].name){
+				for (var i = 0; i < record.repos.length; i++) {
+					if (oneGitRepo.type === record.repos[i].type && oneGitRepo.name === record.repos[i].name) {
 						found = true;
 						break;
 					}
 				}
-				if(!found){
+				if (!found) {
 					record.repos.push(oneGitRepo);
 				}
 				
@@ -53,7 +53,7 @@ function addGit(cb) {
 	});
 }
 /*
-Environment
+ Environment
  */
 
 function addEnv(cb) {
@@ -90,22 +90,22 @@ function addEnv(cb) {
 	});
 }
 
-addGit(function(error){
-	if(error){
+addGit(function (error) {
+	if (error) {
 		throw error;
 	}
 	
-	addEnv(function(error){
-		if(error){
+	addEnv(function (error) {
+		if (error) {
 			throw error;
 		}
-
-		addService(function(error){
-			if(error){
+		
+		addService(function (error) {
+			if (error) {
 				throw error;
 			}
 			console.log("done");
-            process.exit();
+			process.exit();
 		});
 	});
 });

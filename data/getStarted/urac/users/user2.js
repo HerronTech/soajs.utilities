@@ -10,7 +10,7 @@ var user2 = {
 	"status": "active",
 	"profile": {},
 	"groups": ['silver'],
-	"tenant":{
+	"tenant": {
 		"id": "54ee2150b7a669fc22b7f6b9",
 		"code": "TNT1"
 	},
@@ -25,7 +25,7 @@ var user2 = {
 			}
 		},
 		"keys": {
-			"41eb3256ce660a891205d0a0eca19421":{
+			"41eb3256ce660a891205d0a0eca19421": {
 				"config": { //KEY CONFIG application 2
 					"example03": {
 						"tenantName": "Tenant name specific to user two"
@@ -35,8 +35,7 @@ var user2 = {
 					}
 				}
 			},
-			"19c03e42c750467c3f8481fbe26f2fef": { 						
-			}
+			"19c03e42c750467c3f8481fbe26f2fef": {}
 		}
 	}
 };

@@ -30,17 +30,17 @@ var tenant1 = {
 						}
 					],
 					"config": {
-						"test":{
+						"test": {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
 								"tokenExpiryTTL": 2 * 24 * 3600 * 1000
 							},
 							"example03": {
-								"tenantName": "Client One"							
+								"tenantName": "Client One"
 							},
 							"example04": {
-								"tenantName": "Client One"							
+								"tenantName": "Client One"
 							}
 						}
 					}
@@ -69,7 +69,7 @@ var tenant1 = {
 						}
 					],
 					"config": {
-						"test":{
+						"test": {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
@@ -82,7 +82,7 @@ var tenant1 = {
 								"tenantName": "Client One"
 							}
 						}
-					}						
+					}
 				}
 			]
 		},
@@ -103,7 +103,7 @@ var tenant1 = {
 						}
 					],
 					"config": {
-						"test":{
+						"test": {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
@@ -112,13 +112,12 @@ var tenant1 = {
 							"example03": {
 								"tenantName": "Client One"
 							},
-							"example04": {							
-							}
+							"example04": {}
 						}
 					}
 				}
 			]
-		}			
+		}
 	]
 };
 

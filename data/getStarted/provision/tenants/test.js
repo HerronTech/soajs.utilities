@@ -33,7 +33,7 @@ var test = {
 						}
 					],
 					"config": {
-						"test":{
+						"test": {
 							"mail": {
 								"from": 'me@localhost.com',
 								"transport": {
@@ -102,7 +102,7 @@ var test = {
 						}
 					],
 					"config": {
-						"test":{
+						"test": {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
@@ -131,7 +131,7 @@ var test = {
 						}
 					],
 					"config": {
-						"test":{
+						"test": {
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher

@@ -72,20 +72,20 @@ var lib = {
 			if (ops.prefix) {
 				dbconfig.prefix = ops.prefix;
 			}
-			if(ops.host) {
+			if (ops.host) {
 				dbconfig.servers[0].host = ops.host;
 			}
-			if(ops.port) {
+			if (ops.port) {
 				dbconfig.servers[0].port = ops.port;
 			}
-
+			
 			var writeStream = fs.createWriteStream(config.file + "/" + "dataTmp.js");
 			writeStream.write("var dbconfig = " + JSON.stringify(dbconfig, null, 2) + ";" + os.EOL);
 			writeStream.write(data, {
 				"encoding": 'utf8'
 			});
 			writeStream.end();
-
+			
 			setTimeout(function () {
 				var execString = "node " + __dirname + "/data/" + ops.file + "/dataTmp.js";
 				exec(execString, cb);

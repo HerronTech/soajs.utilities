@@ -2,11 +2,11 @@ var example04 = {
 	"_id": '584a6dbb59f84bf55fe0de29',
 	"name": "example04",
 	"group": "SOAJS Example Service",
-	"src":{
-		"provider":"github",
-		"owner":"soajs",
-		"repo":"soajs.examples",
-		"main":"/example04/."
+	"src": {
+		"provider": "github",
+		"owner": "soajs",
+		"repo": "soajs.examples",
+		"main": "/example04/."
 	},
 	"port": 4013,
 	"requestTimeout": 30,

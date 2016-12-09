@@ -32,10 +32,9 @@ var product1 = {
 			"acl": {
 				"urac": {},
 				"example03": {
-					"apisPermission": "restricted",					
-					"apis": {						
-						"/buildName": {
-						}
+					"apisPermission": "restricted",
+					"apis": {
+						"/buildName": {}
 					}
 				}
 			},
@@ -48,24 +47,24 @@ var product1 = {
 			"acl": {
 				"urac": {
 					"access": false,
-					"apisRegExp": [	               
-		               {		            	  
-		            	   "regExp": /^\/admin\/.+$/,
-		                   "access": ["gold"]
-		               },
-		               {
-		            	   'regExp': /^\/account\/.+$/,
-		                   'access': true
-		               }
-		           ]
+					"apisRegExp": [
+						{
+							"regExp": /^\/admin\/.+$/,
+							"access": ["gold"]
+						},
+						{
+							'regExp': /^\/account\/.+$/,
+							'access': true
+						}
+					]
 				},
 				"example04": {
 					"access": false,
-					"apis":{
-						"/buildName":{
+					"apis": {
+						"/buildName": {
 							"access": true
 						},
-						"/buildNameGold":{
+						"/buildNameGold": {
 							"access": ['gold']
 						}
 					}
