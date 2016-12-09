@@ -11,17 +11,8 @@ function addService(cb){
 	var condition = {
 		"name": service.name
 	};
-	mongo.findOne("services", condition, function(error, record){
-		if(error){
-			return cb(error);
-		}
-		if(!record){
-			mongo.insert("services", service, cb);
-		}
-		else{
-			mongo.update("services", service,{upsert:true, multi:false, safe:true}, cb);
-		}
-	});
+	delete service.name;
+	mongo.update("services", condition, {"$set": service }, {upsert:true, multi:false, safe:true}, cb);
 }
 /*
  Git Accounts
@@ -116,7 +107,5 @@ addGit(function(error){
 			console.log("done");
             process.exit();
 		});
-		
-
 	});
 });
