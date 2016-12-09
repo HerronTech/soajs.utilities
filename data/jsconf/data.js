@@ -2,6 +2,26 @@ var soajs = require("soajs");
 var async = require("async");
 var mongo = new soajs.mongo(dbconfig);
 
+
+function addService(cb){
+	var jsconf1 = require('./provision/services/jsconf1');
+	var jsconf2 = require('./provision/services/jsconf2');
+	var jsconf3 = require('./provision/services/jsconf3');
+	var jsconf4 = require('./provision/services/jsconf4');
+	
+	var records = [jsconf1, jsconf2, jsconf3, jsconf4];
+	
+	async.each(records, function(oneRecord,mcb){
+		oneRecord._id = new mongo.ObjectId(oneRecord._id);
+		
+		var condition = {
+			"name": oneRecord.name
+		};
+		delete oneRecord.name;
+		mongo.update("services", condition, {"$set": oneRecord }, {upsert:true, multi:false, safe:true}, mcb);
+	}, cb);
+}
+
 function addProducts(cb) {
 	var products = require('./provision/products/products.js');
 	mongo.update("products",{"code":"PRODA"}, {$set:products},{upsert:true, multi: false, safe: true} ,cb);
@@ -105,7 +125,7 @@ function addEnv(cb){
 	});
 }
 
-async.series([addProducts, addGit, addOauth, addTenants, addEnv], function(error){
+async.series([addService,addProducts, addGit, addOauth, addTenants, addEnv], function(error){
 	if(error){
 		throw error;
 	}
