@@ -183,14 +183,14 @@ function addUsers(opts, cb) {
 			"coll": "users",
 			"index": {
 				groups: 1,
-				"tenant.id": true
+				"tenant.id": 1
 			}
 		},
 		{
 			"coll": "users",
 			"index": {
 				username: 1,
-				"tenant.id": true
+				"tenant.id": 1
 			}
 		},
 		{
@@ -344,7 +344,6 @@ async.series([addEnv, addOauth, addProduct, addTenants, addGit], function(error)
 				throw error;
 			}
 			mongo.closeDb();
-			console.log("done");
 			process.exit();
 		});
 	});

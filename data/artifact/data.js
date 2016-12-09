@@ -2,6 +2,28 @@ var soajs = require("soajs");
 var mongo = new soajs.mongo(dbconfig);
 
 /*
+Services
+ */
+function addService(cb){
+	var service = require('./provision/services/services');
+	service._id = new mongo.ObjectId(service._id);
+
+	var condition = {
+		"name": service.name
+	};
+	mongo.findOne("services", condition, function(error, record){
+		if(error){
+			return cb(error);
+		}
+		if(!record){
+			mongo.insert("services", service, cb);
+		}
+		else{
+			mongo.update("services", service,{upsert:true, multi:false, safe:true}, cb);
+		}
+	});
+}
+/*
  Git Accounts
  */
 function addGit(cb) {
@@ -39,6 +61,9 @@ function addGit(cb) {
 		}
 	});
 }
+/*
+Environment
+ */
 
 function addEnv(cb) {
 	var test_env = require('./provision/environments/test.js');
@@ -83,8 +108,15 @@ addGit(function(error){
 		if(error){
 			throw error;
 		}
+
+		addService(function(error){
+			if(error){
+				throw error;
+			}
+			console.log("done");
+            process.exit();
+		});
 		
-		console.log("done");
-		process.exit();
+
 	});
 });

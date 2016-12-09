@@ -37,9 +37,7 @@ var lib = {
 			config.host = ops.host;
 		}
 		if (ops.port) {
-			console.log(config.port + "----" + ops.port)
 			config.port = ops.port;
-            console.log(config.port + "----" + ops.port)
 		}
 		return cb(null, true);
 	},
