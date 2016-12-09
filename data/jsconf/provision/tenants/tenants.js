@@ -56,7 +56,7 @@ var tenants = [
 		"applications": [
 			{
 				"product": "PRODA",
-				"package": "PRODA_B`ASIC",
+				"package": "PRODA_BASIC",
 				"appId": '5712013c1ebf34041c0b0628',
 				"description": "Only Hello World APIs are accessible by this tenant.",
 				"_TTL": 21600000,
