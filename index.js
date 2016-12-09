@@ -1,7 +1,7 @@
 "use strict";
 var os = require("os");
 var stdio = require('stdio');
-var spawn = require("child_process").spawn;
+var exec = require("child_process").exec;
 var fs = require("fs");
 var authentication = false;
 
@@ -19,7 +19,7 @@ var lib = {
 		if (ops.file && (ops.file.toLowerCase() === "artifact" || ops.file.toLowerCase() === "getstarted" || ops.file.toLowerCase() === "jsconf")) {
 			config.file = __dirname + "/data/" + ops.file;
 		} else if (ops.file && (ops.file.toLowerCase() !== "artifact" || ops.file.toLowerCase() !== "getstarted" || ops.file.toLowerCase() !== "jsconf")) {
-			return cb("Kindly enter a correct file name (artifact, getStarted, jsconf)");
+			return cb("Kindly enter a correct file name (artifact, getstarted, jsconf)");
 		}
 		//check supplied credentials
 		if (ops.authenticationDatabase && (!ops.username || !ops.password) || ops.username && (!ops.authenticationDatabase || !ops.password)
@@ -37,7 +37,9 @@ var lib = {
 			config.host = ops.host;
 		}
 		if (ops.port) {
+			console.log(config.port + "----" + ops.port)
 			config.port = ops.port;
+            console.log(config.port + "----" + ops.port)
 		}
 		return cb(null, true);
 	},
@@ -70,28 +72,25 @@ var lib = {
 			var dbconfig = require("/opt/soajs/node_modules/soajs.utilities/data/" + ops.file + "/profile.js");
 			
 			if (ops.prefix) {
-				dbconfig.prefix = ops.prefix
+				dbconfig.prefix = ops.prefix;
 			}
-			
+			if(ops.host) {
+				dbconfig.servers[0].host = ops.host;
+			}
+			if(ops.port) {
+				dbconfig.servers[0].port = ops.port;
+			}
+
 			var writeStream = fs.createWriteStream(config.file + "/" + "dataTmp.js");
 			writeStream.write("var dbconfig = " + JSON.stringify(dbconfig, null, 2) + ";" + os.EOL);
 			writeStream.write(data, {
 				"encoding": 'utf8'
 			});
 			writeStream.end();
-				
-			//wait 500 ms to ensure file write.end is done
-			var out = fs.openSync(__dirname + "/" + ops.file +  "-" + ( ops.prefix || "" ) + "-out.log", "w");
-			var err = fs.openSync(__dirname + "/" + ops.file +  "-" + ( ops.prefix || "" ) + "-err.log", "w");
-			
+
 			setTimeout(function () {
-				var child = spawn("node", ["dataTmp.js"], {
-					"cwd": __dirname + "/data/" + ops.file + "/",
-					"detached": true,
-					"stdio": ['ignore', out, err]
-				});
-				child.unref();
-				return cb(null, true);
+				var execString = "node " + __dirname + "/data/" + ops.file + "/dataTmp.js";
+				exec(execString, cb);
 				
 			}, 1000);
 		});
