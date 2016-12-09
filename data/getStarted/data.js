@@ -7,6 +7,27 @@ var soajs = require("soajs");
 var async = require("async");
 var mongo = new soajs.mongo(dbconfig);
 
+function addService(cb){
+	var example01 = require('./provision/services/example01');
+	var example02 = require('./provision/services/example02');
+	var example03 = require('./provision/services/example03');
+	var example04 = require('./provision/services/example04');
+	var helloworld = require('./provision/services/helloworld');
+
+	
+	var records = [example01, example02, example03, example04, helloworld];
+	
+	async.each(records, function(oneRecord,mcb){
+		oneRecord._id = new mongo.ObjectId(oneRecord._id);
+		
+		var condition = {
+			"name": oneRecord.name
+		};
+		delete oneRecord.name;
+		mongo.update("services", condition, {"$set": oneRecord }, {upsert:true, multi:false, safe:true}, mcb);
+	}, cb);
+}
+
 function addEnv(cb) {
 	var test_env = require('./provision/environments/test.js');
 	
@@ -85,11 +106,7 @@ function addTenants(cb) {
 			oneApp.appId = new mongo.ObjectId(oneApp.appId.toString());
 		});
 		
-		mongo.update("tenants", {"code": oneTenant.code }, {$set: oneTenant}, {
-			upsert: true,
-			multi: false,
-			safe: true
-		}, mcb);
+		mongo.update("tenants", {"code": oneTenant.code }, {$set: oneTenant}, {upsert: true, multi: false, safe: true}, mcb);
 	}, cb);
 }
 
@@ -303,7 +320,7 @@ function addUsers(opts, cb) {
 	}
 }
 
-async.series([addEnv, addOauth, addProduct, addTenants, addGit], function(error){
+async.series([addService, addEnv, addOauth, addProduct, addTenants, addGit], function(error){
 	if(error){
 		throw error;
 	}
