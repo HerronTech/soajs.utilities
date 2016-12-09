@@ -2,6 +2,12 @@ var helloworld = {
 	"_id": '584ab6fd59f84bf55fe0de46',
 	"name": "helloworld",
 	"group": "SOAJS Example Service",
+	"src":{
+		"provider":"github",
+		"owner":"soajs",
+		"repo":"soajs.examples",
+		"main":"/hello_world/."
+	},
 	"port": 4020,
 	"requestTimeout": 30,
 	"requestTimeoutRenewal": 5,
