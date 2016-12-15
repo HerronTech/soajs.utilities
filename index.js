@@ -21,7 +21,8 @@ var lib = {
 		} else if (ops.file && (ops.file.toLowerCase() !== "artifact" || ops.file.toLowerCase() !== "getstarted" || ops.file.toLowerCase() !== "jsconf")) {
 			return cb("Kindly enter a correct file name (artifact, getstarted, jsconf)");
 		}
-		if (ops.patch && (ops.patch.toLowerCase() !== "true" || ops.patch.toLowerCase() !== "false")){
+		
+		if (ops.patch && (ops.patch.toLowerCase() !== "true" && ops.patch.toLowerCase() !== "false")){
 			return cb("Patch argument can only be either true or false");
 		}
 		//check supplied credentials
@@ -109,7 +110,7 @@ var ops = stdio.getopt({
 	"password": {key: "w", args: 1, description: "Github Password (Default null)", mandatory: false},
 	"port": {key: "p", args: 1, description: "Port number (Default 27017)", mandatory: false},
 	"username": {key: "u", args: 1, description: "Database Username (Default null)", mandatory: false},
-	"patch": {key: "x", args: 1, description: "Patching database boolean (Default false)", mandatory: false, default: false}
+	"patch": {key: "x", args: 1, description: "Patching database boolean (Default false)", mandatory: false, default: "false"}
 });
 
 lib.fillVariables(config, ops, function (err, result) {
