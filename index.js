@@ -21,6 +21,9 @@ var lib = {
 		} else if (ops.file && (ops.file.toLowerCase() !== "artifact" || ops.file.toLowerCase() !== "getstarted" || ops.file.toLowerCase() !== "jsconf")) {
 			return cb("Kindly enter a correct file name (artifact, getstarted, jsconf)");
 		}
+		if (ops.patch && (ops.patch.toLowerCase() !== "true" || ops.patch.toLowerCase() !== "false")){
+			return cb("Patch argument can only be either true or false");
+		}
 		//check supplied credentials
 		if (ops.authenticationDatabase && (!ops.username || !ops.password) || ops.username && (!ops.authenticationDatabase || !ops.password)
 			|| ops.password && (!ops.username || !ops.authenticationDatabase)) {
@@ -72,6 +75,9 @@ var lib = {
 			if (ops.prefix) {
 				dbconfig.prefix = ops.prefix;
 			}
+			if (!ops.prefix && (ops.patch.toLowerCase() === "true")){
+				dbconfig.prefix = "";
+			}
 			if (ops.host) {
 				dbconfig.servers[0].host = ops.host;
 			}
@@ -96,18 +102,14 @@ var lib = {
 };
 
 var ops = stdio.getopt({
-	"authenticationDatabase": {
-		key: "a",
-		args: 1,
-		description: "Authentication Database (Default null)",
-		mandatory: false
-	},
+	"authenticationDatabase": {key: "a", args: 1, description: "Authentication Database (Default null)"},
 	"file": {key: "f", args: 1, description: "File to execute", mandatory: true},
 	"prefix": {key: "i", args: 1, description: "DB Prefix", mandatory: false},
 	"host": {key: "h", args: 1, description: "Host (Default 127.0.0.1)", mandatory: false},
 	"password": {key: "w", args: 1, description: "Github Password (Default null)", mandatory: false},
 	"port": {key: "p", args: 1, description: "Port number (Default 27017)", mandatory: false},
-	"username": {key: "u", args: 1, description: "Database Username (Default null)", mandatory: false}
+	"username": {key: "u", args: 1, description: "Database Username (Default null)", mandatory: false},
+	"patch": {key: "x", args: 1, description: "Patching database boolean (Default false)", mandatory: false, default: false}
 });
 
 lib.fillVariables(config, ops, function (err, result) {
