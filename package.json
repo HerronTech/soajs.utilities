@@ -16,7 +16,7 @@
     "node": "*"
   },
   "dependencies": {
-    "async":"*",
-    "stdio": "*"
+    "async":"2.1.4",
+    "stdio": "0.2.7"
   }
 }
