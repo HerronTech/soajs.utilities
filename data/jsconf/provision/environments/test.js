@@ -101,7 +101,9 @@ var test = {
 			},
 			"oauth": {
 				"grants": ['password', 'refresh_token'],
-				"debug": false
+				"debug": false,
+				"accessTokenLifetime": 7200,
+				"refreshTokenLifetime": 1209600
 			},
 			"ports": {
 				"controller": 4000,
