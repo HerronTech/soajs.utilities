@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "async":"*",
-    "stdio": "*"
+    "stdio": "*",
+    "soajs.core.modules": "0.0.*"
   }
 }
