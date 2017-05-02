@@ -1,4 +1,4 @@
-var soajs = require("soajs.core.modules");
+var soajs = require("soajs");
 var async = require("async");
 var mongo = new soajs.mongo(dbconfig);
 
