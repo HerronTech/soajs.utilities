@@ -6,7 +6,63 @@
 var soajs = require("soajs");
 var async = require("async");
 var mongo = new soajs.mongo(dbconfig);
+var keySecurity = "";
 
+function addRecipes(cb){
+	var catalogs = require('./provision/catalogs/');
+	mongo.remove("catalogs", {"name": {"$in": ['Test Nginx Recipe', 'Test Service Recipe']}}, function (error) {
+		if (error) {
+			return cb(error);
+		}
+		
+		mongo.insert("catalogs", catalogs, {upsert: true, multi: false, safe: true}, function (err, results) {
+			if (err) {
+				return cb(err);
+			}
+			
+			console.log("Catalogs added");
+			return cb();
+		});
+	});
+}
+
+function generateExternalKey(opts, cb) {
+	var module = require("soajs").core.key;
+	var key = opts.key;
+	
+	var tenant = {
+		id: opts.tenantId
+	};
+	var application = {
+		"package": opts.package
+	};
+	var config = {
+		algorithm: "aes256",
+		password: opts.secret.password
+	};
+	
+	module.generateExternalKey(key, tenant, application, config, function (error, extKey) {
+		if (error) {
+			return cb(error);
+		}
+		
+		module.getInfo(extKey, config, function (error, response) {
+			if (error) {
+				return cb(error);
+			}
+			if (response.key === key) {
+				return cb(null, extKey);
+			}
+			else {
+				return cb(new Error("Generated Key is invalid."))
+			}
+		});
+	});
+}
+
+/*
+ Services
+ */
 function addService(cb) {
 	var example01 = require('./provision/services/example01');
 	var example02 = require('./provision/services/example02');
@@ -42,6 +98,7 @@ function addEnv(cb) {
 			test_env.dbs.config.prefix = dbconfig.prefix;
 			test_env.services.config.cookie.secret = result.services.config.cookie.secret;
 			test_env.services.config.session.secret = result.services.config.session.secret;
+			keySecurity = result.services.config.key;
 			delete test_env.code;
 			mongo.update("environment", {"code": "TEST"}, {$set: test_env}, {
 				upsert: true,
@@ -52,6 +109,7 @@ function addEnv(cb) {
 		else {
 			test_env.dbs.config.prefix = dbconfig.prefix;
 			test_env.profile = __dirname + test_env.profile;
+			keySecurity = result.services.config.key;
 			delete test_env.code;
 			mongo.update("environment", {"code": "TEST"}, {$set: test_env}, {
 				upsert: true,
@@ -324,7 +382,77 @@ function addUsers(opts, cb) {
 	}
 }
 
-async.series([addService, addEnv, addOauth, addProduct, addTenants, addGit], function (error) {
+function modifyDashboardDefaults(cb) {
+	mongo.findOne("products", {"code": "DSBRD", "locked": true}, function (error, dsbrdProduct) {
+		if (error) {
+			return cb(error);
+		}
+		
+		dsbrdProduct.packages.forEach(function (onePackage) {
+			if (onePackage.code === "DSBRD_OWNER") {
+				if (!onePackage.acl.test) {
+					onePackage.acl.test = {};
+				}
+				
+			}
+		});
+		
+		mongo.save("products", dsbrdProduct, function (error) {
+			if (error) {
+				return cb(error);
+			}
+			
+			mongo.findOne("tenants", {"code": "DBTN", "locked": true}, function (error, dbtnTenant) {
+				if (error) {
+					return cb(error);
+				}
+				
+				dbtnTenant.applications.forEach(function (oneApplication) {
+					if (oneApplication.package == "DSBRD_OWNER") {
+						oneApplication.keys.forEach(function (oneKey) {
+							if (!oneKey.config.test) {
+								oneKey.config.test = {};
+							}
+							
+							generateExternalKey({
+								key: oneKey.key,
+								tenantId: dbtnTenant._id,
+								package: oneApplication.package,
+								secret: keySecurity
+							}, function (error, externalKey) {
+								if (error) {
+									return cb(error);
+								}
+								
+								for (var i = oneKey.extKeys.length - 1; i >= 0; i--) {
+									if (oneKey.extKeys[i].env === 'DEV') {
+										oneKey.extKeys.splice(i, 1);
+									}
+								}
+								
+								oneKey.extKeys.push({
+									"extKey": externalKey,
+									"device": {},
+									"geo": {},
+									"env": "TEST",
+									"dashboardAccess": true
+								});
+								
+								storeTenant(dbtnTenant);
+							});
+						});
+					}
+				});
+			});
+		});
+	});
+	
+	function storeTenant(dbtnTenant) {
+		mongo.save("tenants", dbtnTenant, cb);
+	}
+}
+
+async.series([addRecipes, addService, addEnv, addOauth, addProduct, addTenants, addGit, modifyDashboardDefaults], function (error) {
 	if (error) {
 		throw error;
 	}
@@ -364,7 +492,8 @@ async.series([addService, addEnv, addOauth, addProduct, addTenants, addGit], fun
 			if (error) {
 				throw error;
 			}
-			mongo.closeDb();
+			
+			console.log("done");
 			process.exit();
 		});
 	});
