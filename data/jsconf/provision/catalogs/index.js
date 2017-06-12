@@ -148,6 +148,12 @@ var recipes = [
 							"Type": "volume",
 							"Source": "soajs_log_volume",
 							"Target": "/var/log/soajs/"
+						},
+						{
+							"Type": "bind",
+							"ReadOnly": true,
+							"Source": "/var/run/docker.sock",
+							"Target": "/var/run/docker.sock"
 						}
 					]
 				}
