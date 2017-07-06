@@ -1,7 +1,7 @@
 var soajs = require("soajs");
 var async = require("async");
 var mongo = new soajs.mongo(dbconfig);
-var keySecurity = "";
+var keySecurity = "soajs key lal massa";
 
 function addRecipes(cb){
 	var catalogs = require('./provision/catalogs/');
@@ -201,6 +201,10 @@ function modifyDashboardDefaults(cb) {
 	mongo.findOne("products", {"code": "DSBRD", "locked": true}, function (error, dsbrdProduct) {
 		if (error) {
 			return cb(error);
+		}
+		
+		if(dsbrdProduct){
+			return cb(null);
 		}
 		
 		dsbrdProduct.packages.forEach(function (onePackage) {

@@ -1,6 +1,6 @@
 var soajs = require("soajs");
 var mongo = new soajs.mongo(dbconfig);
-var keySecurity = "";
+var keySecurity = "soajs key lal massa";
 
 function addRecipes(cb){
 	var catalogs = require('./provision/catalogs/');
@@ -134,7 +134,6 @@ function addEnv(cb) {
 		else {
 			test_env.dbs.config.prefix = dbconfig.prefix;
 			test_env.profile = __dirname + test_env.profile;
-			keySecurity = result.services.config.key;
 			delete test_env.code;
 			mongo.update("environment", {"code": "TEST"}, {$set: test_env}, {
 				upsert: true,
@@ -149,6 +148,10 @@ function modifyDashboardDefaults(cb) {
 	mongo.findOne("products", {"code": "DSBRD", "locked": true}, function (error, dsbrdProduct) {
 		if (error) {
 			return cb(error);
+		}
+		
+		if(!dsbrdProduct){
+			return cb(null);
 		}
 		
 		dsbrdProduct.packages.forEach(function (onePackage) {
