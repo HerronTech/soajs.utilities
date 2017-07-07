@@ -203,7 +203,7 @@ function modifyDashboardDefaults(cb) {
 			return cb(error);
 		}
 		
-		if(dsbrdProduct){
+		if(!dsbrdProduct){
 			return cb(null);
 		}
 		
