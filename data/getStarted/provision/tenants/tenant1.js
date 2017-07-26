@@ -31,6 +31,9 @@ var tenant1 = {
 					],
 					"config": {
 						"test": {
+							"oauth": {
+								"loginMode": "urac"
+							},
 							"urac": {
 								"hashIterations": 1024, //used by hasher
 								"seedLength": 32, //used by hasher
