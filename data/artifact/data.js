@@ -1,8 +1,12 @@
 var soajs = require("soajs");
 var mongo = new soajs.mongo(dbconfig);
+var util = require("soajs.core.libs").utils;
+var dbConfClone = util.cloneObj(dbconfig);
+dbConfClone.name = "myContacts";
+var mongoContacts = new soajs.mongo(dbConfClone);
 var keySecurity = "soajs key lal massa";
 
-function addRecipes(cb){
+function addRecipes(cb) {
 	var catalogs = require('./provision/catalogs/');
 	mongo.remove("catalogs", {"name": {"$in": ['Test Nginx Recipe', 'Test Service Recipe']}}, function (error) {
 		if (error) {
@@ -67,6 +71,7 @@ function addService(cb) {
 	delete service.name;
 	mongo.update("services", condition, {"$set": service}, {upsert: true, multi: false, safe: true}, cb);
 }
+
 /*
  Git Accounts
  */
@@ -105,6 +110,7 @@ function addGit(cb) {
 		}
 	});
 }
+
 /*
  Environment
  */
@@ -150,7 +156,7 @@ function modifyDashboardDefaults(cb) {
 			return cb(error);
 		}
 		
-		if(!dsbrdProduct){
+		if (!dsbrdProduct) {
 			return cb(null);
 		}
 		
@@ -218,8 +224,28 @@ function modifyDashboardDefaults(cb) {
 	}
 }
 
-addRecipes(function(error){
-	if(error){
+function addContacts(cb) {
+	var contacts = require('./provision/contacts/');
+	
+	contacts.forEach(function (contact) {
+		contact._id = mongo.ObjectId(contact._id);
+	});
+	
+	mongoContacts.remove("records", {}, function (error) {
+		if (error) {
+			return cb(error);
+		}
+		mongoContacts.insert("records", contacts, function (err) {
+			if (err) {
+				return cb(err);
+			}
+			return cb();
+		});
+	});
+}
+
+addRecipes(function (error) {
+	if (error) {
 		throw error;
 	}
 	
@@ -238,14 +264,20 @@ addRecipes(function(error){
 					throw error;
 				}
 				
-				modifyDashboardDefaults(function(error){
-					if(error){
+				modifyDashboardDefaults(function (error) {
+					if (error) {
 						throw error;
 					}
-					console.log("done");
-					process.exit();
+					
+					addContacts(function (error) {
+						if (error) {
+							throw error;
+						}
+						console.log("done");
+						process.exit();
+					});
 				});
 			});
 		});
-	});
+	})
 });
