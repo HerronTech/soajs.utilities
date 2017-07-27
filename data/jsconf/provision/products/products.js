@@ -46,7 +46,7 @@ var products = {
 					},
 					"jsconf3": {
 						"apis": {},
-						"access": false
+						"access": true
 					},
 					"jsconf4": {
 						"apis": {},
