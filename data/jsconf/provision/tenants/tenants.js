@@ -26,10 +26,12 @@ var tenants = [
 						],
 						"config": {
 							"test": {
-								"style": "imfv",
-								"obj": {
-									"name": "mike",
-									"email": "team@soajs.org"
+								"commonFields": {
+									"style": "imfv",
+									"obj": {
+										"name": "mike",
+										"email": "team@soajs.org"
+									}
 								}
 							}
 						}
@@ -73,7 +75,9 @@ var tenants = [
 						],
 						"config": {
 							"test": {
-								"style": "simple"
+								"commonFields": {
+									"style": "simple"
+								}
 							}
 						}
 					}
@@ -116,9 +120,11 @@ var tenants = [
 						],
 						"config": {
 							"test": {
-								"style": "advanced",
-								"obj": {
-									"name": "mike"
+								"commonFields": {
+									"style": "advanced",
+									"obj": {
+										"name": "mike"
+									}
 								}
 							}
 						}
