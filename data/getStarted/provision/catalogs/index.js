@@ -1,7 +1,8 @@
 var recipes = [
 	{
 		"name": "Test Nginx Recipe",
-		"type": "nginx",
+		"type": "server",
+		"subtype": "nginx",
 		"description": "This is the nginx catalog recipe used to deploy the nginx in the test environment.",
 		"recipe": {
 			"deployOptions": {
@@ -30,27 +31,49 @@ var recipes = [
 					"network": "",
 					"workingDir": ""
 				},
-				"voluming": {
-					"volumes": [
-						{
-							"Type": "volume",
-							"Source": "soajs_log_volume",
-							"Target": "/var/log/soajs/"
+				"voluming": [
+					{
+						docker: {
+							volume: {
+								"Type": "volume",
+								"Source": "soajs_log_volume",
+								"Target": "/var/log/soajs/"
+							}
+						},
+						kubernetes: {
+							volume: {
+								"name": "soajs-log-volume",
+								"hostPath": {
+									"path": "/var/log/soajs/"
+								}
+							},
+							volumeMount: {
+								"mountPath": "/var/log/soajs/",
+								"name": "soajs-log-volume"
+							}
 						}
-					]
-				},
+					},
+					{
+						docker: {
+							volume: {
+								"Type": "bind",
+								"ReadOnly": true,
+								"Source": "/var/run/docker.sock",
+								"Target": "/var/run/docker.sock"
+							}
+						}
+					}
+				],
 				"ports": [
 					{
 						"name": "http",
 						"target": 80,
-						"isPublished": true,
-						"published": 82
+						"isPublished": true
 					},
 					{
 						"name": "https",
 						"target": 443,
-						"isPublished": true,
-						"published": 445
+						"isPublished": true
 					}
 				]
 			},
@@ -111,8 +134,8 @@ var recipes = [
 	},
 	{
 		"name": "Test Service Recipe",
-		"type": "soajs",
-		"subtype": "service",
+		"type": "service",
+		"subtype": "soajs",
 		"description": "This is the service catalog recipe used to deploy the core services in the test environment.",
 		"recipe": {
 			"deployOptions": {
@@ -142,21 +165,39 @@ var recipes = [
 					"network": "",
 					"workingDir": ""
 				},
-				"voluming": {
-					"volumes": [
-						{
-							"Type": "volume",
-							"Source": "soajs_log_volume",
-							"Target": "/var/log/soajs/"
+				"voluming": [
+					{
+						docker: {
+							volume: {
+								"Type": "volume",
+								"Source": "soajs_log_volume",
+								"Target": "/var/log/soajs/"
+							}
 						},
-						{
-							"Type": "bind",
-							"ReadOnly": true,
-							"Source": "/var/run/docker.sock",
-							"Target": "/var/run/docker.sock"
+						kubernetes: {
+							volume: {
+								"name": "soajs-log-volume",
+								"hostPath": {
+									"path": "/var/log/soajs/"
+								}
+							},
+							volumeMount: {
+								"mountPath": "/var/log/soajs/",
+								"name": "soajs-log-volume"
+							}
 						}
-					]
-				}
+					},
+					{
+						docker: {
+							volume: {
+								"Type": "bind",
+								"ReadOnly": true,
+								"Source": "/var/run/docker.sock",
+								"Target": "/var/run/docker.sock"
+							}
+						}
+					}
+				]
 			},
 			"buildOptions": {
 				"settings": {
