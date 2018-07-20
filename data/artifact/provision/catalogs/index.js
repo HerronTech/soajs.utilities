@@ -4,6 +4,11 @@ var recipes = [
 		"type": "server",
 		"subtype": "nginx",
 		"description": "This is the nginx catalog recipe used to deploy the nginx in the test environment.",
+		"restriction": {
+			"deployment": [
+				"container"
+			]
+		},
 		"recipe": {
 			"deployOptions": {
 				"image": {
@@ -137,6 +142,11 @@ var recipes = [
 		"type": "service",
 		"subtype": "soajs",
 		"description": "This is the service catalog recipe used to deploy the core services in the test environment.",
+		"restriction": {
+			"deployment": [
+				"container"
+			]
+		},
 		"recipe": {
 			"deployOptions": {
 				"image": {

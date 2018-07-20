@@ -129,6 +129,11 @@ var recipes = [
 				}
 			}
 		},
+		"restriction": {
+			"deployment": [
+				"container"
+			]
+		},
 		"v": 1,
 		"ts": 1496302762683
 	},
@@ -309,6 +314,11 @@ var recipes = [
 					}
 				}
 			}
+		},
+		"restriction": {
+			"deployment": [
+				"container"
+			]
 		},
 		"v": 1,
 		"ts": 1496302777071
