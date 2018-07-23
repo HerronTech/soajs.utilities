@@ -182,7 +182,12 @@ function addEnv(cb) {
 				upsert: true,
 				multi: false,
 				safe: true
-			}, cb);
+			}, function(error){
+                if (error){
+                    return cb(error)
+                }
+                addInfra(cb)
+            });
 		}
 		else {
 			test_env.dbs.config.prefix = dbconfig.prefix;
@@ -192,9 +197,40 @@ function addEnv(cb) {
 				upsert: true,
 				multi: false,
 				safe: true
-			}, cb);
+			}, function(error){
+                if (error){
+                    return cb(error)
+                }
+                addInfra(cb)
+            });
 		}
 	});
+}
+
+function addInfra(cb){
+    mongo.findOne("infra", {
+        "deployments.environments": {"$in": ["DASHBOARD"]}
+    }, (error, infraProvider) => {
+        if (error) {
+            return cb(error);
+        }
+
+        if(!infraProvider){
+            return cb(null, true);
+        }
+
+
+        var deployments = infraProvider.deployments;
+        deployments.forEach(function(deployment){
+            if(deployment.environments.indexOf("TEST") === -1){
+                deployment.environments.push("TEST");
+            }
+
+        });
+
+        console.log("TEST environment added");
+        mongo.save("infra", infraProvider, cb);
+    });
 }
 
 function modifyDashboardDefaults(cb) {
