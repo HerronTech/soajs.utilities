@@ -71,21 +71,23 @@ var lib = {
 			if (error) {
 				return cb(error);
 			}
-			var dbconfig = require("/opt/soajs/node_modules/soajs.utilities/data/" + ops.file + "/profile.js");
+			var dbconfig = require("/opt/Examples/node_modules/soajs.utilities/data/" + ops.file + "/profile.js");
 			
-			if (ops.prefix) {
+			if (ops.prefix && typeof ops.prefix === 'string') {
 				dbconfig.prefix = ops.prefix;
 			}
+
 			if (!ops.prefix && (ops.patch.toLowerCase() === "true")){
 				dbconfig.prefix = "";
 			}
+
 			if (ops.host) {
 				dbconfig.servers[0].host = ops.host;
 			}
 			if (ops.port) {
 				dbconfig.servers[0].port = ops.port;
 			}
-			
+
 			var writeStream = fs.createWriteStream(config.file + "/" + "dataTmp.js");
 			writeStream.write("var dbconfig = " + JSON.stringify(dbconfig, null, 2) + ";" + os.EOL);
 			writeStream.write(data, {
@@ -105,7 +107,7 @@ var lib = {
 var ops = stdio.getopt({
 	"authenticationDatabase": {key: "a", args: 1, description: "Authentication Database (Default null)"},
 	"file": {key: "f", args: 1, description: "File to execute", mandatory: true},
-	"prefix": {key: "i", args: 1, description: "DB Prefix", mandatory: false},
+	"prefix": {key: "i", args: 1, description: "DB Prefix", mandatory: false, default: ""},
 	"host": {key: "h", args: 1, description: "Host (Default 127.0.0.1)", mandatory: false},
 	"password": {key: "w", args: 1, description: "Github Password (Default null)", mandatory: false},
 	"port": {key: "p", args: 1, description: "Port number (Default 27017)", mandatory: false},

@@ -94,7 +94,11 @@ function addEnv(cb) {
 		if (result) {
 			test_env.profile = result.profile;
 			test_env.deployer = result.deployer;
-			test_env.dbs.clusters.test_cluster = result.dbs.clusters.dash_cluster;
+
+            if(result.dbs && result.dbs.cluster && result.dbs.cluster.dash_cluster){
+                test_env.dbs.clusters.test_cluster = result.dbs.clusters.dash_cluster;
+            }
+
 			test_env.dbs.config.prefix = dbconfig.prefix;
 			test_env.services.config.cookie.secret = result.services.config.cookie.secret;
 			test_env.services.config.session.secret = result.services.config.session.secret;

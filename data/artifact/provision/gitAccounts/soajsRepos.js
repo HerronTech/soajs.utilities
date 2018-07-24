@@ -9,10 +9,12 @@ var soajs_account = {
 	"repos": [
 		{
 			"name": "soajs/soajs.controller",
+            "serviceName": "controller",
 			"type": "service"
 		},
 		{
 			"name": "soajs/soajs.artifact",
+            "serviceName": "artifact",
 			"type": "service"
 		}
 	]

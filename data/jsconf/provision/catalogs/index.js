@@ -28,8 +28,8 @@ var recipes = [
 					"maxAttempts": 0
 				},
 				"container": {
-					"network": "",
-					"workingDir": ""
+                    "network": "soajsnet",
+                    "workingDir": "/opt/soajs/deployer/"
 				},
 				"voluming": [
 					{
@@ -79,6 +79,10 @@ var recipes = [
 			},
 			"buildOptions": {
 				"env": {
+                    "NODE_TLS_REJECT_UNAUTHORIZED": {
+                        "type": "static",
+                        "value": "0"
+                    },
 					"SOAJS_ENV": {
 						"type": "computed",
 						"value": "$SOAJS_ENV"
@@ -167,8 +171,8 @@ var recipes = [
 					"maxAttempts": 0
 				},
 				"container": {
-					"network": "",
-					"workingDir": ""
+                    "network": "soajsnet",
+                    "workingDir": "/opt/soajs/deployer/"
 				},
 				"voluming": [
 					{
@@ -209,6 +213,10 @@ var recipes = [
 					"accelerateDeployment": true
 				},
 				"env": {
+                    "NODE_TLS_REJECT_UNAUTHORIZED": {
+                        "type": "static",
+                        "value": "0"
+                    },
 					"NODE_ENV": {
 						"type": "static",
 						"value": "production"
