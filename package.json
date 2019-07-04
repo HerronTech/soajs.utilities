@@ -11,13 +11,19 @@
     "type": "git",
     "url": "git@github.com:soajs/soajs.utilities.git"
   },
-  "license" : "Apache-2.0",
+  "license": "Apache-2.0",
   "engines": {
     "node": "*"
   },
   "dependencies": {
-    "async":"2.1.4",
+    "async": "2.1.4",
     "stdio": "0.2.7",
-    "soajs": "1.0.*"
-  }
+    "soajs": "1.0.*",
+    "snyk": "^1.189.0"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
